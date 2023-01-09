@@ -13,10 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['About', 'Service', 'Plan','Achievements','Plan','Contact'];
+const pages = ['About', 'Service', 'Achievements','Plan','Contact'];
 const settings = ['Profile', 'Account', 'Dashboard'];
 
-function NavBar() {
+function NavBar({children}) {
    const [loggedIn,setLoggedIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -37,6 +37,7 @@ function NavBar() {
   };
 
   return (
+    <>
     <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
@@ -157,6 +158,9 @@ function NavBar() {
         </Toolbar>
       </Container>
     </AppBar>
+    {children}
+    </>
   );
+  
 }
 export default NavBar;

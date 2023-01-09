@@ -4,8 +4,7 @@ import Navs from './Navs';
 
 function App() {
   return (
-    <div className="App" style={{minHeight:'200vh'}}>
-      {/* <NavBar/> */}
+    <div className="App" style={{minHeight:'100vh'}}>
       <Navs/>
     </div>
   );
