@@ -29,7 +29,9 @@ function Navs() {
   }
 
   return (
+
     <BrowserRouter>
+    
      <Routes>
         <Route path='/' element={<NavBar><br/><br/><br/><LandingPage/></NavBar>}/>
         <Route path='/admin/auth' element={<NavBar><br/><br/><br/><LogIn type='Admin'/></NavBar>}/>
