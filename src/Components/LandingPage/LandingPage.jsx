@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from "./header/Header"
+import Header from "./Header/Header"
 import Topbar from "./topbar/Topbar"
 import Intro from "./intro/Intro"
 import Experience from "./experience/Experience"
