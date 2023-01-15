@@ -38,7 +38,7 @@ function NavBar({children}) {
 
   return (
     <>
-    <AppBar position="fixed">
+    <AppBar position="fixed" style={{maxHeight:"80px",padding:"10px"}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -51,7 +51,7 @@ function NavBar({children}) {
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
             }}
