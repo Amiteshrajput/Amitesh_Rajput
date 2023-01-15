@@ -1,31 +1,46 @@
 import React, { useRef, useState } from 'react';
-import emailjs from '@emailjs/browser';
+// import emailjs from '@emailjs/browser';
 import { MdOutlineEmail } from 'react-icons/md';
+
+
+import { BsLinkedin } from 'react-icons/bs';
+import { FaGithub } from 'react-icons/fa';
+import { FaAngellist } from 'react-icons/fa'
+import {BsFacebook} from 'react-icons/bs'
+import {IoLogoYoutube} from "react-icons/io5"
+import {GrInstagram} from "react-icons/gr"
+import {RiWhatsappFill} from "react-icons/ri"
+import {IoCallSharp} from "react-icons/io5"
+
+
+
+
+
 import './contact.css';
 
 const Contact = () => {
   const [message, setMessage] = useState(false);
   const formRef = useRef();
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setMessage(true);
-    emailjs
-      .sendForm(
-        'service_k2qawqh',
-        'template_c6rkpn6',
-        formRef.current,
-        'X7K7ebhIeOy3YwHki'
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+    // e.preventDefault();
+    // setMessage(true);
+    // emailjs
+    //   .sendForm(
+    //     'service_k2qawqh',
+    //     'template_c6rkpn6',
+    //     formRef.current,
+    //     'X7K7ebhIeOy3YwHki'
+    //   )
+    //   .then(
+    //     (result) => {
+    //       console.log(result.text);
+    //     },
+    //     (error) => {
+    //       console.log(error.text);
+    //     }
+    //   );
 
-    e.target.reset();
+    // e.target.reset();
   };
   return (
     <section id="contact">
@@ -40,11 +55,27 @@ const Contact = () => {
           <article className="contact__option">
             <MdOutlineEmail className="contact__option-icon" />
             <h4>Email</h4>
-            <h5>mekomerikomg@gmail.com</h5>
-            <a href="mailto:mekomerikomg@gmail.com">Send a message</a>
+            <h5>Amiteshrajput9@Gmail.Com</h5>
+            <a href="mailto:Amiteshrajput9@Gmail.Com">Send a message</a>
+          </article>
+
+          <article className="contact__option">
+            <MdOutlineEmail className="contact__option-icon" />
+            <h4>Email</h4>
+            <h5>Amiteshrajput9@Gmail.Com</h5>
+            <a href="mailto:Amiteshrajput9@Gmail.Com">Send a message</a>
+          </article>
+
+          <article className="contact__option">
+            <MdOutlineEmail className="contact__option-icon" />
+            <h4>Email</h4>
+            <h5>Amiteshrajput9@Gmail.Com</h5>
+            <a href="mailto:Amiteshrajput9@Gmail.Com">Send a message</a>
           </article>
         </div>
-        <form ref={formRef} onSubmit={handleSubmit}>
+        <form ref={formRef} 
+        //onSubmit={handleSubmit}
+        >
           <input
             type="text"
             placeholder="Your Full Name"

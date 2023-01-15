@@ -12,14 +12,24 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['About', 'Service', 'Achievements','Plan','Contact'];
+
+
+const pages = [{page:'About',path:'#about'},
+{page:'Service',path:'/service'},
+{page: 'Achievements',path:'/achievements'},
+{page:'Plan',path:'/plan'},
+{page:'Contact',path:'#contact'},];
+
 const settings = ['Profile', 'Account', 'Dashboard'];
 
 function NavBar({children}) {
    const [loggedIn,setLoggedIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate=useNavigate()
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -35,6 +45,9 @@ function NavBar({children}) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
+  
 
   return (
     <>
@@ -56,7 +69,7 @@ function NavBar({children}) {
               textDecoration: 'none',
             }}
           >
-            AMITESH RAJPUT
+           AMITESH RAJPUT
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -88,11 +101,13 @@ function NavBar({children}) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+            
+              {pages.map((item) => (
+              <MenuItem key={item.page}  onClick={handleCloseNavMenu}>
+          <Typography  href={item.path}  textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
+
             </Menu>
           </Box>
           <Typography
@@ -116,11 +131,12 @@ function NavBar({children}) {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+             href={page.path}
+                key={page.page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+            {page.page} 
               </Button>
             ))}
           </Box>
@@ -128,7 +144,7 @@ function NavBar({children}) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Amitesh" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Amitesh" src="https://scontent.flko10-1.fna.fbcdn.net/v/t1.6435-9/119685349_2686778961542435_3168716933277104531_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=174925&_nc_ohc=8B4qlmYlFHIAX9hvaJK&_nc_oc=AQkRInhhJTvlCs7814YL7lvG5HNrEwU9GMKfMGpj3nm641_W0URFi5YHIHmv9q_fLOI&_nc_ht=scontent.flko10-1.fna&oh=00_AfAcwYQyYkHNP06WAtOmijL-70atzQRnBYg5pVgbwjwvbQ&oe=63EB21BD" />
               </IconButton>
             </Tooltip>
             <Menu
