@@ -17,7 +17,7 @@ const Intro = () => {
         </div>
         <div className="about__content">
           <div className="about__cards">
-            <article className="about__card">
+            {/* <article className="about__card">
               <FaAward className="about__icon" />
               <h5>Experience</h5>
               <small>1 year</small>
@@ -26,9 +26,28 @@ const Intro = () => {
               <VscFolderLibrary className="about__icon" />
               <h5>Projects</h5>
               <small>20+ Completed Projects</small>
-            </article>
+            </article> */}
           </div>
-          <p>I’ve spent the last several months in a remote environment, working with HTML, CSS, JavaScript, building everything from landing pages to APIs. My experience as a teacher in an international school helped me collaborate with fellow developers from all over the world. Additionally, working with kids isn’t an easy task, however, it has helped me become efficient, productive, and fast even in a very stressful environment, which is an important skill in the tech industry.</p>
+          <p style={{textAlign:"justify"}}>
+            Networker by profession & engineer by education.
+          I have 1 year of working experience in awpl. Before joining engineering college 
+            I got chance to study in Jawahar Navodaya Vidyalaya for 7 Years 
+            and I always feel proud as a part of JNV.</p>
+           
+            <p style={{textAlign:"justify",color:"white"}}>
+              <b>I can be a full stop of your search as a mentor for 
+            your success in NETWORK MARKETING 2.0 with my unique & practical strategies to achieve your goals
+            </b></p>
+
+      <p style={{textAlign:"justify"}}>
+        <b>I can be a full stop of your search as a mentor for your
+       success in Network Marketing business with my unique & practical strategies to achieve your goals.
+       </b></p>
+
+       <p style={{color:"white"}}>*No fake motivation only Education with fact and calculation.</p>
+       
+       <p style={{color:"white"}}>*No fake commitment only truth.</p>
+
           <a href="#contact" className="btn btn-primary">Let's Talk</a>
         </div>
       </div>
