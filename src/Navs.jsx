@@ -16,6 +16,7 @@ import AdminAccount from './Components/Admin/Account/AdminAccount';
 import AdminDashboard from './Components/Admin/Dashboard/AdminDashboard';
 import Contact from './Components/LandingPage/contact/Contact';
 import Intro from './Components/LandingPage/intro/Intro';
+import PhotoGallary from './Components/LandingPage/PhotoGallary/PhotoGallary';
 
 
 
@@ -38,12 +39,7 @@ function Navs() {
 
         <Route path='/' element={<NavBar><br/><br/><br/><LandingPage/></NavBar>}/>
 
-        {/* <Route path='/about' element={<NavBar><br/>
-        <br/><br/><LandingPage/>
-        </NavBar>}/>
-        <Route path='/contact' element={<NavBar><br/>
-        <br/><br/><Contact/>
-        </NavBar>}/> */}
+        <Route path='/gallery'element={<NavBar><br/><br/><br/><PhotoGallary/></NavBar>} />
 
 
         <Route path='/admin/auth' element={<NavBar><br/><br/><br/><LogIn type='Admin'/></NavBar>}/>

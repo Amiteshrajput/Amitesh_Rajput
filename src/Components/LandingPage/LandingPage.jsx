@@ -7,15 +7,19 @@ import Portfolio from "./portfolio/Portfolio"
 import Testimonials from "./testimonials/Testimonials"
 import Contact from "./contact/Contact"
 import Footer from "./footer/Footer"
+import PhotoGallary from './PhotoGallary/PhotoGallary'
+import "./LandingPage.css"
+
 
 function LandingPage() {
  
   return (
-    <div >
+    < >
       <Header />
       <Topbar/>
       <Intro />
       <Experience />
+     
       <Portfolio />
       <Testimonials />
       <Contact />
@@ -23,7 +27,7 @@ function LandingPage() {
      
 
      
-    </div>
+    </>
   )
 }
 

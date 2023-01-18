@@ -3,12 +3,12 @@ import { Button, Grid, TextField } from '@mui/material'
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
 import {useNavigate} from 'react-router-dom'
-
+import "./Admin.css"
 function AdminProfile() {
 
   const [view,setView]=useState(false)
   return (
-    <form onSubmit={e=>e.preventDefault()}>
+    <form onSubmit={e=>e.preventDefault()} >
     <Grid container spacing={2}>
       <Grid item xs={12} sm={6}>
         <TextField id="outlined-basic" label="Name" variant="outlined" />
