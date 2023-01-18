@@ -16,11 +16,13 @@ import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
 
-const pages = [{page:'About',path:'#about'},
+
+const pages = [{page:'About',path:'/#about'},
 {page:'Service',path:'/service'},
 {page: 'Achievements',path:'/achievements'},
 {page:'Plan',path:'/plan'},
-{page:'Contact',path:'#contact'},];
+{page:'Contact',path:'/#contact'},];
+
 
 const adminPages = [{page:'Profile',path:'/admin/profile'}, {page:'Account',path:'/admin/account'}, {page:'Dashboard',path:'/admin/dashboard'}];
 
@@ -101,7 +103,7 @@ function NavBar({children}) {
             
               {pages.map((item) => (
               <MenuItem key={item.page}  onClick={handleCloseNavMenu}>
-          <Typography  href={item.path}  textAlign="center">{item.page}</Typography>
+          <Typography   textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
 
@@ -139,7 +141,7 @@ function NavBar({children}) {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Amitesh Account">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Amitesh" src="https://scontent.flko10-1.fna.fbcdn.net/v/t1.6435-9/119685349_2686778961542435_3168716933277104531_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=174925&_nc_ohc=8B4qlmYlFHIAX9hvaJK&_nc_oc=AQkRInhhJTvlCs7814YL7lvG5HNrEwU9GMKfMGpj3nm641_W0URFi5YHIHmv9q_fLOI&_nc_ht=scontent.flko10-1.fna&oh=00_AfAcwYQyYkHNP06WAtOmijL-70atzQRnBYg5pVgbwjwvbQ&oe=63EB21BD" />
               </IconButton>
@@ -165,7 +167,10 @@ function NavBar({children}) {
                   <Typography textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
-              <MenuItem onClick={e=>{setLoggedIn(prev=>!prev)}}>{loggedIn?'Logout':'LogIn'}</MenuItem>
+              <MenuItem onClick={e=>{setLoggedIn(prev=>!prev)}}>
+                <Link to="/admin/auth"> {loggedIn?'Logout':'LogIn'}</Link>
+               
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
