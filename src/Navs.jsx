@@ -16,13 +16,16 @@ import AdminAccount from './Components/Admin/Account/AdminAccount';
 import AdminDashboard from './Components/Admin/Dashboard/AdminDashboard';
 import Contact from './Components/LandingPage/contact/Contact';
 import Intro from './Components/LandingPage/intro/Intro';
-import PhotoGallary from './Components/LandingPage/PhotoGallary/PhotoGallary';
 
 
 
 function Navs() {
+  const admin=JSON.parse(localStorage.getItem('admin'))
   const AdminProtectedRoutes=()=>{
-    return <Outlet/>
+    if(admin){
+      return <Outlet/>
+    }
+    
     // return <Navigate to='/'/>
   }
 
@@ -38,9 +41,6 @@ function Navs() {
      <Routes>
 
         <Route path='/' element={<NavBar><br/><br/><br/><LandingPage/></NavBar>}/>
-
-        <Route path='/gallery'element={<NavBar><br/><br/><br/><PhotoGallary/></NavBar>} />
-
 
         <Route path='/admin/auth' element={<NavBar><br/><br/><br/><LogIn type='Admin'/></NavBar>}/>
 

@@ -23,7 +23,7 @@ function LogIn({type}) {
     const docSnap = await getDoc(docRef);
     const userData=docSnap.data()//user on database like admin or premium user
     console.log(type+''+JSON.stringify(userData))
-    if(user && userData && userData.email===user.email){
+    if(user && userData && (userData.email===user.email || userData.email2===user.email)){
       alert('Admin SignIn successfull')
       navigate('/admin/profile')
     }

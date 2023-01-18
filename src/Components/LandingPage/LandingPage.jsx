@@ -14,7 +14,7 @@ import "./LandingPage.css"
 function LandingPage() {
  
   return (
-    < >
+    <div >
       <Header />
       <Topbar/>
       <Intro />
@@ -27,7 +27,7 @@ function LandingPage() {
      
 
      
-    </>
+    </div>
   )
 }
 

@@ -23,12 +23,11 @@ const pages = [{page:'About',path:'/#about'},
 {page:'Plan',path:'/plan'},
 {page:'Contact',path:'/#contact'},];
 
-const settings = [{page:'Profile',path:"/admin/profile"},
-{page:'Account',path:"/admin/account"},
-{page:'Dashboard',path:"/admin/dashboard"},];
 
+const adminPages = [{page:'Profile',path:'/admin/profile'}, {page:'Account',path:'/admin/account'}, {page:'Dashboard',path:'/admin/dashboard'}];
 
 function NavBar({children}) {
+
    const [loggedIn,setLoggedIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -48,9 +47,6 @@ function NavBar({children}) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-
-  
 
   return (
     <>
@@ -166,9 +162,9 @@ function NavBar({children}) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting.page} onClick={handleCloseUserMenu}>
-                  <Typography onClick={()=>navigate(setting.path)} textAlign="center">{setting.page}</Typography>
+              {adminPages.map((item) => (
+                <MenuItem key={item.page} onClick={()=>{navigate(item.path)}}>
+                  <Typography textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
               <MenuItem onClick={e=>{setLoggedIn(prev=>!prev)}}>
