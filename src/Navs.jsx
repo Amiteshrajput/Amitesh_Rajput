@@ -20,8 +20,12 @@ import Intro from './Components/LandingPage/intro/Intro';
 
 
 function Navs() {
+  const admin=JSON.parse(localStorage.getItem('admin'))
   const AdminProtectedRoutes=()=>{
-    return <Outlet/>
+    if(admin){
+      return <Outlet/>
+    }
+    
     // return <Navigate to='/'/>
   }
 

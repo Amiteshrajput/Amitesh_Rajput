@@ -16,16 +16,16 @@ import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 
 
-
 const pages = [{page:'About',path:'#about'},
 {page:'Service',path:'/service'},
 {page: 'Achievements',path:'/achievements'},
 {page:'Plan',path:'/plan'},
 {page:'Contact',path:'#contact'},];
 
-const settings = ['Profile', 'Account', 'Dashboard'];
+const adminPages = [{page:'Profile',path:'/admin/profile'}, {page:'Account',path:'/admin/account'}, {page:'Dashboard',path:'/admin/dashboard'}];
 
 function NavBar({children}) {
+
    const [loggedIn,setLoggedIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -45,9 +45,6 @@ function NavBar({children}) {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-
-  
 
   return (
     <>
@@ -163,9 +160,9 @@ function NavBar({children}) {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              {adminPages.map((item) => (
+                <MenuItem key={item.page} onClick={()=>{navigate(item.path)}}>
+                  <Typography textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
               <MenuItem onClick={e=>{setLoggedIn(prev=>!prev)}}>{loggedIn?'Logout':'LogIn'}</MenuItem>
