@@ -1,6 +1,7 @@
 
-
-form{
-    background-color: white;
-    height: 600px;
+.Admin{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgb(46, 40, 158) 0%, rgba(9,9,121,1) 35%, rgb(163, 208, 218) 100%);
+padding: 3%;
+width: 100vw;
 }

@@ -4,11 +4,11 @@ import Carousel, { Modal, ModalGateway } from "react-images";
 
 
 const photos = [
-    {
-      src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
-      width: 4,
-      height: 3
-    },
+    // {
+    //   src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
+    //   width: 4,
+    //   height: 3
+    // },
     {
       src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
       width: 1,
@@ -66,8 +66,9 @@ const PhotoGallary = () => {
   };
 
   return (
-    <div style={{border:"4px solid green",padding:"5%",}}>
-        <Gallery photos={photos} onClick={openLightbox} />
+    <div style={{border:"4px solid green",}}>
+        <Gallery photos={photos} onClick={openLightbox} style={{display:'flex',flexWrap:'none'}} />
+
       <ModalGateway>
         {viewerIsOpen ? (
           <Modal onClose={closeLightbox}>

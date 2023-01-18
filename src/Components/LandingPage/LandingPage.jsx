@@ -19,7 +19,7 @@ function LandingPage() {
       <Topbar/>
       <Intro />
       <Experience />
-     
+     <PhotoGallary/>
       <Portfolio />
       <Testimonials />
       <Contact />

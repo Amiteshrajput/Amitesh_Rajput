@@ -5,7 +5,7 @@ import { db } from '../../../firebaseConfig/firebaseConfig';
 import {useNavigate} from 'react-router-dom'
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from '../../../firebaseConfig/firebaseConfig';
-
+import "./Admin.css"
 function AdminProfile() {
 
   const navigate=useNavigate()
@@ -77,7 +77,7 @@ function AdminProfile() {
   useEffect(()=>{fetchAdminInfo()},[])
 
   return (
-    <div>
+    <div className='Admin'>
     <Grid container spacing={2} sx={{color:'blue',backgroundColor:'white'}}>
       <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
         <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}}/>
