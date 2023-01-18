@@ -19,29 +19,36 @@ function LogIn({type}) {
     const user = result.user;//userThat is signin-ing  in
     console.log(user)
     
-    const docRef = doc(db, "adminData", user.uid);
+    const docRef = doc(db, "usersData", user.uid);
     const docSnap = await getDoc(docRef);
-    const userData=docSnap.data()//user on database like admin or premium user
-    console.log(type+''+JSON.stringify(userData))
-    if(user && userData && (userData.email===user.email || userData.email2===user.email)){
-      alert('Admin SignIn successfull')
-      navigate('/admin/profile')
+    const userData=docSnap.data()//users on database like admin or premium user
+    console.log(userData,type)
+
+
+    if(userData && userData.type===type && user.email===userData.email){
+      if(type==='admin'){
+        alert('Admin SignIn successfull')
+        localStorage.setItem('admin',JSON.stringify(user))
+        //profile
+        setTimeout(()=>{navigate(`/admin/profile`)},2000)
+      }
+      else{
+        alert('Premium User SignIn successfull')
+        localStorage.setItem('premiumUser',JSON.stringify(user))
+        //subscriber or premium user
+        setTimeout(()=>{navigate(`/premiumUser`)},2000)
+      }
+    }
+    else if(userData && (userData.type!==type || user.email!==userData.email)){
+      //invalid access  or invalid type user accessing
+      alert(`Invalid access`)
+      setTimeout(()=>{navigate(`/`)},1000)
     }
     else{
-      alert('Admin SignIn Unsuccessfull')
-      navigate('/')
+      setTimeout(()=>{navigate(`${type}/auth`)},1000)
     }
-    // if(userData && userData.type===type){
-    //   //profile
-    // }
-    // else if(userData && userData.type!==type){
-    //   //invalid access  or invalid type user accessing
-    //   alert(`Invalid access as you are trying to signIn as ${type} but you onboarded as ${userData.type} using this email`)
-    // }
-    // else{
-    //   //onBoarding
-    //   console.log(type+''+userData)
-    // }
+
+    console.log(type+''+JSON.stringify(userData))
   }).catch((error) => {
     // // Handle Errors here.
     // const errorCode = error.code;

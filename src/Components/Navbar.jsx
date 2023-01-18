@@ -167,9 +167,11 @@ function NavBar({children}) {
                   <Typography textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
+              
               <MenuItem onClick={e=>{setLoggedIn(prev=>!prev)}}>
-                <Link to="/admin/auth"> {loggedIn?'Logout':'LogIn'}</Link>
-               
+
+                {loggedIn?<Button onClick={()=>localStorage.clear()}>Logout</Button>:<Link to="/admin/auth">{}LogIn</Link>}
+                
               </MenuItem>
             </Menu>
           </Box>

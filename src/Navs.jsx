@@ -3,7 +3,6 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    Link,
     Outlet,
     Navigate
 } from 'react-router-dom';
@@ -21,16 +20,24 @@ import Intro from './Components/LandingPage/intro/Intro';
 
 function Navs() {
   const admin=JSON.parse(localStorage.getItem('admin'))
+  const premiumUser=JSON.parse(localStorage.getItem('premiumUser'))
   const AdminProtectedRoutes=()=>{
     if(admin){
       return <Outlet/>
     }
-    
+    else{
+      return <Navigate to='/admin/auth'/>
+    }
     // return <Navigate to='/'/>
   }
 
   const PremiumUserProtectedRoutes=()=>{
-    return <Outlet/>
+    if(premiumUser){
+      return <Outlet/>
+    }
+    else{
+      return <Navigate to='/premiumUser/auth'/>
+    }
     // return <Navigate to='/'/>
   }
 
@@ -42,27 +49,15 @@ function Navs() {
 
         <Route path='/' element={<NavBar><br/><br/><br/><LandingPage/></NavBar>}/>
 
-        {/* <Route path='/about' element={<NavBar><br/>
-        <br/><br/><LandingPage/>
-        </NavBar>}/>
-        <Route path='/contact' element={<NavBar><br/>
-        <br/><br/><Contact/>
-        </NavBar>}/> */}
+        <Route path='/admin/auth' element={<NavBar><br/><br/><br/><LogIn type='admin'/></NavBar>}/>
 
-
-        <Route path='/admin/auth' element={<NavBar><br/><br/><br/><LogIn type='Admin'/></NavBar>}/>
-
-        <Route path='/premiumUser/auth' element={<NavBar><br/><br/><br/><LogIn type='PremiumUser'/></NavBar>}/>
+        <Route path='/premiumUser/auth' element={<NavBar><br/><br/><br/><LogIn type='premiumUser'/></NavBar>}/>
 
         <Route element={<AdminProtectedRoutes/>}>
 
           <Route path='/admin/profile' element={<NavBar><br/><br/><br/><br/><AdminProfile/></NavBar>}/>
           <Route path='/admin/account' element={<NavBar><br/><br/><br/><AdminAccount/></NavBar>}/>
           <Route path='/admin/dashboard' element={<NavBar><br/><br/><br/><AdminDashboard/></NavBar>}/>
-
-        <Route path='/admin/profile' element={<NavBar><br/><br/><br/><AdminProfile/></NavBar>}/>
-        <Route path='/admin/account' element={<NavBar><br/><br/><br/><AdminAccount/></NavBar>}/>
-        <Route path='/admin/dashboard' element={<NavBar><br/><br/><br/><AdminDashboard/></NavBar>}/>
 
         </Route>
 
