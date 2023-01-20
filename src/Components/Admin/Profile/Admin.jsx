@@ -18,7 +18,7 @@ function AdminProfile() {
   })
 
   const fetchAdminInfo=async()=>{
-    const docRef = doc(db, "adminData", admin.uid);
+    const docRef = doc(db, "usersData", admin.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       // console.log("Document data:", docSnap.data());
@@ -33,7 +33,7 @@ function AdminProfile() {
   const saveAdminInfo=async(e)=>{
     e.preventDefault();
     try {
-      await setDoc(doc(db, "adminData", admin.uid),{...adminInfo});
+      await setDoc(doc(db, "usersData", admin.uid),{...adminInfo});
       alert("Admin details saved successfully!")
       navigate('/admin/profile')
     } catch (e) {
