@@ -60,3 +60,28 @@ header {
     display: none;
   }
 }
+
+ /* for the image  */
+
+.aboutMe {
+margin: auto;
+width: 15%;
+border-radius: 1%;
+  /* border: 2px solid green; */
+  aspect-ratio: 1/1;
+  border-radius:50%;
+  background: linear-gradient(45deg, transparent, var(--color-primary), transparent);
+  display: grid;
+  place-items: center;
+}
+
+.aboutMe>img{
+width: 100%;
+border-radius: 5%;
+
+}
+
+
+.aboutME:hover {
+  transform: rotate(5);
+}

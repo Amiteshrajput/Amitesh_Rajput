@@ -139,8 +139,87 @@ function AdminProfile() {
         </Grid>:
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
       </Grid>
+
+
+<div>
+  <h1>Photo Gallery</h1>
+
+<div style={{display:"flex"}}>
+  <input type="file" placeholder='photo upload here' />
+  <button>Upload Photo </button>
+</div>
+
+<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"4%",
+width:"80%",margin:"auto"}}>
+{
+  photos.map((item)=>{
+    return <div  key={item.src} >
+      <img   width="100%" height='100%'  
+      src={item.src}/>
+      <button style={{backgroundColor:"red",padding:'2%'}}>Delete This Img</button>
+      </div>
+  })
+
+}
+</div>
+
+</div>
+        
+
     </Grid>
   </div>
   )
 }
 export default AdminProfile
+
+
+
+
+
+var photos = [
+  {
+    src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
+    width: 4,
+    height: 3
+  },
+  {
+    src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
+    width: 1,
+    height: 1
+  },
+  {
+    src: "https://source.unsplash.com/qDkso9nvCg0/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/iecJiKe_RNg/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/epcsn8Ed8kY/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/NQSWvyVRIJk/800x599",
+    width: 4,
+    height: 3
+  },
+  {
+    src: "https://source.unsplash.com/zh7GEuORbUw/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/PpOHJezOalU/800x599",
+    width: 4,
+    height: 3
+  },
+  {
+    src: "https://source.unsplash.com/I1ASdgphUH4/800x599",
+    width: 4,
+    height: 3
+  }
+];
