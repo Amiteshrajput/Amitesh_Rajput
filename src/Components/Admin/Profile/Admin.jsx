@@ -1,10 +1,14 @@
 import React,{useEffect, useState} from 'react'
-import { Button, Grid, TextField } from '@mui/material'
+import { Button, Divider, Grid, TextField, Tooltip } from '@mui/material'
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
 import {useNavigate} from 'react-router-dom'
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from '../../../firebaseConfig/firebaseConfig';
+import "./Admin.css"
+import DeleteIcon from '@mui/icons-material/Delete';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+
 
 function AdminProfile() {
 
@@ -77,7 +81,7 @@ function AdminProfile() {
   useEffect(()=>{fetchAdminInfo()},[])
 
   return (
-    <div>
+    <div className='Admin'>
     <Grid container spacing={2} sx={{color:'blue',backgroundColor:'white'}}>
       <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
         <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
@@ -139,8 +143,103 @@ function AdminProfile() {
         </Grid>:
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
       </Grid>
+
+     
+<div className='mainbox'>
+  <h1 >Photo Gallery</h1>
+
+<div style={{display:"flex",width:"80%",margin:"auto"}}>
+  <input type="file"  accept='.gif, .jpg, .png' />
+  <Button startIcon={<CameraAltIcon />} variant="contained" size="small">Upload Photo </Button>
+</div>
+
+<div className='photosCards'>
+{
+  photos.map((item)=>{
+    return <div className='card' key={item.src} >
+      <img  className='card'  width="100%" 
+      height='100%'  
+      src={item.src}/>
+
+<div style={{display:"flex",justifyContent:"space-between",
+position:"absolute",top:"1%",left:"1%"}}>
+<Tooltip  title="Edit This Img" followCursor>
+     <Button size="small"   variant="contained"  >
+     Edit
+</Button>
+</Tooltip>
+
+<Tooltip title="Delete This Img" followCursor>
+     <Button size="small" sx={{marginLeft:"5%"}}
+     variant="contained" color="error" startIcon={<DeleteIcon />}>
+     Delete
+</Button>
+</Tooltip>
+</div>
+
+      </div>
+  })
+
+}
+</div>
+
+</div>
+        
+
     </Grid>
   </div>
   )
 }
 export default AdminProfile
+
+
+
+
+
+var photos = [
+  {
+    src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
+    width: 4,
+    height: 3
+  },
+  {
+    src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
+    width: 1,
+    height: 1
+  },
+  {
+    src: "https://source.unsplash.com/qDkso9nvCg0/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/iecJiKe_RNg/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/epcsn8Ed8kY/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/NQSWvyVRIJk/800x599",
+    width: 4,
+    height: 3
+  },
+  {
+    src: "https://source.unsplash.com/zh7GEuORbUw/600x799",
+    width: 3,
+    height: 4
+  },
+  {
+    src: "https://source.unsplash.com/PpOHJezOalU/800x599",
+    width: 4,
+    height: 3
+  },
+  {
+    src: "https://source.unsplash.com/I1ASdgphUH4/800x599",
+    width: 4,
+    height: 3
+  }
+];
