@@ -37,7 +37,8 @@ function AdminProfile() {
   const saveAdminInfo=async(e)=>{
     e.preventDefault();
     try {
-      await setDoc(doc(db, "usersData", admin.uid),{...adminInfo});
+      await setDoc(doc(db, "usersData", admin.uid),{...adminInfo})
+      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo})})
       alert("Admin details saved successfully!")
       navigate('/admin/profile')
     } catch (e) {

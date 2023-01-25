@@ -17,7 +17,7 @@ const Header = () => {
 
 
   const fetchAdminInfo=async()=>{
-    const docRef = doc(db, "usersData", admin.uid);
+    const docRef = doc(db, "usersData", 'it145zGVbxyLdl4DFOQh');
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
        console.log("Document data:", docSnap.data());

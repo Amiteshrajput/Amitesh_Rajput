@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from "./header/Header"
+import Header from "./Header/Header"
 import Topbar from "./topbar/Topbar"
 import Intro from "./intro/Intro"
 import Experience from "./experience/Experience"
@@ -8,7 +8,7 @@ import Testimonials from "./testimonials/Testimonials"
 import Contact from "./contact/Contact"
 import Footer from "./footer/Footer"
 import PhotoGallary from './PhotoGallary/PhotoGallary'
-import "./LandingPage.css"
+
 
 
 function LandingPage() {
@@ -24,8 +24,6 @@ function LandingPage() {
       <Testimonials />
       <Contact />
       <Footer />
-     
-
      
     </div>
   )
