@@ -1,11 +1,15 @@
 import React,{useEffect, useState} from 'react'
-import { Button, Grid, TextField } from '@mui/material'
+import { Button, Divider, Grid, TextField, Tooltip } from '@mui/material'
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
 import {useNavigate} from 'react-router-dom'
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { storage } from '../../../firebaseConfig/firebaseConfig';
 import "./Admin.css"
+import DeleteIcon from '@mui/icons-material/Delete';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+
+
 function AdminProfile() {
 
   const navigate=useNavigate()
@@ -140,23 +144,39 @@ function AdminProfile() {
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
       </Grid>
 
+     
+<div className='mainbox'>
+  <h1 >Photo Gallery</h1>
 
-<div>
-  <h1>Photo Gallery</h1>
-
-<div style={{display:"flex"}}>
-  <input type="file" placeholder='photo upload here' />
-  <button>Upload Photo </button>
+<div style={{display:"flex",width:"80%",margin:"auto"}}>
+  <input type="file"  accept='.gif, .jpg, .png' />
+  <Button startIcon={<CameraAltIcon />} variant="contained" size="small">Upload Photo </Button>
 </div>
 
-<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"4%",
-width:"80%",margin:"auto"}}>
+<div className='photosCards'>
 {
   photos.map((item)=>{
-    return <div  key={item.src} >
-      <img   width="100%" height='100%'  
+    return <div className='card' key={item.src} >
+      <img  className='card'  width="100%" 
+      height='100%'  
       src={item.src}/>
-      <button style={{backgroundColor:"red",padding:'2%'}}>Delete This Img</button>
+
+<div style={{display:"flex",justifyContent:"space-between",
+position:"absolute",top:"1%",left:"1%"}}>
+<Tooltip  title="Edit This Img" followCursor>
+     <Button size="small"   variant="contained"  >
+     Edit
+</Button>
+</Tooltip>
+
+<Tooltip title="Delete This Img" followCursor>
+     <Button size="small" sx={{marginLeft:"5%"}}
+     variant="contained" color="error" startIcon={<DeleteIcon />}>
+     Delete
+</Button>
+</Tooltip>
+</div>
+
       </div>
   })
 
