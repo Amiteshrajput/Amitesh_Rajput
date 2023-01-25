@@ -80,13 +80,13 @@ function AdminProfile() {
     <div>
     <Grid container spacing={2} sx={{color:'blue',backgroundColor:'white'}}>
       <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}}/>
+        <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+      <Grid item xs={12} sm={6} sx={{}}>
+        <TextField id="outlined-basic" label="Profession" variant="outlined" value={adminInfo.profession} onChange={e=>setAdminInfo({...adminInfo,profession:e.target.value})} disabled={!edit} required/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-basic" label="Profession" variant="outlined" value={adminInfo.profession} onChange={e=>setAdminInfo({...adminInfo,profession:e.target.value})} disabled={!edit}/>
-      </Grid>
-      <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-basic" label="Education & Experience" variant="outlined" value={adminInfo.eduExperience} onChange={e=>setAdminInfo({...adminInfo,educationAndExperience:e.target.value})} disabled={!edit}/>
+        <TextField id="outlined-basic" label="Education & Experience" variant="outlined" value={adminInfo.educationAndExperience} onChange={e=>setAdminInfo({...adminInfo,educationAndExperience:e.target.value})} disabled={!edit} required/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField id="outlined-basic" label="Commitment1" variant="outlined" value={adminInfo.commitment1} onChange={e=>setAdminInfo({...adminInfo,commitment1:e.target.value})} disabled={!edit}/>
@@ -119,7 +119,7 @@ function AdminProfile() {
             <input type="file" 
             // accept='application/img'
             accept='.gif, .jpg, .png'
-            />
+            required/>
             {progresspercent>0 && progresspercent<=100?
             <div>{progresspercent}%
             </div>:
