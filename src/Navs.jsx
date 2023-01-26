@@ -26,7 +26,7 @@ function Navs() {
       return <Outlet/>
     }
     else{
-      return <Navigate to='/admin/profile'/>
+      return <Navigate to='/admin/auth'/>
     }
     // return <Navigate to='/'/>
   }

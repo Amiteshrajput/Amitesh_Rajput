@@ -47,7 +47,9 @@ const Header = () => {
         <h5>Hi, Myself </h5>
         <h1> {adminInfo.name}</h1>
         <h5 className="text-light">
-          Networker by profession & engineer by education .</h5>
+          
+          {adminInfo.profession}
+          </h5>
         <CTA />
         <a href="#contact" className="scroll__down">
           Scroll Down

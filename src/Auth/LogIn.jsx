@@ -30,7 +30,7 @@ function LogIn({type}) {
         alert('Admin SignIn successfull')
         localStorage.setItem('admin',JSON.stringify(user))
         //profile
-        setTimeout(()=>{navigate(`/admin/profile`)},1000)
+        setTimeout(()=>{navigate(`/admin/profile`)},2000)
       }
       else{
         alert('Premium User SignIn successfull')
