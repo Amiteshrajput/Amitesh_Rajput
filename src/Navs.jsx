@@ -19,14 +19,16 @@ import Intro from './Components/LandingPage/intro/Intro';
 
 
 function Navs() {
-  const admin=JSON.parse(localStorage.getItem('admin'))
+  const admin=JSON.parse(sessionStorage.getItem('admin'))
   const premiumUser=JSON.parse(localStorage.getItem('premiumUser'))
   const AdminProtectedRoutes=()=>{
     if(admin){
+      console.log('hio',admin)
       return <Outlet/>
     }
     else{
-      return <Navigate to='/admin/profile'/>
+      console.log('nio')
+      return <Navigate to='/admin/auth'/>
     }
     // return <Navigate to='/'/>
   }

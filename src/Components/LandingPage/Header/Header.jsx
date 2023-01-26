@@ -8,7 +8,7 @@ import { doc,getDoc } from 'firebase/firestore';
 
 
 const Header = () => {
-  const admin=JSON.parse(localStorage.getItem('admin'))
+  const admin=JSON.parse(sessionStorage.getItem('admin'))
 
   const [adminInfo,setAdminInfo]=React.useState({
     name:'',

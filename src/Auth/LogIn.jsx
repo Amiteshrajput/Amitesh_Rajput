@@ -28,27 +28,30 @@ function LogIn({type}) {
     if(userData && userData.type===type && user.email===userData.email){
       if(type==='admin'){
         alert('Admin SignIn successfull')
-        localStorage.setItem('admin',JSON.stringify(user))
+        console.log('hi in if')
+        sessionStorage.setItem('admin',JSON.stringify(user))
         //profile
-        setTimeout(()=>{navigate(`/admin/profile`)},1000)
+        setTimeout(()=>{navigate(`/admin/profile`)},6000)
       }
       else{
         alert('Premium User SignIn successfull')
-        localStorage.setItem('premiumUser',JSON.stringify(user))
+        sessionStorage.setItem('premiumUser',JSON.stringify(user))
         //subscriber or premium user
-        setTimeout(()=>{navigate(`/premiumUser`)},2000)
+        setTimeout(()=>{navigate(`/premiumUser`)},3000)
       }
     }
     else if(userData && (userData.type!==type || user.email!==userData.email)){
       //invalid access  or invalid type user accessing
       alert(`Invalid access`)
-      setTimeout(()=>{navigate(`/`)},1000)
+      console.log('hi in else-if')
+      setTimeout(()=>{navigate(`/`)},2000)
     }
     else{
+      console.log('hi in else')
       setTimeout(()=>{navigate(`${type}/auth`)},1000)
     }
 
-    console.log(type+''+JSON.stringify(userData))
+    // console.log(type+''+JSON.stringify(userData))
   }).catch((error) => {
     // // Handle Errors here.
     // const errorCode = error.code;

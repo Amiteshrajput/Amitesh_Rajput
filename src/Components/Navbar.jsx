@@ -29,7 +29,9 @@ const adminPages = [{page:'Profile',path:'/admin/profile'},
  {page:'Dashboard',path:'/admin/dashboard'}];
 
 function NavBar({children}) {
-
+   
+  // let logged=JSON.parse(sessionStorage.getItem('isLogged'))
+  // logged=logged?logged:false
    const [loggedIn,setLoggedIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -170,9 +172,12 @@ function NavBar({children}) {
                 </MenuItem>
               ))}
               
-              <MenuItem onClick={e=>{setLoggedIn(prev=>!prev)}}>
+              <MenuItem onClick={e=>{
+                // sessionStorage.setItem('isLogged',!logged)
+                setLoggedIn(prev=>!prev)
+                }}>
 
-                {loggedIn?<Button onClick={()=>localStorage.clear()}>Logout</Button>:<Link to="/admin/auth">{}LogIn</Link>}
+                {loggedIn?<Button onClick={()=>sessionStorage.removeItem('admin')}>Logout</Button>:<Link to="/admin/auth">LogIn</Link>}
                 
               </MenuItem>
             </Menu>
