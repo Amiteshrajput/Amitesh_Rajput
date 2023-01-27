@@ -229,17 +229,22 @@ function AdminProfile() {
               <img  className='card'  width="100%" height='100%'  src={item.src}/>
               {edit?<div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
-                  {editPhoto?
+                  {editPhoto===item.id?
                   <div style={{width:"80%",margin:"auto"}}>
                     <input style={{width:"90px",height:"25px",
                     padding:"0",backgroundColor:"red",
                     marginBottom:"2%",
                     borderRadius:"0"}} 
                     type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
-                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>
-                      submitFile(photogalleryFile,'photogallery',item.id)}>Upload</Button>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+                    onClick={()=>{setEditPhoto(false)
+                        submitFile(photogalleryFile,'photogallery',item.id)}}>Upload</Button>
+                      <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                    </div>:
-                  <Button size="small"   variant="contained" onClick={()=>{setEditPhoto(true);
+                  <Button size="small"   variant="contained"
+                              
+                   onClick={()=>{ setEditPhoto(item.id)
                   editDeleteImage(item.src,item.fileRef,item.id)}}>Edit</Button>}
                            
                 </Tooltip>
