@@ -230,11 +230,18 @@ function AdminProfile() {
               {edit?<div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
                   {editPhoto?
-                  <div style={{display:"flex",width:"80%",margin:"auto"}}>
-                    <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
-                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photogallery',item.id)}>Upload Photo </Button>
-                  </div>:
-                  <Button size="small"   variant="contained" onClick={()=>{setEditPhoto(true);editDeleteImage(item.src,item.fileRef,item.id)}}>Edit</Button>}
+                  <div style={{width:"80%",margin:"auto"}}>
+                    <input style={{width:"90px",height:"25px",
+                    padding:"0",backgroundColor:"red",
+                    marginBottom:"2%",
+                    borderRadius:"0"}} 
+                    type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>
+                      submitFile(photogalleryFile,'photogallery',item.id)}>Upload</Button>
+                   </div>:
+                  <Button size="small"   variant="contained" onClick={()=>{setEditPhoto(true);
+                  editDeleteImage(item.src,item.fileRef,item.id)}}>Edit</Button>}
+                           
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.src,item.fileRef,item.id)}}>Delete</Button>
