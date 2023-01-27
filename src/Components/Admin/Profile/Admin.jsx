@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react'
-import { Button, Divider, Grid, TextField, Tooltip } from '@mui/material'
-import { getDoc, setDoc, doc,collection, query, where, onSnapshot } from "firebase/firestore";
+import { Button, Grid, TextField, Tooltip } from '@mui/material'
+import { getDoc, setDoc, doc,collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
 import {useNavigate} from 'react-router-dom'
 import { ref, getDownloadURL, uploadBytesResumable,deleteObject } from "firebase/storage";
@@ -13,6 +13,7 @@ function AdminProfile() {
 
   const navigate=useNavigate()
   const [edit,setEdit]=useState(false)
+  const [editPhoto,setEditPhoto]=useState(false)
   const admin=JSON.parse(sessionStorage.getItem('admin'))
 
   const [adminInfo,setAdminInfo]=React.useState({
@@ -47,10 +48,10 @@ function AdminProfile() {
   const saveAdminInfo=async(e)=>{
     e.preventDefault();
     try {
-      await setDoc(doc(db, "usersData", admin.uid),{...adminInfo})
-      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo,email:'dummy'})})
-      .then(()=>{alert("Admin details saved successfully!")
-      navigate('/admin/profile')})
+      await setDoc(doc(db, "usersData", admin.uid),JSON.parse(JSON.stringify({...adminInfo})))
+      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo,email:''})})
+      alert("Admin details saved successfully!")
+      // navigate('/admin/profile')
     } catch (e) {
       console.log("Error adding document: ", e);
     }
@@ -60,7 +61,7 @@ function AdminProfile() {
   const [progresspercent, setProgresspercent] = useState(0);
   const [photogalleryFile,setPhotoGalleryFile] = useState()
 
-  const submitFile=(e,type)=>{
+  const submitFile=(e,type,id)=>{
     e.preventDefault()
     let file = e.target[0]?.files[0] || e.target.files[0]
     console.log(e,file)
@@ -80,9 +81,23 @@ function AdminProfile() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImgUrl(downloadURL)
+          let temp=adminInfo.photogallery?adminInfo.photogallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
+          if(type!=='aboutmeImage'){
+            if(adminInfo.photogallery && id===adminInfo.photogallery.length){//Add file to end of temp
+              temp=[...adminInfo.photogallery,{src:downloadURL,fileRef:`${type}/${file.name}`,id:id}]
+            }
+            else if(adminInfo.photogallery && id<adminInfo.photogallery.length){//Relpace file at index id with current file
+              temp[id]={src:downloadURL,fileRef:`${type}/${file.name}`,id:id}
+            }
+            else{
+              temp=[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
+            }
+          }
           setAdminInfo({
             ...adminInfo,
-            [type==='aboutmeImage'?'aboutmeImage':'photogallery'] : type==='aboutmeImage'?downloadURL:adminInfo.photogallery?[...adminInfo.photogallery,{src:downloadURL,fileRef:storageRef}]:[{src:downloadURL,fileRef:storageRef}]
+            [type==='aboutmeImage'?'aboutmeImage':'photogallery'] : 
+            type==='aboutmeImage'?
+             downloadURL:temp
           })
           setProgresspercent(0)
           alert('Save to make final changes')
@@ -91,18 +106,36 @@ function AdminProfile() {
     );
   }
   
-  const deleteImage=(imageSrc,fileRef)=>{
+  const deleteImage=async(imageSrc,fileRef,id)=>{
     let ans=window.confirm('Sure want to delete?')
     if(ans){
       // Delete the file
-      deleteObject(fileRef).then(() => {
+      const fileFullRef = ref(storage, fileRef);
+      deleteObject(fileFullRef).then(() => {
       // File deleted successfully
+      let temp=adminInfo.photogallery.filter((item)=>{return item.id!==id})
+      for(let i=id;i<temp.length;i++){
+        temp[i].id--;
+      }
+      setAdminInfo({...adminInfo,photogallery : temp})
+      alert('Save to make final changes')
       }).catch((error) => {
       // Uh-oh, an error occurred!
       });
+    }
+  }
 
-      setAdminInfo({...adminInfo,photogallery : adminInfo.photogallery.filter((item)=>{return item.src!==imageSrc})})
-      alert('save to make final changes')
+  const editDeleteImage=async(imageSrc,fileRef,id)=>{
+    let ans=window.confirm('Sure want to change photo?')
+    if(ans){
+      const fileFullRef = ref(storage, fileRef);
+      deleteObject(fileFullRef).then(async() => {
+        // File deleted successfully
+        }).catch((error) => {
+        // Uh-oh, an error occurred!
+        });
+      // Delete the file
+      alert('Save to make final changes')
     }
   }
 
@@ -175,8 +208,8 @@ function AdminProfile() {
         {edit?
         <Grid item xs={12} sm={12}>
           <Button type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
-          setEdit(false)}}>Save</Button>
-          <Button xs={6} sm={6} onClick={()=>setEdit(false)}>Cancel</Button>
+          setEdit(false);setEditPhoto(false)}}>Save</Button>
+          <Button xs={6} sm={6} onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</Button>
         </Grid>:
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
         </Grid>
@@ -186,7 +219,7 @@ function AdminProfile() {
 
           {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
             <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
-            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photogallery')}>Upload Photo </Button>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photogallery',adminInfo.photogallery?adminInfo.photogallery.length:0)}>Upload Photo </Button>
           </div>:''}
 
           <div className='photosCards'>
@@ -196,10 +229,15 @@ function AdminProfile() {
               <img  className='card'  width="100%" height='100%'  src={item.src}/>
               {edit?<div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
-                  <Button size="small"   variant="contained">Edit</Button>
+                  {editPhoto?
+                  <div style={{display:"flex",width:"80%",margin:"auto"}}>
+                    <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photogallery',item.id)}>Upload Photo </Button>
+                  </div>:
+                  <Button size="small"   variant="contained" onClick={()=>{setEditPhoto(true);editDeleteImage(item.src,item.fileRef,item.id)}}>Edit</Button>}
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
-                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.src,item.fileRef)}}>Delete</Button>
+                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.src,item.fileRef,item.id)}}>Delete</Button>
                 </Tooltip>
               </div>:''}
           </div>
@@ -211,8 +249,8 @@ function AdminProfile() {
         {edit?
         <Grid item xs={12} sm={12}>
           <Button type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
-          setEdit(false)}}>Save</Button>
-          <Button xs={6} sm={6} onClick={()=>setEdit(false)}>Cancel</Button>
+          setEdit(false);setEditPhoto(false)}}>Save</Button>
+          <Button xs={6} sm={6} onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</Button>
         </Grid>:
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
         </Grid>
