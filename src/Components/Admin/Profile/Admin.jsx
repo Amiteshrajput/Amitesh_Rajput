@@ -1,20 +1,19 @@
 import React,{useEffect, useState} from 'react'
 import { Button, Divider, Grid, TextField, Tooltip } from '@mui/material'
-import { getDoc, setDoc, doc } from "firebase/firestore";
+import { getDoc, setDoc, doc,collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
 import {useNavigate} from 'react-router-dom'
-import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable,deleteObject } from "firebase/storage";
 import { storage } from '../../../firebaseConfig/firebaseConfig';
 import "./Admin.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
-
 function AdminProfile() {
 
   const navigate=useNavigate()
   const [edit,setEdit]=useState(false)
-  const admin=JSON.parse(localStorage.getItem('admin'))
+  const admin=JSON.parse(sessionStorage.getItem('admin'))
 
   const [adminInfo,setAdminInfo]=React.useState({
     name:'',
@@ -22,10 +21,21 @@ function AdminProfile() {
   })
 
   const fetchAdminInfo=async()=>{
+
+    // const q = query(collection(db, "usersData"),where('email','==','dummy'));
+    // onSnapshot(q, (querySnapshot) => {
+    //   const adminData = [];
+    //   querySnapshot.forEach((doc) => {
+    //     adminData.push(doc.data());
+    //   });
+
+    //   console.log(adminData)
+    // setAdminInfo(adminData)
+    // });
     const docRef = doc(db, "usersData", admin.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      // console.log("Document data:", docSnap.data());
+      console.log("Document data:", docSnap.data());
       setAdminInfo(docSnap.data())
       // setLoading(false)
     } else {
@@ -38,22 +48,24 @@ function AdminProfile() {
     e.preventDefault();
     try {
       await setDoc(doc(db, "usersData", admin.uid),{...adminInfo})
-      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo,email:''})})
-      alert("Admin details saved successfully!")
-      navigate('/admin/profile')
+      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo,email:'dummy'})})
+      .then(()=>{alert("Admin details saved successfully!")
+      navigate('/admin/profile')})
     } catch (e) {
       console.log("Error adding document: ", e);
     }
   }
 
   const [imgUrl, setImgUrl] = useState(null);
-  const [progresspercent, setProgresspercent] = useState(0);  
-  const submitFile=(e)=>{
+  const [progresspercent, setProgresspercent] = useState(0);
+  const [photogalleryFile,setPhotoGalleryFile] = useState()
+
+  const submitFile=(e,type)=>{
     e.preventDefault()
-    const file = e.target[0]?.files[0]
+    let file = e.target[0]?.files[0] || e.target.files[0]
     console.log(e,file)
     if (!file) return;
-    const storageRef = ref(storage, `images/${file.name}`);
+    const storageRef = ref(storage,`${type}/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on("state_changed",
@@ -70,13 +82,28 @@ function AdminProfile() {
           setImgUrl(downloadURL)
           setAdminInfo({
             ...adminInfo,
-            aboutmeImage:downloadURL
+            [type==='aboutmeImage'?'aboutmeImage':'photogallery'] : type==='aboutmeImage'?downloadURL:adminInfo.photogallery?[...adminInfo.photogallery,{src:downloadURL,fileRef:storageRef}]:[{src:downloadURL,fileRef:storageRef}]
           })
           setProgresspercent(0)
           alert('Save to make final changes')
         });
       }
     );
+  }
+  
+  const deleteImage=(imageSrc,fileRef)=>{
+    let ans=window.confirm('Sure want to delete?')
+    if(ans){
+      // Delete the file
+      deleteObject(fileRef).then(() => {
+      // File deleted successfully
+      }).catch((error) => {
+      // Uh-oh, an error occurred!
+      });
+
+      setAdminInfo({...adminInfo,photogallery : adminInfo.photogallery.filter((item)=>{return item.src!==imageSrc})})
+      alert('save to make final changes')
+    }
   }
 
   useEffect(()=>{fetchAdminInfo()},[])
@@ -127,19 +154,11 @@ function AdminProfile() {
         multiline
         maxRows={4} variant='outlined' required fullWidth value={adminInfo.about} onChange={e=>setAdminInfo({...adminInfo,about:e.target.value})} disabled={!edit}/>
       </Grid>
-      {/* <Grid item xs={12} sm={6}>
-        {view?<><img src={adminInfo.aboutmeImage} alt="" width='100%'/><Button onClick={()=>setView(false)}>Back</Button></>
-        :<Button onClick={()=>setView(true)}>View Photo</Button>}
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <input type='file' onInput={e=>{console.log(e.target.value)}}/>
-      </Grid> */}
       <Grid item xs={6}>
           {edit?
-          <form onSubmit={e=>{submitFile(e)}}>
+          <form onSubmit={e=>{submitFile(e,'aboutmeImage')}}>
             <input type="file" 
-            // accept='application/img'
-            accept='.gif, .jpg, .png'
+            accept='.gif, .jpg,.jpeg, .png'
             required/>
             {progresspercent>0 && progresspercent<=100?
             <div>{progresspercent}%
@@ -151,7 +170,8 @@ function AdminProfile() {
            <Button onClick={()=>window.open(adminInfo.aboutmeImage,'_blank')}  sx={{}}>View Photo</Button>:
            <Button onClick={()=>setEdit(true)} sx={{}}>Upload Photo</Button>)}
         </Grid>
-      <Grid item xs={12} sm={12}>
+
+        <Grid item xs={12} sm={12}>
         {edit?
         <Grid item xs={12} sm={12}>
           <Button type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
@@ -159,104 +179,47 @@ function AdminProfile() {
           <Button xs={6} sm={6} onClick={()=>setEdit(false)}>Cancel</Button>
         </Grid>:
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
-      </Grid>
+        </Grid>
 
-     
-<div className='mainbox'>
-  <h1 >Photo Gallery</h1>
+        <div className='mainbox'>
+          <h1 >Photo Gallery</h1>
 
-<div style={{display:"flex",width:"80%",margin:"auto"}}>
-  <input type="file"  accept='.gif, .jpg, .png' />
-  <Button startIcon={<CameraAltIcon />} variant="contained" size="small">Upload Photo </Button>
-</div>
+          {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
+            <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photogallery')}>Upload Photo </Button>
+          </div>:''}
 
-<div className='photosCards'>
-{
-  photos.map((item)=>{
-    return <div className='card' key={item.src} >
-      <img  className='card'  width="100%" 
-      height='100%'  
-      src={item.src}/>
-
-<div style={{display:"flex",justifyContent:"space-between",
-position:"absolute",top:"1%",left:"1%"}}>
-<Tooltip  title="Edit This Img" followCursor>
-     <Button size="small"   variant="contained"  >
-     Edit
-</Button>
-</Tooltip>
-
-<Tooltip title="Delete This Img" followCursor>
-     <Button size="small" sx={{marginLeft:"5%"}}
-     variant="contained" color="error" startIcon={<DeleteIcon />}>
-     Delete
-</Button>
-</Tooltip>
-</div>
-
-      </div>
-  })
-
-}
-</div>
-
-</div>
-        
-
+          <div className='photosCards'>
+            {!adminInfo.photogallery?<h4>'Loading...'</h4>:adminInfo.photogallery.map((item)=>{
+              // console.log(item.src)
+              return <div className='card' key={item.src} >
+              <img  className='card'  width="100%" height='100%'  src={item.src}/>
+              {edit?<div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
+                <Tooltip  title="Edit This Img" followCursor>
+                  <Button size="small"   variant="contained">Edit</Button>
+                </Tooltip>
+                <Tooltip title="Delete This Img" followCursor>
+                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.src,item.fileRef)}}>Delete</Button>
+                </Tooltip>
+              </div>:''}
+          </div>
+          })
+          }
+          </div>
+        </div>
+        <Grid item xs={12} sm={12}>
+        {edit?
+        <Grid item xs={12} sm={12}>
+          <Button type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
+          setEdit(false)}}>Save</Button>
+          <Button xs={6} sm={6} onClick={()=>setEdit(false)}>Cancel</Button>
+        </Grid>:
+        <Button onClick={()=>setEdit(true)}>Edit</Button>}
+        </Grid>
     </Grid>
-  </div>
+    </div>
   )
 }
 export default AdminProfile
 
 
-
-
-
-var photos = [
-  {
-    src: "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
-    width: 4,
-    height: 3
-  },
-  {
-    src: "https://source.unsplash.com/Dm-qxdynoEc/800x799",
-    width: 1,
-    height: 1
-  },
-  {
-    src: "https://source.unsplash.com/qDkso9nvCg0/600x799",
-    width: 3,
-    height: 4
-  },
-  {
-    src: "https://source.unsplash.com/iecJiKe_RNg/600x799",
-    width: 3,
-    height: 4
-  },
-  {
-    src: "https://source.unsplash.com/epcsn8Ed8kY/600x799",
-    width: 3,
-    height: 4
-  },
-  {
-    src: "https://source.unsplash.com/NQSWvyVRIJk/800x599",
-    width: 4,
-    height: 3
-  },
-  {
-    src: "https://source.unsplash.com/zh7GEuORbUw/600x799",
-    width: 3,
-    height: 4
-  },
-  {
-    src: "https://source.unsplash.com/PpOHJezOalU/800x599",
-    width: 4,
-    height: 3
-  },
-  {
-    src: "https://source.unsplash.com/I1ASdgphUH4/800x599",
-    width: 4,
-    height: 3
-  }
-];
