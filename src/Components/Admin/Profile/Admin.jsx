@@ -89,9 +89,9 @@ function AdminProfile() {
             else if(adminInfo.photogallery && id<adminInfo.photogallery.length){//Relpace file at index id with current file
               temp[id]={src:downloadURL,fileRef:`${type}/${file.name}`,id:id}
             }
-            else{
-              temp=[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
-            }
+            // else{
+            //   temp=[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
+            // }
           }
           setAdminInfo({
             ...adminInfo,
@@ -101,6 +101,7 @@ function AdminProfile() {
           })
           setProgresspercent(0)
           alert('Save to make final changes')
+          saveAdminInfo(e);
         });
       }
     );
@@ -111,7 +112,7 @@ function AdminProfile() {
     if(ans){
       // Delete the file
       const fileFullRef = ref(storage, fileRef);
-      deleteObject(fileFullRef).then(() => {
+      deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
       let temp=adminInfo.photogallery.filter((item)=>{return item.id!==id})
       for(let i=id;i<temp.length;i++){
@@ -119,6 +120,7 @@ function AdminProfile() {
       }
       setAdminInfo({...adminInfo,photogallery : temp})
       alert('Save to make final changes')
+      saveAdminInfo(e);
       }).catch((error) => {
       // Uh-oh, an error occurred!
       });
@@ -129,8 +131,9 @@ function AdminProfile() {
     let ans=window.confirm('Sure want to change photo?')
     if(ans){
       const fileFullRef = ref(storage, fileRef);
-      deleteObject(fileFullRef).then(async() => {
+      deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
+        saveAdminInfo(e);
         }).catch((error) => {
         // Uh-oh, an error occurred!
         });
