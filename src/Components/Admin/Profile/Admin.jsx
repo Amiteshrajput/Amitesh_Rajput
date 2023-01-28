@@ -1,4 +1,4 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState,useContext} from 'react'
 import { Button, Grid, TextField, Tooltip } from '@mui/material'
 import { getDoc, setDoc, doc,collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
@@ -8,13 +8,16 @@ import { storage } from '../../../firebaseConfig/firebaseConfig';
 import "./Admin.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import { UserContext } from '../../../Contexts/UserContext';
+
 
 function AdminProfile() {
 
   const navigate=useNavigate()
   const [edit,setEdit]=useState(false)
   const [editPhoto,setEditPhoto]=useState(false)
-  const admin=JSON.parse(sessionStorage.getItem('admin'))
+  // const admin=JSON.parse(sessionStorage.getItem('admin'))
+  const [state,dispatch]=useContext(UserContext)
 
   const [adminInfo,setAdminInfo]=React.useState({
     name:'',
@@ -33,7 +36,7 @@ function AdminProfile() {
     //   console.log(adminData)
     // setAdminInfo(adminData)
     // });
-    const docRef = doc(db, "usersData", admin.uid);
+    const docRef = doc(db, "usersData", state.admin.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
@@ -46,11 +49,14 @@ function AdminProfile() {
   }
 
   const saveAdminInfo=async(e)=>{
-    e.preventDefault();
+    e && e.preventDefault();
     try {
-      await setDoc(doc(db, "usersData", admin.uid),JSON.parse(JSON.stringify({...adminInfo})))
-      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo,email:''})})
-      alert("Admin details saved successfully!")
+      let tempor=JSON.parse(JSON.stringify({...adminInfo}))
+      await setDoc(doc(db, "usersData", state.admin.uid),tempor)
+      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo,email:''})
+        // console.log("Admin details saved successfully!")
+      })
+      
       // navigate('/admin/profile')
     } catch (e) {
       console.log("Error adding document: ", e);
@@ -78,15 +84,16 @@ function AdminProfile() {
       (error) => {
         alert(error);
       },
-      () => {
+      async() => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImgUrl(downloadURL)
-          let temp=adminInfo.photogallery?adminInfo.photogallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
+          setProgresspercent(0)
+          let temp=adminInfo.photogallery.length?adminInfo.photogallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
           if(type!=='aboutmeImage'){
-            if(adminInfo.photogallery && id===adminInfo.photogallery.length){//Add file to end of temp
+            if(adminInfo.photogallery.length && id===adminInfo.photogallery.length){//Add file to end of temp
               temp=[...adminInfo.photogallery,{src:downloadURL,fileRef:`${type}/${file.name}`,id:id}]
             }
-            else if(adminInfo.photogallery && id<adminInfo.photogallery.length){//Relpace file at index id with current file
+            else if(adminInfo.photogallery.length && id<adminInfo.photogallery.length){//Relpace file at index id with current file
               temp[id]={src:downloadURL,fileRef:`${type}/${file.name}`,id:id}
             }
             // else{
@@ -99,41 +106,51 @@ function AdminProfile() {
             type==='aboutmeImage'?
              downloadURL:temp
           })
-          setProgresspercent(0)
-          alert('Save to make final changes')
-          saveAdminInfo(e);
-        });
+          console.log('Inside submit File',adminInfo);
+          // alert('Save to make final changes')
+          // return temp,downloadURL
+          saveAdminInfo()
+        })
+        // .then(saveAdminInfo)
       }
     );
   }
   
-  const deleteImage=async(imageSrc,fileRef,id)=>{
+  const deleteImage=async(fileRef,id)=>{
     let ans=window.confirm('Sure want to delete?')
     if(ans){
       // Delete the file
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
+      saveAdminInfo(e)
       let temp=adminInfo.photogallery.filter((item)=>{return item.id!==id})
       for(let i=id;i<temp.length;i++){
         temp[i].id--;
       }
-      setAdminInfo({...adminInfo,photogallery : temp})
       alert('Save to make final changes')
-      saveAdminInfo(e);
-      }).catch((error) => {
+      console.log('Inside delete Image');
+      return temp
+      })
+      .then((temp)=>{
+        setAdminInfo({...adminInfo,photogallery : temp})
+        saveAdminInfo()
+      })
+      // .then(saveAdminInfo)  
+      .catch((error) => {
       // Uh-oh, an error occurred!
       });
     }
   }
 
-  const editDeleteImage=async(imageSrc,fileRef,id)=>{
+  const editDeleteImage=async(fileRef)=>{
     let ans=window.confirm('Sure want to change photo?')
     if(ans){
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
-        saveAdminInfo(e);
+        console.log('Inside editDeleteImage')
+        saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
         });
@@ -240,19 +257,18 @@ function AdminProfile() {
                     borderRadius:"0"}} 
                     type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
-                    onClick={()=>{setEditPhoto(false)
+                    onClick={()=>{setEditPhoto(false);
                         submitFile(photogalleryFile,'photogallery',item.id)}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                    </div>:
                   <Button size="small"   variant="contained"
                               
-                   onClick={()=>{ setEditPhoto(item.id)
-                  editDeleteImage(item.src,item.fileRef,item.id)}}>Edit</Button>}
-                           
+                   onClick={()=>{ setEditPhoto(item.id);
+                  editDeleteImage(item.fileRef)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
-                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.src,item.fileRef,item.id)}}>Delete</Button>
+                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
                 </Tooltip>
               </div>:''}
           </div>

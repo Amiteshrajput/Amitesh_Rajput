@@ -1,12 +1,15 @@
-import React from 'react'
+import React,{ useContext } from 'react'
 import {signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseConfig/firebaseConfig';
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { db } from '../firebaseConfig/firebaseConfig';
 import './LogIn.css'
+import { UserContext } from '../Contexts/UserContext';
 
 function LogIn({type}) {
+  const [state,dispatch]=useContext(UserContext)
+
   const navigate=useNavigate()
   const signIn=()=>{
     const provider = new GoogleAuthProvider();
@@ -23,15 +26,23 @@ function LogIn({type}) {
     const docSnap = await getDoc(docRef);
     const userData=docSnap.data()//users on database like admin or premium user
     console.log(userData,type)
-
-
+    
     if(userData && userData.type===type && user.email===userData.email){
       if(type==='admin'){
         alert('Admin SignIn successfull')
         console.log('hi in if')
-        sessionStorage.setItem('admin',JSON.stringify(user))
+        dispatch({type:'SET_ADMIN',payload:user})
+        
+        
+        // sessionStorage.setItem('admin',JSON.stringify(user))
+        
         //profile
-        setTimeout(()=>{navigate(`/admin/profile`)},6000)
+        setTimeout(()=>{
+          setTimeout(()=>{
+            dispatch({type:'SET_LOG',payload:true});
+          },1000)
+          navigate(`/admin/profile`)
+        },2000)
       }
       else{
         alert('Premium User SignIn successfull')
