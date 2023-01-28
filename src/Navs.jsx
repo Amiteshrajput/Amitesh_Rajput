@@ -15,19 +15,21 @@ import AdminAccount from './Components/Admin/Account/AdminAccount';
 import AdminDashboard from './Components/Admin/Dashboard/AdminDashboard';
 import Contact from './Components/LandingPage/contact/Contact';
 import Intro from './Components/LandingPage/intro/Intro';
+import { UserContext } from './Contexts/UserContext';
+import { useContext } from 'react';
 
 
 
 function Navs() {
-  const admin=JSON.parse(sessionStorage.getItem('admin'))
+  const [state,dispatch]=useContext(UserContext)
+  // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const premiumUser=JSON.parse(localStorage.getItem('premiumUser'))
   const AdminProtectedRoutes=()=>{
-    if(admin){
+    if(state.admin){
     //  console.log('hio',admin)
       return <Outlet/>
     }
     else{
-
       return <Navigate to='/admin/auth'/>
     }
     // return <Navigate to='/'/>

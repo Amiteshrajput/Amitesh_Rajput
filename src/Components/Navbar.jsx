@@ -14,7 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
-
+import { UserContext } from '../Contexts/UserContext';
+import { useContext } from 'react';
 
 
 const pages = [{page:'About',path:'/#about'},
@@ -32,7 +33,8 @@ function NavBar({children}) {
    
   // let logged=JSON.parse(sessionStorage.getItem('isLogged'))
   // logged=logged?logged:false
-   const [loggedIn,setLoggedIn] = React.useState(false);
+  const [state,dispatch]=useContext(UserContext)
+  //  const [loggedIn,setLoggedIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate=useNavigate()
@@ -172,13 +174,20 @@ function NavBar({children}) {
                 </MenuItem>
               ))}
               
-              <MenuItem onClick={e=>{
-                // sessionStorage.setItem('isLogged',!logged)
-                setLoggedIn(prev=>!prev)
-                }}>
-
-                {loggedIn?<Button onClick={()=>sessionStorage.removeItem('admin')}>Logout</Button>:<Link to="/admin/auth">LogIn</Link>}
-                
+              <MenuItem>
+                {state.loggedIn?
+                <Button onClick={()=>{
+                  setTimeout(()=>{
+                    setTimeout(()=>{
+                      setTimeout(()=>{
+                        sessionStorage.removeItem('admin');
+                      },1000)
+                      dispatch({type:'SET_LOG',payload:false});
+                    },1000)
+                    navigate(`/`)
+                  },1000)
+                }}>Logout</Button>:
+                <Link to="/admin/auth">LogIn</Link>}
               </MenuItem>
             </Menu>
           </Box>
