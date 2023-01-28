@@ -20,7 +20,7 @@ const Header = () => {
     const docRef = doc(db, "usersData", 'it145zGVbxyLdl4DFOQh');
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-       console.log("Document data:", docSnap.data());
+     //  console.log("Document data: from header", docSnap.data());
       setAdminInfo(docSnap.data())
       // setLoading(false)
     } else {
