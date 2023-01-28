@@ -4,15 +4,21 @@
     width:85%;
     margin:auto;
     margin-top:5%;
+   
     text-align: center;
     /* background: var(--color-bg-variant); */
-    border-radius: 4%;
+   
 }
 .name{
-    font-size: 23px;
-    color: rgb(74, 185, 230);
+    font-size: 25px;
+    color: rgb(48, 179, 231);
     font-weight: 700;
-    margin-bottom: 5%;
+    padding: 1%;
+    margin-bottom: 2%;
+    color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+    background-color: rgb(59, 59, 59)
 }
 
 .photosCards{
@@ -21,7 +27,7 @@
     ;gap:15px;
    background:white;
         padding:2%;
-        border-radius: 1%;
+      
 }
 .card{
     border-radius: 5px;
@@ -37,7 +43,7 @@
     margin-top:5%;
     text-align: center;
     /* background: var(--color-bg-variant); */
-    border-radius: 4%;
+    border-radius: 1%;
 }
     .photosCards{
         display:grid;
@@ -58,7 +64,7 @@
     margin-top:5%;
     text-align: center;
     /* background: var(--color-bg-variant); */
-    border-radius: 4%;
+    border-radius: 1%;
 }
     .photosCards{
         display:grid;
@@ -80,7 +86,7 @@
         margin-top:5%;
         text-align: center;
         /* background: var(--color-bg-variant); */
-        border-radius: 4%;
+        border-radius: 1%;
     }
         .photosCards{
             display:grid;

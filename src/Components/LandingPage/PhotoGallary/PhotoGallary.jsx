@@ -92,7 +92,9 @@ const PhotoGallary = () => {
 
   return (
     <div  className='mainbox'>
-      <div className='name'>Photo Gallary</div>
+      <div className='name'>
+        <h3>Photo Gallary</h3>
+      </div>
       
         <div className='photosCards' >
           {

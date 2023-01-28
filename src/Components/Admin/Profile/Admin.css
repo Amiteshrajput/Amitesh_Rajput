@@ -71,7 +71,7 @@ width: 100vw;
         display:grid;
         grid-template-columns:repeat(1,1fr)
         ;gap:15px;
-       background:white;
+         background:white;
             padding:2%;
             border-radius: 1%;
     }
@@ -91,8 +91,7 @@ width: 100vw;
     }
         .photosCards{
             width:85%;
-            margin: auto
-            ;
+            margin: auto;
             display:grid;
             grid-template-columns:repeat(2,1fr)
             ;gap:15px;
