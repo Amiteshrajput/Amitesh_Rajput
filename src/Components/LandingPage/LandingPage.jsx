@@ -10,6 +10,10 @@ import Footer from "./footer/Footer"
 import PhotoGallary from './PhotoGallary/PhotoGallary'
 
 
+import KAYOUYoutubePlayer from './YoutubePlayer/YoutubePlayer'
+
+
+
 
 function LandingPage() {
  
@@ -18,7 +22,8 @@ function LandingPage() {
       <Header />
       <Topbar/>
       <Intro />
-      <Experience />
+      {/* <Experience /> */}
+      <KAYOUYoutubePlayer/>
      <PhotoGallary/>
       <Portfolio />
       <Testimonials />

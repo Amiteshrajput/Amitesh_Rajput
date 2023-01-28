@@ -151,25 +151,41 @@ function AdminProfile() {
         <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{}}>
-        <TextField id="outlined-basic" label="Profession" variant="outlined" value={adminInfo.profession} onChange={e=>setAdminInfo({...adminInfo,profession:e.target.value})} disabled={!edit} required/>
+        <TextField id="outlined-basic" label="Profession"
+       
+         InputLabelProps={{
+           shrink: true,
+         }} variant="outlined" value={adminInfo.profession} onChange={e=>setAdminInfo({...adminInfo,profession:e.target.value})} disabled={!edit} required/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-basic" label="Education & Experience" variant="outlined" value={adminInfo.educationAndExperience} onChange={e=>setAdminInfo({...adminInfo,educationAndExperience:e.target.value})} disabled={!edit} required/>
+        <TextField  InputLabelProps={{
+           shrink: true,
+         }} id="outlined-basic" label="Education & Experience" variant="outlined" value={adminInfo.educationAndExperience} onChange={e=>setAdminInfo({...adminInfo,educationAndExperience:e.target.value})} disabled={!edit} required/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-basic" label="Commitment1" variant="outlined" value={adminInfo.commitment1} onChange={e=>setAdminInfo({...adminInfo,commitment1:e.target.value})} disabled={!edit}/>
+        <TextField InputLabelProps={{
+           shrink: true,
+         }} id="outlined-basic" label="Commitment1" variant="outlined" value={adminInfo.commitment1} onChange={e=>setAdminInfo({...adminInfo,commitment1:e.target.value})} disabled={!edit}/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-basic" label="Commitment2" variant="outlined" value={adminInfo.commitment2} onChange={e=>setAdminInfo({...adminInfo,commitment2:e.target.value})} disabled={!edit}/>
+        <TextField InputLabelProps={{
+           shrink: true,
+         }} id="outlined-basic" label="Commitment2" variant="outlined" value={adminInfo.commitment2} onChange={e=>setAdminInfo({...adminInfo,commitment2:e.target.value})} disabled={!edit}/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-basic" label="Commitment3" variant="outlined" value={adminInfo.commitment3} onChange={e=>setAdminInfo({...adminInfo,commitment3:e.target.value})} disabled={!edit}/>
+        <TextField InputLabelProps={{
+           shrink: true,
+         }} id="outlined-basic" label="Commitment3" variant="outlined" value={adminInfo.commitment3} onChange={e=>setAdminInfo({...adminInfo,commitment3:e.target.value})} disabled={!edit}/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-basic" label="Commitment4" variant="outlined" value={adminInfo.commitment4} onChange={e=>setAdminInfo({...adminInfo,commitment4:e.target.value})} disabled={!edit}/>
+        <TextField InputLabelProps={{
+           shrink: true,
+         }} id="outlined-basic" label="Commitment4" variant="outlined" value={adminInfo.commitment4} onChange={e=>setAdminInfo({...adminInfo,commitment4:e.target.value})} disabled={!edit}/>
       </Grid>
       <Grid item xs={12} sm={6}  sx={{backgroundColor:'transparent', color:'blue'}}>
-        <TextField id="outlined-multiline-flexible"
+        <TextField InputLabelProps={{
+           shrink: true,
+         }} id="outlined-multiline-flexible"
         label="About"
         multiline
         maxRows={4} variant='outlined' required fullWidth value={adminInfo.about} onChange={e=>setAdminInfo({...adminInfo,about:e.target.value})} disabled={!edit}/>
@@ -216,12 +232,24 @@ function AdminProfile() {
               <img  className='card'  width="100%" height='100%'  src={item.src}/>
               {edit?<div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
-                  {editPhoto?
-                  <div style={{display:"flex",width:"80%",margin:"auto"}}>
-                    <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
-                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photogallery',item.id)}>Upload Photo </Button>
-                  </div>:
-                  <Button size="small"   variant="contained" onClick={()=>{setEditPhoto(true);editDeleteImage(item.src,item.fileRef,item.id)}}>Edit</Button>}
+                  {editPhoto===item.id?
+                  <div style={{width:"80%",margin:"auto"}}>
+                    <input style={{width:"90px",height:"25px",
+                    padding:"0",backgroundColor:"red",
+                    marginBottom:"2%",
+                    borderRadius:"0"}} 
+                    type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+                    onClick={()=>{setEditPhoto(false)
+                        submitFile(photogalleryFile,'photogallery',item.id)}}>Upload</Button>
+                      <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
+                   </div>:
+                  <Button size="small"   variant="contained"
+                              
+                   onClick={()=>{ setEditPhoto(item.id)
+                  editDeleteImage(item.src,item.fileRef,item.id)}}>Edit</Button>}
+                           
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.src,item.fileRef,item.id)}}>Delete</Button>
