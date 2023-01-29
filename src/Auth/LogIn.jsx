@@ -33,15 +33,13 @@ function LogIn({type}) {
         console.log('hi in if')
         // sessionStorage.setItem('admin',JSON.stringify(user))
         //profile
-        setTimeout(()=>{
           setTimeout(()=>{
             setTimeout(()=>{
-              dispatch({type:'SET_ADMIN',payload:user});
+              dispatch({type:'SET_LOG',payload:true})
+              dispatch({type:'SET_ADMIN',payload:{uid:user.uid}});
             },0)
             navigate(`/admin/profile`)
-          },500)
-          dispatch({type:'SET_LOG',payload:true});
-        },0)
+          },2000)
       }
       else{
         alert('Premium User SignIn successfull')

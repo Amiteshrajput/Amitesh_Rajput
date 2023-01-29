@@ -19,10 +19,7 @@ function AdminProfile() {
   // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
 
-  const [adminInfo,setAdminInfo]=React.useState({
-    name:'',
-    about:''
-  })
+  const [adminInfo,setAdminInfo]=React.useState()
 
   const fetchAdminInfo=async()=>{
 
@@ -159,10 +156,20 @@ function AdminProfile() {
     }
   }
 
-  useEffect(()=>{fetchAdminInfo()},[])
+  useEffect(()=>{
+    fetchAdminInfo();
+  },[])
+
+  // useEffect(()=>{
+  //   if(!state.loggedIn){
+  //     setTimeout(()=>{
+  //     dispatch({type:'SET_LOG',payload:true})},3000)
+  //   }
+  // },[])
 
   return (
     <div className='Admin'>
+      {adminInfo?
     <Grid container spacing={2} sx={{color:'blue',backgroundColor:'white'}}>
       <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
         <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
@@ -285,7 +292,7 @@ function AdminProfile() {
         </Grid>:
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
         </Grid>
-    </Grid>
+    </Grid>:'Loading...'}
     </div>
   )
 }
