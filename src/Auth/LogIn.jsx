@@ -31,7 +31,7 @@ function LogIn({type}) {
       if(type==='admin'){
         alert('Admin SignIn successfull')
         console.log('hi in if')
-        dispatch({type:'SET_ADMIN',payload:user})
+        
         
         
         // sessionStorage.setItem('admin',JSON.stringify(user))
@@ -39,10 +39,15 @@ function LogIn({type}) {
         //profile
         setTimeout(()=>{
           setTimeout(()=>{
-            dispatch({type:'SET_LOG',payload:true});
+            setTimeout(()=>{
+              dispatch({type:'SET_ADMIN',payload:user});
+            },1000)
+            navigate(`/admin/profile`);
           },1000)
-          navigate(`/admin/profile`)
+        
+          dispatch({type:'SET_LOG',payload:true});
         },2000)
+       
       }
       else{
         alert('Premium User SignIn successfull')

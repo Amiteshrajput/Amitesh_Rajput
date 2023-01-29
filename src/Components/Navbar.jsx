@@ -184,7 +184,7 @@ function NavBar({children}) {
                       },1000)
                       dispatch({type:'SET_LOG',payload:false});
                     },1000)
-                    navigate(`/`)
+                    navigate('/')
                   },1000)
                 }}>Logout</Button>:
                 <Link to="/admin/auth">LogIn</Link>}

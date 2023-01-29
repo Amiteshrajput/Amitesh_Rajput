@@ -26,7 +26,7 @@ function Navs() {
   const premiumUser=JSON.parse(localStorage.getItem('premiumUser'))
   const AdminProtectedRoutes=()=>{
     if(state.admin){
-    //  console.log('hio',admin)
+      console.log('hio',state.admin)
       return <Outlet/>
     }
     else{
