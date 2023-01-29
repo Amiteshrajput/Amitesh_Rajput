@@ -1,7 +1,9 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import Carousel, { Modal, ModalGateway } from "react-images";
+import { db } from '../../../firebaseConfig/firebaseConfig';
 import "./PhotoGallary.css"
+import { doc, getDoc } from 'firebase/firestore';
 
 const photos = [
     {
@@ -55,6 +57,35 @@ const PhotoGallary = () => {
     const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
+
+  const admin=JSON.parse(sessionStorage.getItem('admin'))
+
+  const [adminInfo,setAdminInfo]=React.useState({
+    name:'',
+    about:''
+  })
+
+
+  const fetchAdminInfo=async()=>{
+    const docRef = doc(db, "usersData", 'it145zGVbxyLdl4DFOQh');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+       //console.log("Document data:", docSnap.data());
+      setAdminInfo(docSnap.data())
+      // setLoading(false)
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  }
+
+
+  useEffect(()=>{fetchAdminInfo()},[])
+
+
+
+
+
   const openLightbox = useCallback((event, { photo, index }) => {
     
     setCurrentImage(index);
@@ -98,7 +129,7 @@ const PhotoGallary = () => {
       
         <div className='photosCards' >
           {
-    photos.map((item,index)=>{
+            adminInfo?.photogallery?.map((item,index)=>{
    
        
       return <div className='card' key={item.src} onClick={()=>{
@@ -116,7 +147,7 @@ const PhotoGallary = () => {
             <Carousel 
             styles={customStyles}
               currentIndex={currentImage}
-              views={photos.map(x => ({
+              views={adminInfo?.photogallery?.map(x => ({
                 ...x,
                 srcset: x.srcSet,
                 caption: x.title
