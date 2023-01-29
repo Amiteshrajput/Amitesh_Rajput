@@ -181,11 +181,11 @@ function NavBar({children}) {
                     setTimeout(()=>{
                       setTimeout(()=>{
                         sessionStorage.removeItem('admin');
-                      },1000)
-                      dispatch({type:'SET_LOG',payload:false});
-                    },1000)
-                    navigate(`/`)
-                  },1000)
+                      },0)
+                      navigate(`/`)
+                    },500)
+                    dispatch({type:'SET_LOG',payload:false});
+                  },0)
                 }}>Logout</Button>:
                 <Link to="/admin/auth">LogIn</Link>}
               </MenuItem>

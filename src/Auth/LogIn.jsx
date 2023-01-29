@@ -39,7 +39,7 @@ function LogIn({type}) {
               dispatch({type:'SET_ADMIN',payload:user});
             },0)
             navigate(`/admin/profile`)
-          },1000)
+          },500)
           dispatch({type:'SET_LOG',payload:true});
         },0)
       }
