@@ -150,10 +150,11 @@ function AdminProfile() {
     }
   }
 
-  const editDeleteImage=async(fileRef)=>{
+  const editDeleteImage=async(fileRef,set,id)=>{
     let ans=window.confirm('Sure want to change photo?')
     if(ans){
       const fileFullRef = ref(storage, fileRef);
+      set(id?id:true)
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
         console.log('Inside editDeleteImage')
@@ -164,6 +165,9 @@ function AdminProfile() {
       // Delete the file
       alert('Save to make final changes')
     }
+    else{
+      set(false)
+    }
   }
 
 console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
@@ -172,12 +176,6 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
   useEffect(()=>{
     fetchAdminInfo();
   },[])
-  // useEffect(()=>{
-  //   if(!state.loggedIn){
-  //     setTimeout(()=>{
-  //     dispatch({type:'SET_LOG',payload:true})},3000)
-  //   }
-  // },[])
 
   return (
     <div className='Admin'>
@@ -250,7 +248,7 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
           </div>
             
             }
-            <Button onClick={()=>setEditVideo(true)}>Change Video</Button>
+            <Button onClick={()=>setEditVideo(true)} disabled={!edit}>Change Video</Button>
            </div>)
         :<div>
           <TextField type='url' value={introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
@@ -278,8 +276,8 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditAboutMeImage(false)}}>Cancel</Button>  
                   </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ setEditAboutMeImage(true);
-                  editDeleteImage(adminInfo.aboutMeImage.fileRef)}}>Edit</Button>}    
+                   onClick={()=>{
+                  editDeleteImage(adminInfo.aboutMeImage.fileRef,setEditAboutMeImage)}} disabled={!edit}>Edit</Button>}    
                 </Tooltip>
               </div>
         </div>:
@@ -315,8 +313,8 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>  
                   </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ setEditHeaderImage(true);
-                  editDeleteImage(adminInfo.headerImage.fileRef)}}>Edit</Button>}    
+                   onClick={()=>{
+                  editDeleteImage(adminInfo.headerImage.fileRef,setEditHeaderImage)}} disabled={!edit}>Edit</Button>}    
                 </Tooltip>
               </div>
         </div>:
@@ -371,8 +369,8 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                    </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ setEditPhoto(item.id);
-                  editDeleteImage(item.fileRef)}}>Edit</Button>}    
+                   onClick={()=>{ 
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>

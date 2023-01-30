@@ -109,7 +109,7 @@ function NavBar({children}) {
             >
             
               {pages.map((item) => (
-              <MenuItem key={item.page}  onClick={handleCloseNavMenu}>
+              <MenuItem key={item.page}  onClick={()=>{navigate(item.path);handleCloseNavMenu()}}>
           <Typography   textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
@@ -120,7 +120,7 @@ function NavBar({children}) {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
