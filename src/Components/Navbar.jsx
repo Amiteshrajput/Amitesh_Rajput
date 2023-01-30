@@ -176,7 +176,7 @@ function NavBar({children}) {
               ))}
               
               <MenuItem>
-                {state.loggedIn?
+                {state.admin?.loggedIn?
                 <Button onClick={()=>{
 
                   setTimeout(()=>{
@@ -185,9 +185,9 @@ function NavBar({children}) {
                         sessionStorage.removeItem('admin');
                       },0)
                       navigate(`/`)
-                    },500)
-                    dispatch({type:'SET_LOG',payload:false});
-                  },2000)
+                    },1000)
+                    dispatch({type:'SET_ADMIN',payload:{loggedIn:false}});
+                  },0)
 
                 }}>Logout</Button>:
                 <Button onClick={()=>navigate("/admin/auth")} variant='contained'>LogIn</Button>}
