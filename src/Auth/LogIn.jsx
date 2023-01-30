@@ -35,8 +35,8 @@ function LogIn({type}) {
         //profile
           setTimeout(()=>{
             setTimeout(()=>{
-              dispatch({type:'SET_LOG',payload:true})
-              dispatch({type:'SET_ADMIN',payload:{uid:user.uid}});
+              // dispatch({type:'SET_LOG',payload:true})
+              dispatch({type:'SET_ADMIN',payload:{uid:user.uid,loggedIn:true}});
             },0)
             navigate(`/admin/profile`)
           },2000)
