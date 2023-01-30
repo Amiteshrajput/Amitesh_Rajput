@@ -230,7 +230,6 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
       <Grid item xs={12} sm={6} sx={{color:'black'}}>
         {adminInfo.introVideo?(editVideo?
            <div>
-<<<<<<< HEAD
             <TextField type='url' value={adminInfo?.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
             <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
            </div>:
@@ -255,13 +254,6 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
             
             
             }
-=======
-            <TextField type='url' value={introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
-            <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
-           </div>:
-           <div>
-            {/* Put Video code here */}
->>>>>>> d266137713481ae49357c9e9aec02673d6010a49
             <Button onClick={()=>setEditVideo(true)}>Change Video</Button>
            </div>)
         :<div>
