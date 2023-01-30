@@ -1,12 +1,17 @@
 
 .Admin{
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgb(46, 40, 158) 0%, rgba(9,9,121,1) 35%, rgb(163, 208, 218) 100%);
+    background:var(--color-bg-variant);
+    
 padding: 3%;
 width: 100vw;
+transition: var(--transition);
 }
 
-
+.Admin:hover{
+    
+    background: skyblue;
+    color: white;
+}
     
 .mainbox{
     /* border:4px solid green; */
@@ -14,7 +19,7 @@ width: 100vw;
     margin:auto;
     margin-top:5%;
     text-align: center;
-    background-color: rgb(250, 250, 250); 
+   
     border-radius: 4%;
 }
 

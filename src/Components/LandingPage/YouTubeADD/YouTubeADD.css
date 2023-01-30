@@ -1,0 +1,74 @@
+.maInBox{
+    margin-top: 15%;
+    margin: auto;
+    width: 100%;
+    background: white;
+   color: #890000;
+}
+
+.miDbox{
+   
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+   font-style: italic;
+   text-align: center;
+    width: 80%;
+    margin: auto;
+}
+
+.texT{
+    justify-items: center;
+    margin: auto;
+    align-items: center;
+}
+
+.soliD{
+   margin: auto;
+    border-top:3px solid #890000;
+    padding-bottom: 4%;
+    width: 80%;
+}
+
+@media screen and (max-width: 950px){
+    .texT{
+        
+        font-style: oblique;
+        justify-items: center;
+        margin: auto;
+        align-items: center;
+    }
+    .miDbox{
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+       
+       text-align: center;
+        width: 95%;
+        margin: auto;
+    }
+    
+}
+
+
+@media screen and (max-width: 550px){
+    .texT{
+      
+        font-style: oblique;
+        justify-items: center;
+        margin: auto;
+        align-items: center;
+        
+    }
+    .miDbox{
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+       
+       text-align: center;
+        width: 98%;
+        margin: auto;
+    }
+
+
+}
+
+
+
