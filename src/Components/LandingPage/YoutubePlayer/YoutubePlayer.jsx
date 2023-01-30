@@ -3,7 +3,7 @@ import "./YoutubePlayer.css"
 import YoutubeEmbed from './YoutubeEmbed';
 
 
-const YoutubePlayer = () => {
+const YoutubePlayer = ({embedId}) => {
 
    
 return (
@@ -16,7 +16,7 @@ return (
 </div>
  <div>
 
-  <YoutubeEmbed  embedId="lZcppEWTZMc"/>
+  <YoutubeEmbed  embedId={embedId}/>
 </div>
 </div>
 

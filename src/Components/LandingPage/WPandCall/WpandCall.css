@@ -1,0 +1,119 @@
+.wpand{
+    width: 100%;
+    color: white;
+
+    background: #000046;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #1CB5E0, #000046);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #1CB5E0, #000046); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    
+
+}
+
+.wpsec{
+    width: 60%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 65% 35%;
+    align-items: center;
+    gap: 2%;
+   padding: 1%;
+   /* border: 1px solid red; */
+    
+}
+
+.fr{
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    color: yellow;
+    font-size: 25px;
+}
+
+
+
+.wpfrsec{
+    width: 60%;
+    row-gap: 20px;
+    display: flex;
+    /* border: 1px solid rgb(17, 0, 255); */
+    justify-content: space-around;
+}
+
+
+@media all and (min-width:80px) and (max-width:450px){
+ 
+.wpsec{
+    width: 90%;
+    margin: auto;
+    display: block;
+    align-items: center;
+    
+  
+   
+   /* border: 1px solid red; */
+    
+}
+
+.fr{
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    font-weight: 500;
+    color: black;
+    font-size: 18px;
+}
+
+
+
+.wpfrsec{
+    
+    row-gap: 20px;
+    display: flex;
+    margin: auto;
+    justify-content: center;
+     /* border: 1px solid red; */
+   
+   
+}
+   
+}
+
+
+@media all and (min-width:450px) and (max-width:850px){
+ 
+    .wpsec{
+        width: 90%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(1,1fr);
+        align-items: center;
+        
+       padding: 1%;
+       /* border: 1px solid red; */
+        
+    }
+    
+    .fr{
+        justify-content: center;
+    align-items: center;
+    margin: auto;
+        font-weight: 500;
+        color: black;
+        margin-top: 4%;
+        font-size: 30px;
+    }
+    
+    
+    
+    .wpfrsec{
+        
+        row-gap: 20px;
+        display: flex;
+        margin: auto;
+        justify-content: center;
+         /* border: 1px solid red; */
+       
+       
+    }
+       
+    }

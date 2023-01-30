@@ -53,36 +53,13 @@ const photos = [
     }
   ];
   
-const PhotoGallary = () => {
+const PhotoGallary = ({photogallery}) => {
     const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
 
-  const admin=JSON.parse(sessionStorage.getItem('admin'))
-
-  const [adminInfo,setAdminInfo]=React.useState({
-    name:'',
-    about:''
-  })
-
-
-  const fetchAdminInfo=async()=>{
-    const docRef = doc(db, "usersData", 'it145zGVbxyLdl4DFOQh');
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-       //console.log("Document data:", docSnap.data());
-      setAdminInfo(docSnap.data())
-      // setLoading(false)
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-  }
-
-
-  useEffect(()=>{fetchAdminInfo()},[])
-
-
+  
+ 
 
 
 
@@ -122,14 +99,14 @@ const PhotoGallary = () => {
 
 
   return (
-    <div  className='mainbox'>
-      <div className='name'>
+    <div  className='Mainbox'>
+      <div className='photogallary'>
         <h3>Photo Gallary</h3>
       </div>
       
         <div className='photosCards' >
           {
-            adminInfo?.photogallery?.map((item,index)=>{
+            photogallery?.map((item,index)=>{
    
        
       return <div className='card' key={item.src} onClick={()=>{
@@ -147,7 +124,7 @@ const PhotoGallary = () => {
             <Carousel 
             styles={customStyles}
               currentIndex={currentImage}
-              views={adminInfo?.photogallery?.map(x => ({
+              views={photogallery?.map(x => ({
                 ...x,
                 srcset: x.srcSet,
                 caption: x.title

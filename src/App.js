@@ -1,5 +1,5 @@
 import './App.css';
-import NavBar from './Components/Navbar';
+
 import Navs from './Navs';
 import UserContextProvider from './Contexts/UserContext';
 

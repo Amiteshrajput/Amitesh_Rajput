@@ -18,11 +18,15 @@ function AdminProfile() {
   const [editPhoto,setEditPhoto]=useState(false)
   const [editHeaderImage,setEditHeaderImage]=useState(false)
   const [editAboutMeImage,setEditAboutMeImage]=useState(false)
+  const [editVideo,setEditVideo]=useState(false)
 
   // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
 
   const [adminInfo,setAdminInfo]=React.useState()
+
+  
+
 
   const fetchAdminInfo=async()=>{
 
@@ -66,8 +70,9 @@ function AdminProfile() {
   const [imgUrl, setImgUrl] = useState(null);
   const [progresspercent, setProgresspercent] = useState(0);
   const [photogalleryFile,setPhotoGalleryFile] = useState()
-  const [headerImage,setHeaderImage] = useState()
-  const [aboutMeImage,setAboutMeImage] = useState()
+  const [headerImage,setHeaderImage] = useState(adminInfo?adminInfo.headerImage?.src:'')
+  const [aboutMeImage,setAboutMeImage] = useState(adminInfo?adminInfo.aboutMeImage?.src:'')
+  const [introVideo,setIntroVideo] = useState(adminInfo?adminInfo.introVideo?adminInfo.introVideo:'':'')
 
   const submitFile=(e,type,id)=>{
     e.preventDefault()
@@ -90,12 +95,12 @@ function AdminProfile() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImgUrl(downloadURL)
           setProgresspercent(0)
-          let temp=adminInfo.photogallery.length?adminInfo.photogallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
-          if(type==='photoGallery'){
-            if(adminInfo.photogallery.length && id===adminInfo.photogallery.length){//Add file to end of temp
-              temp=[...adminInfo.photogallery,{src:downloadURL,fileRef:`${type}/${file.name}`,id:id}]
+          let temp=adminInfo?adminInfo.photoGallery?adminInfo.photoGallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]:[]
+          if(type==='photoGallery' && adminInfo.photoGallery){
+            if(id===adminInfo.photoGallery.length){//Add file to end of temp
+              temp=[...adminInfo.photoGallery,{src:downloadURL,fileRef:`${type}/${file.name}`,id:id}]
             }
-            else if(adminInfo.photogallery.length && id<adminInfo.photogallery.length){//Relpace file at index id with current file
+            else if(id<adminInfo.photoGallery.length){//Relpace file at index id with current file
               temp[id]={src:downloadURL,fileRef:`${type}/${file.name}`,id:id}
             }
             // else{
@@ -104,7 +109,7 @@ function AdminProfile() {
           }
           setAdminInfo({
             ...adminInfo,
-            [type==='aboutMeImage'?'aboutMeImage':type==='headerImage'?'headerImage':'photogallery'] : 
+            [type==='aboutMeImage'?'aboutMeImage':type==='headerImage'?'headerImage':'photoGallery'] : 
             type==='aboutMeImage' || type==='headerImage'?
              {src:downloadURL,fileRef:`${type}/${file.name}`}:temp
           })
@@ -126,7 +131,7 @@ function AdminProfile() {
       deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
       saveAdminInfo(e)
-      let temp=adminInfo.photogallery.filter((item)=>{return item.id!==id})
+      let temp=adminInfo.photoGallery.filter((item)=>{return item.id!==id})
       for(let i=id;i<temp.length;i++){
         temp[i].id--;
       }
@@ -135,7 +140,7 @@ function AdminProfile() {
       return temp
       })
       .then((temp)=>{
-        setAdminInfo({...adminInfo,photogallery : temp})
+        setAdminInfo({...adminInfo,photoGallery : temp})
         saveAdminInfo()
       })
       // .then(saveAdminInfo)  
@@ -161,10 +166,12 @@ function AdminProfile() {
     }
   }
 
+console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
+
+
   useEffect(()=>{
     fetchAdminInfo();
   },[])
-
   // useEffect(()=>{
   //   if(!state.loggedIn){
   //     setTimeout(()=>{
@@ -220,6 +227,41 @@ function AdminProfile() {
         maxRows={4} variant='outlined' required fullWidth value={adminInfo.about} onChange={e=>setAdminInfo({...adminInfo,about:e.target.value})} disabled={!edit}/>
       </Grid>
       
+      <Grid item xs={12} sm={6} sx={{color:'black'}}>
+        {adminInfo.introVideo?(editVideo?
+           <div>
+            <TextField type='url' value={adminInfo?.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
+            <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
+           </div>:
+           <div>
+            {/* Put Video code here */
+            
+           
+            
+            <div className="video-responsive">
+            <iframe
+             width="853"
+             height="480"
+               src={`https://www.youtube.com/embed/${adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join("")}`}
+              
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Embedded youtube"
+            />
+          </div>
+
+            
+            
+            }
+            <Button onClick={()=>setEditVideo(true)}>Change Video</Button>
+           </div>)
+        :<div>
+          <TextField type='url' value={introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
+          <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Save changes</Button>
+        </div>}
+      </Grid>
+
       <Grid item xs={12} sm={6}>
       {adminInfo.aboutMeImage?
         <div className='card'>
@@ -309,11 +351,11 @@ function AdminProfile() {
 
           {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
             <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
-            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photogallery',adminInfo.photogallery?adminInfo.photogallery.length:0)}>Upload Photo </Button>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photoGallery',adminInfo.photoGallery?adminInfo.photoGallery.length:0)}>Upload Photo </Button>
           </div>:''}
 
           <div className='photosCards'>
-            {!adminInfo.photogallery?<h4>'Loading...'</h4>:adminInfo.photogallery.map((item)=>{
+            {!adminInfo.photoGallery?<h4>'Loading...'</h4>:adminInfo.photoGallery.map((item)=>{
               // console.log(item.src)
               return <div className='card' key={item.src} >
               <img  className='card'  width="100%" height='100%'  src={item.src}/>
@@ -328,12 +370,12 @@ function AdminProfile() {
                     type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditPhoto(false);
-                        submitFile(photogalleryFile,'photogallery',item.id)}}>Upload</Button>
+                        submitFile(photogalleryFile,'photoGallery',item.id)}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                    </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ setEditPhoto(true);
+                   onClick={()=>{ setEditPhoto(item.id);
                   editDeleteImage(item.fileRef)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
@@ -359,5 +401,3 @@ function AdminProfile() {
   )
 }
 export default AdminProfile
-
-
