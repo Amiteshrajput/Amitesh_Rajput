@@ -2,7 +2,7 @@ import React,{useReducer} from "react"
 export const UserContext=React.createContext()
 
 const initialState={
-    loggedIn:JSON.parse(sessionStorage.getItem('logged'))||false,
+    loggedIn:JSON.parse(sessionStorage.getItem('logged'))||null,
     admin:JSON.parse(sessionStorage.getItem('admin'))||null
 }
 

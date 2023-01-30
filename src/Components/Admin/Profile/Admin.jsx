@@ -19,10 +19,7 @@ function AdminProfile() {
   // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
 
-  const [adminInfo,setAdminInfo]=React.useState({
-    name:'',
-    about:''
-  })
+  const [adminInfo,setAdminInfo]=React.useState()
 
   const fetchAdminInfo=async()=>{
 
@@ -159,14 +156,23 @@ function AdminProfile() {
     }
   }
 
-  useEffect(()=>{fetchAdminInfo()},[])
+  useEffect(()=>{
+    fetchAdminInfo();
+  },[])
+
+  // useEffect(()=>{
+  //   if(!state.loggedIn){
+  //     setTimeout(()=>{
+  //     dispatch({type:'SET_LOG',payload:true})},3000)
+  //   }
+  // },[])
 
   return (
     <div className='Admin'>
-    <Grid container spacing={2} sx={{color:'blue',}}>
+      {adminInfo?
+    <Grid container spacing={2} sx={{color:'blue',backgroundColor:'white'}}>
       <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="Name" variant="outlined" 
-        value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+        <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{}}>
         <TextField id="outlined-basic" label="Profession"
@@ -175,32 +181,32 @@ function AdminProfile() {
            shrink: true,
          }} variant="outlined" value={adminInfo.profession} onChange={e=>setAdminInfo({...adminInfo,profession:e.target.value})} disabled={!edit} required/>
       </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'blue'}}>
+      <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField  InputLabelProps={{
            shrink: true,
          }} id="outlined-basic" label="Education & Experience" variant="outlined" value={adminInfo.educationAndExperience} onChange={e=>setAdminInfo({...adminInfo,educationAndExperience:e.target.value})} disabled={!edit} required/>
       </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'blue'}}>
+      <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField InputLabelProps={{
            shrink: true,
          }} id="outlined-basic" label="Commitment1" variant="outlined" value={adminInfo.commitment1} onChange={e=>setAdminInfo({...adminInfo,commitment1:e.target.value})} disabled={!edit}/>
       </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'blue'}}>
+      <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField InputLabelProps={{
            shrink: true,
          }} id="outlined-basic" label="Commitment2" variant="outlined" value={adminInfo.commitment2} onChange={e=>setAdminInfo({...adminInfo,commitment2:e.target.value})} disabled={!edit}/>
       </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'blue'}}>
+      <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField InputLabelProps={{
            shrink: true,
          }} id="outlined-basic" label="Commitment3" variant="outlined" value={adminInfo.commitment3} onChange={e=>setAdminInfo({...adminInfo,commitment3:e.target.value})} disabled={!edit}/>
       </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'blue'}}>
+      <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField InputLabelProps={{
            shrink: true,
          }} id="outlined-basic" label="Commitment4" variant="outlined" value={adminInfo.commitment4} onChange={e=>setAdminInfo({...adminInfo,commitment4:e.target.value})} disabled={!edit}/>
       </Grid>
-      <Grid item xs={12} sm={6}  sx={{ color:'blue'}}>
+      <Grid item xs={12} sm={6}  sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField InputLabelProps={{
            shrink: true,
          }} id="outlined-multiline-flexible"
@@ -286,10 +292,9 @@ function AdminProfile() {
         </Grid>:
         <Button onClick={()=>setEdit(true)}>Edit</Button>}
         </Grid>
-    </Grid>
+    </Grid>:'Loading...'}
     </div>
   )
 }
 export default AdminProfile
-
 

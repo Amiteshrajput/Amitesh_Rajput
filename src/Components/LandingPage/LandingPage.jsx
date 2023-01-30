@@ -13,8 +13,6 @@ import PhotoGallary from './PhotoGallary/PhotoGallary'
 import KAYOUYoutubePlayer from './YoutubePlayer/YoutubePlayer'
 
 
-
-
 function LandingPage() {
  
   return (
@@ -33,5 +31,4 @@ function LandingPage() {
     </div>
   )
 }
-
 export default LandingPage
