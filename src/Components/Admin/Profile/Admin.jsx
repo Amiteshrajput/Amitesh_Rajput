@@ -16,6 +16,9 @@ function AdminProfile() {
   const navigate=useNavigate()
   const [edit,setEdit]=useState(false)
   const [editPhoto,setEditPhoto]=useState(false)
+  const [editHeaderImage,setEditHeaderImage]=useState(false)
+  const [editAboutMeImage,setEditAboutMeImage]=useState(false)
+
   // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
 
@@ -63,6 +66,8 @@ function AdminProfile() {
   const [imgUrl, setImgUrl] = useState(null);
   const [progresspercent, setProgresspercent] = useState(0);
   const [photogalleryFile,setPhotoGalleryFile] = useState()
+  const [headerImage,setHeaderImage] = useState()
+  const [aboutMeImage,setAboutMeImage] = useState()
 
   const submitFile=(e,type,id)=>{
     e.preventDefault()
@@ -86,7 +91,7 @@ function AdminProfile() {
           setImgUrl(downloadURL)
           setProgresspercent(0)
           let temp=adminInfo.photogallery.length?adminInfo.photogallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
-          if(type!=='aboutmeImage'){
+          if(type==='photoGallery'){
             if(adminInfo.photogallery.length && id===adminInfo.photogallery.length){//Add file to end of temp
               temp=[...adminInfo.photogallery,{src:downloadURL,fileRef:`${type}/${file.name}`,id:id}]
             }
@@ -99,9 +104,9 @@ function AdminProfile() {
           }
           setAdminInfo({
             ...adminInfo,
-            [type==='aboutmeImage'?'aboutmeImage':'photogallery'] : 
-            type==='aboutmeImage'?
-             downloadURL:temp
+            [type==='aboutMeImage'?'aboutMeImage':type==='headerImage'?'headerImage':'photogallery'] : 
+            type==='aboutMeImage' || type==='headerImage'?
+             {src:downloadURL,fileRef:`${type}/${file.name}`}:temp
           })
           console.log('Inside submit File',adminInfo);
           // alert('Save to make final changes')
@@ -214,22 +219,80 @@ function AdminProfile() {
         multiline
         maxRows={4} variant='outlined' required fullWidth value={adminInfo.about} onChange={e=>setAdminInfo({...adminInfo,about:e.target.value})} disabled={!edit}/>
       </Grid>
-      <Grid item xs={6}>
-          {edit?
-          <form onSubmit={e=>{submitFile(e,'aboutmeImage')}}>
-            <input type="file" 
-            accept='.gif, .jpg,.jpeg, .png'
-            required/>
-            {progresspercent>0 && progresspercent<=100?
-            <div>{progresspercent}%
-            </div>:
-            <Button type='submit' sx={{}}>Upload</Button>
-            }
-          </form>:
-          (adminInfo.aboutmeImage?
-           <Button onClick={()=>window.open(adminInfo.aboutmeImage,'_blank')}  sx={{}}>View Photo</Button>:
-           <Button onClick={()=>setEdit(true)} sx={{}}>Upload Photo</Button>)}
-        </Grid>
+      
+      <Grid item xs={12} sm={6}>
+      {adminInfo.aboutMeImage?
+        <div className='card'>
+              <img  className='card'  width="100%" height='100%'  src={adminInfo.aboutMeImage.src}/>
+              <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
+                <Tooltip  title="Edit This Img" followCursor>
+                  {editAboutMeImage?
+                  <div style={{width:"80%",margin:"auto"}}>
+                    <input style={{width:"90px",height:"25px",
+                    padding:"0",backgroundColor:"red",
+                    marginBottom:"2%",
+                    borderRadius:"0"}} 
+                    type="file"  accept='.gif, .jpg, .png' onChange={e=>setAboutMeImage(e)}/>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+                    onClick={()=>{setEditAboutMeImage(false);
+                        submitFile(aboutMeImage,'aboutMeImage')}}>Upload</Button>
+                      <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditAboutMeImage(false)}}>Cancel</Button>  
+                  </div>:
+                  <Button size="small"   variant="contained"
+                   onClick={()=>{ setEditAboutMeImage(true);
+                  editDeleteImage(adminInfo.aboutMeImage.fileRef)}}>Edit</Button>}    
+                </Tooltip>
+              </div>
+        </div>:
+        <div style={{width:"80%",margin:"auto"}}>
+            <input style={{width:"90px",height:"25px",
+             padding:"0",backgroundColor:"red",
+             marginBottom:"2%",
+             borderRadius:"0"}} 
+             type="file"  accept='.gif, .jpg, .png' onChange={e=>setAboutMeImage(e)}/>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+             onClick={()=>{setEditAboutMeImage(false);setEdit(true);
+             submitFile(aboutMeImage,'aboutMeImage')}}>Upload</Button>
+        </div>}
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
+      {adminInfo.headerImage?
+        <div className='card'>
+              <img  className='card'  width="100%" height='100%'  src={adminInfo.headerImage.src}/>
+              <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
+                <Tooltip  title="Edit This Img" followCursor>
+                  {editHeaderImage?
+                  <div style={{width:"80%",margin:"auto"}}>
+                    <input style={{width:"90px",height:"25px",
+                    padding:"0",backgroundColor:"red",
+                    marginBottom:"2%",
+                    borderRadius:"0"}} 
+                    type="file"  accept='.gif, .jpg, .png' onChange={e=>setHeaderImage(e)}/>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+                    onClick={()=>{setEditHeaderImage(false);
+                        submitFile(aboutMeImage,'aboutMeImage')}}>Upload</Button>
+                      <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>  
+                  </div>:
+                  <Button size="small"   variant="contained"
+                   onClick={()=>{ setEditHeaderImage(true);
+                  editDeleteImage(adminInfo.headerImage.fileRef)}}>Edit</Button>}    
+                </Tooltip>
+              </div>
+        </div>:
+        <div style={{width:"80%",margin:"auto"}}>
+            <input style={{width:"90px",height:"25px",
+             padding:"0",backgroundColor:"red",
+             marginBottom:"2%",
+             borderRadius:"0"}} 
+             type="file"  accept='.gif, .jpg, .png' onChange={e=>setHeaderImage(e)}/>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+             onClick={()=>{setEditHeaderImage(false);setEdit(true);
+             submitFile(headerImage,'headerImage')}}>Upload</Button>
+        </div>}
+      </Grid>
 
         <Grid item xs={12} sm={12}>
         {edit?
@@ -270,8 +333,7 @@ function AdminProfile() {
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                    </div>:
                   <Button size="small"   variant="contained"
-                              
-                   onClick={()=>{ setEditPhoto(item.id);
+                   onClick={()=>{ setEditPhoto(true);
                   editDeleteImage(item.fileRef)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
@@ -297,5 +359,3 @@ function AdminProfile() {
   )
 }
 export default AdminProfile
-
-
