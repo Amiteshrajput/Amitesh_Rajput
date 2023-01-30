@@ -230,13 +230,11 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
       <Grid item xs={12} sm={6} sx={{color:'black'}}>
         {adminInfo.introVideo?(editVideo?
            <div>
-            <TextField type='url' value={adminInfo?.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
+            <TextField type='url' value={adminInfo?.introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
             <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
            </div>:
            <div>
             {/* Put Video code here */
-            
-           
             
             <div className="video-responsive">
             <iframe
@@ -250,8 +248,6 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
               title="Embedded youtube"
             />
           </div>
-
-            
             
             }
             <Button onClick={()=>setEditVideo(true)}>Change Video</Button>
