@@ -227,7 +227,7 @@ function AdminProfile() {
       <Grid item xs={12} sm={6} sx={{color:'black'}}>
         {adminInfo.introVideo?(editVideo?
            <div>
-            <TextField type='url' value={introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
+            <TextField type='url' value={introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
             <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
            </div>:
            <div>
