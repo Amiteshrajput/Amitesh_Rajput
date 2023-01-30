@@ -236,8 +236,6 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
            <div>
             {/* Put Video code here */
             
-           
-            
             <div className="video-responsive">
             <iframe
              width="853"
@@ -250,8 +248,6 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
               title="Embedded youtube"
             />
           </div>
-
-            
             
             }
             <Button onClick={()=>setEditVideo(true)}>Change Video</Button>
