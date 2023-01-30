@@ -109,7 +109,11 @@ function NavBar({children}) {
             >
             
               {pages.map((item) => (
+<<<<<<< HEAD
               <MenuItem key={item.page}  onClick={()=>{handleCloseNavMenu();navigate(item.path)}}>
+=======
+              <MenuItem key={item.page}  onClick={()=>{navigate(item.path);handleCloseNavMenu()}}>
+>>>>>>> c09829a56db4f984423cfc0ba13a3dfce7a2b74c
           <Typography   textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
