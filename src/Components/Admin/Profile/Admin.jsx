@@ -1,5 +1,5 @@
 import React,{useEffect, useState,useContext} from 'react'
-import { Button, Grid, TextField, Tooltip } from '@mui/material'
+import { Button, Fab, Grid, TextField, Tooltip, } from '@mui/material'
 import { getDoc, setDoc, doc,collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
 import {useNavigate} from 'react-router-dom'
@@ -9,7 +9,9 @@ import "./Admin.css"
 import DeleteIcon from '@mui/icons-material/Delete';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { UserContext } from '../../../Contexts/UserContext';
-
+import NavigationIcon from '@mui/icons-material/Navigation'
+import { FloatingButton } from './FloatingButton';
+import { theme } from './theme';
 
 function AdminProfile() {
 
@@ -385,12 +387,22 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
         </div>
         <Grid item xs={12} sm={12}>
         {edit?
-        <Grid item xs={12} sm={12}>
-          <Button type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
-          setEdit(false);setEditPhoto(false)}}>Save</Button>
-          <Button xs={6} sm={6} onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</Button>
-        </Grid>:
-        <Button onClick={()=>setEdit(true)}>Edit</Button>}
+        <div  style={{display:"flex",border:"1px solid green"}} >
+          <FloatingButton  color={theme.color.white}
+       background={"blue"} type='submit' rightOffset = "230px" onClick={e=>{saveAdminInfo(e);
+          setEdit(false);setEditPhoto(false)}}>Save</FloatingButton>
+          <FloatingButton  color={theme.color.white}
+       background={"red"}  onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</FloatingButton>
+        </div>:
+        
+       <FloatingButton
+       color={theme.color.white}
+       background={"red"}
+       onClick={()=>setEdit(true)}
+     >
+       Edit Whole Profile
+     </FloatingButton> 
+        }
         </Grid>
     </Grid>:'Loading...'}
     </div>
