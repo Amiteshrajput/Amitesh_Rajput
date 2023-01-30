@@ -166,6 +166,9 @@ function AdminProfile() {
     }
   }
 
+console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
+
+
   useEffect(()=>{
     fetchAdminInfo();
   },[])
@@ -227,11 +230,30 @@ function AdminProfile() {
       <Grid item xs={12} sm={6} sx={{color:'black'}}>
         {adminInfo.introVideo?(editVideo?
            <div>
-            <TextField type='url' value={introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
+            <TextField type='url' value={adminInfo?.introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
             <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
            </div>:
            <div>
-            {/* Put Video code here */}
+            {/* Put Video code here */
+            
+           
+            
+            <div className="video-responsive">
+            <iframe
+             width="853"
+             height="480"
+               src={`https://www.youtube.com/embed/${adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join("")}`}
+              
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Embedded youtube"
+            />
+          </div>
+
+            
+            
+            }
             <Button onClick={()=>setEditVideo(true)}>Change Video</Button>
            </div>)
         :<div>
@@ -379,5 +401,3 @@ function AdminProfile() {
   )
 }
 export default AdminProfile
-
-

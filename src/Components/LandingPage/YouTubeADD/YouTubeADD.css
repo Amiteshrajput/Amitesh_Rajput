@@ -1,22 +1,29 @@
 .maInBox{
-    margin-top: 15%;
+
     margin: auto;
     width: 100%;
     background: white;
    color: #890000;
+   padding: 2%;
 }
 
 .miDbox{
    
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
+    display: flex;
+   justify-content: space-between;
    font-style: italic;
    text-align: center;
-    width: 80%;
+   align-items: center;
+    width: 70%;
+    gap: 10%;
     margin: auto;
 }
 
+.youtub{
+    width: 40%;
+}
 .texT{
+    width: 60%;
     justify-items: center;
     margin: auto;
     align-items: center;
@@ -30,8 +37,11 @@
 }
 
 @media screen and (max-width: 950px){
+    .youtub{
+        width: 100%;
+    }
     .texT{
-        
+        width: 100%;
         font-style: oblique;
         justify-items: center;
         margin: auto;
@@ -42,7 +52,7 @@
         grid-template-columns: repeat(1,1fr);
        
        text-align: center;
-        width: 95%;
+        width: 90%;
         margin: auto;
     }
     
@@ -50,8 +60,12 @@
 
 
 @media screen and (max-width: 550px){
+    .youtub{
+        align-items: center;
+        width: 100%;
+    }
     .texT{
-      
+      width: 100%;
         font-style: oblique;
         justify-items: center;
         margin: auto;
@@ -59,11 +73,11 @@
         
     }
     .miDbox{
-        display: grid;
-        grid-template-columns: repeat(1,1fr);
+        /* display: grid;
+        grid-template-columns: repeat(1,1fr); */
        
        text-align: center;
-        width: 98%;
+        width: 100%;
         margin: auto;
     }
 

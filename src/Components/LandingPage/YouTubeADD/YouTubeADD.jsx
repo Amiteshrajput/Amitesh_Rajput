@@ -11,10 +11,10 @@ const YouTubeADD = () => {
     style={{color:"#FF0000"}}>𝐘𝐨𝐮𝐓𝐮𝐛𝐞</b> 𝐂𝐡𝐚𝐧𝐧𝐞𝐥</p>
     
     </div>
-     <div>
+     <div className='youtub'>
 
 <a href='https://youtube.com/channel/UCwgkfCO5VTTmIylTmzqD6Lw' target="_blank">   
-<img  width='100%' height="100%" src="https://static.vecteezy.com/system/resources/previews/009/995/738/original/3d-youtube-logo-icon-red-color-free-png.png" alt="" />
+<img  width='100%' height="100%" src="https://static.vecteezy.com/system/resources/previews/009/995/738/non_2x/3d-youtube-logo-icon-red-color-free-png.png" alt="" />
 </a>
 
     </div>
