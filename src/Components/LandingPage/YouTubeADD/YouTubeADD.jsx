@@ -14,7 +14,7 @@ const YouTubeADD = () => {
      <div>
 
 <a href='https://youtube.com/channel/UCwgkfCO5VTTmIylTmzqD6Lw' target="_blank">   
-<img  width='100%'  src="https://www.freepnglogos.com/uploads/youtube-logo-hd-8.png" alt="" />
+<img  width='100%' height="100%" src="https://static.vecteezy.com/system/resources/previews/009/995/738/original/3d-youtube-logo-icon-red-color-free-png.png" alt="" />
 </a>
 
     </div>
