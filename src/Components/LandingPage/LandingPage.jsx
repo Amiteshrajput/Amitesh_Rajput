@@ -11,6 +11,7 @@ import PhotoGallary from './PhotoGallary/PhotoGallary'
 
 
 import KAYOUYoutubePlayer from './YoutubePlayer/YoutubePlayer'
+import YouTubeADD from './YouTubeADD/YouTubeADD'
 
 
 function LandingPage() {
@@ -22,6 +23,7 @@ function LandingPage() {
       <Intro />
       {/* <Experience /> */}
       <KAYOUYoutubePlayer/>
+      <YouTubeADD/>
      <PhotoGallary/>
       <Portfolio />
       <Testimonials />
