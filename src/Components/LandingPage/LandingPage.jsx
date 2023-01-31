@@ -17,8 +17,6 @@ import { doc,getDoc } from 'firebase/firestore';
 
 function LandingPage() {
 
-
-
   const [adminInfo,setAdminInfo]=React.useState()
 
 
@@ -42,11 +40,11 @@ React.useEffect(()=>{fetchAdminInfo()},[])
   return (
     <>
     {adminInfo?<div >
-      <Header image={adminInfo.headerImage.src} 
+      <Header image={adminInfo.headerImage?.src} 
       name={adminInfo.name} 
       profession={adminInfo.profession}/>
       <Topbar/>
-      <Intro image={adminInfo.aboutMeImage.src} 
+      <Intro image={adminInfo.aboutMeImage?.src} 
       about= {adminInfo.about} 
       commitment1={adminInfo.commitment1}
       commitment2={adminInfo.commitment2}

@@ -29,7 +29,7 @@ function AdminProfile() {
 
   
 
-
+  //fetch function
   const fetchAdminInfo=async()=>{
 
     // const q = query(collection(db, "usersData"),where('email','==','dummy'));
@@ -53,7 +53,8 @@ function AdminProfile() {
       console.log("No such document!");
     }
   }
-
+  
+  //save in firestore
   const saveAdminInfo=async(e)=>{
     e && e.preventDefault();
     try {
@@ -75,10 +76,11 @@ function AdminProfile() {
   const [headerImage,setHeaderImage] = useState(adminInfo?adminInfo.headerImage?.src:'')
   const [aboutMeImage,setAboutMeImage] = useState(adminInfo?adminInfo.aboutMeImage?.src:'')
   const [introVideo,setIntroVideo] = useState(adminInfo?adminInfo.introVideo?adminInfo.introVideo:'':'')
-
+  
+  //submit files to firebase storage
   const submitFile=(e,type,id)=>{
-    e.preventDefault()
-    let file = e.target[0]?.files[0] || e.target.files[0]
+    e && e.preventDefault()
+    let file =   e?.target.files[0] || e?.target[0]?.files[0]
     console.log(e,file)
     if (!file) return;
     const storageRef = ref(storage,`${type}/${file.name}`);
@@ -125,6 +127,7 @@ function AdminProfile() {
     );
   }
   
+  //delete Image from firebase storage
   const deleteImage=async(fileRef,id)=>{
     let ans=window.confirm('Sure want to delete?')
     if(ans){
@@ -132,7 +135,7 @@ function AdminProfile() {
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
-      saveAdminInfo(e)
+      // saveAdminInfo(e)
       let temp=adminInfo.photoGallery.filter((item)=>{return item.id!==id})
       for(let i=id;i<temp.length;i++){
         temp[i].id--;
@@ -148,21 +151,25 @@ function AdminProfile() {
       // .then(saveAdminInfo)  
       .catch((error) => {
       // Uh-oh, an error occurred!
+      alert('Save to make final changes')
       });
     }
   }
-
+  
+  //edit image by first deleting it from firebase storage and then uploading new file
   const editDeleteImage=async(fileRef,set,id)=>{
     let ans=window.confirm('Sure want to change photo?')
     if(ans){
       const fileFullRef = ref(storage, fileRef);
-      set(id?id:true)
+      
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
+        set(id?id:true)
         console.log('Inside editDeleteImage')
-        saveAdminInfo(e)
+        // saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
+        alert('File already deleted')
         });
       // Delete the file
       alert('Save to make final changes')
@@ -172,7 +179,7 @@ function AdminProfile() {
     }
   }
 
-console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
+// console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
 
 
   useEffect(()=>{
@@ -200,7 +207,7 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField InputLabelProps={{
-           shrink: true,
+           shrink: true,    
          }} id="outlined-basic" label="Commitment1" variant="outlined" value={adminInfo.commitment1} onChange={e=>setAdminInfo({...adminInfo,commitment1:e.target.value})} disabled={!edit}/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
@@ -310,7 +317,7 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
                     type="file"  accept='.gif, .jpg, .png' onChange={e=>setHeaderImage(e)}/>
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditHeaderImage(false);
-                        submitFile(aboutMeImage,'aboutMeImage')}}>Upload</Button>
+                        submitFile(headerImage,'headerImage')}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>  
                   </div>:
@@ -371,8 +378,8 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                    </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ 
-                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
+                   onClick={()=>{ setEditPhoto(item.id)
+                  editDeleteImage(item.fileRef)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
@@ -388,9 +395,13 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
         <div  style={{display:"flex",border:"1px solid green"}} >
           <FloatingButton  color={theme.color.white}
        background={"blue"} type='submit' rightOffset = "230px" onClick={e=>{saveAdminInfo(e);
-          setEdit(false);setEditPhoto(false)}}>Save</FloatingButton>
+          setEdit(false);
+          // setEditPhoto(false)
+          }}>Save</FloatingButton>
           <FloatingButton  color={theme.color.white}
-       background={"red"}  onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</FloatingButton>
+       background={"red"}  onClick={()=>{setEdit(false);
+      //  setEditPhoto(false)
+       }}>Cancel</FloatingButton>
         </div>:
         
        <FloatingButton
