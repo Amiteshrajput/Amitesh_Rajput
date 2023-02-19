@@ -13,6 +13,7 @@ import YouTubeADD from './YouTubeADD/YouTubeADD'
 import WPandCall from './WPandCall/WPandCall'
 import { db } from '../../firebaseConfig/firebaseConfig'
 import { doc,getDoc } from 'firebase/firestore';
+import PLANS from './PLANS/PLANS'
 
 
 function LandingPage() {
@@ -56,6 +57,16 @@ React.useEffect(()=>{fetchAdminInfo()},[])
       <KAYOUYoutubePlayer embedId={adminInfo?.introVideo?.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join("")} />
       <YouTubeADD/>
       <WPandCall/>
+      <PLANS 
+      planheading1={adminInfo?.planheading1}
+      planheading2={adminInfo?.planheading2}
+      plannote={adminInfo?.plannote}
+      plantext1={adminInfo?.plantext1}
+      plantext2={adminInfo.plantext2}
+      plantext3={adminInfo.plantext3}
+      plantext4={adminInfo.plantext4}
+      plantext5={adminInfo.plantext5}
+      />
      <PhotoGallary photogallery={adminInfo?.photoGallery}/>
       {/* <Portfolio />
       <Testimonials /> */}

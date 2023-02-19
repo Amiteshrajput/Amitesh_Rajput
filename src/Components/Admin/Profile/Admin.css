@@ -107,3 +107,14 @@ transition: var(--transition);
 
 
 }
+
+.PlanSection{
+    background-color: white;
+    border: 4px solid green;
+}
+
+.planPageHead{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 2%;
+}

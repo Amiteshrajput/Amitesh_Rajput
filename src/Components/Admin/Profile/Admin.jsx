@@ -12,6 +12,7 @@ import { UserContext } from '../../../Contexts/UserContext';
 import NavigationIcon from '@mui/icons-material/Navigation'
 import { FloatingButton } from './FloatingButton';
 import { theme } from './theme';
+import { Markup } from 'interweave';
 
 function AdminProfile() {
 
@@ -21,15 +22,18 @@ function AdminProfile() {
   const [editHeaderImage,setEditHeaderImage]=useState(false)
   const [editAboutMeImage,setEditAboutMeImage]=useState(false)
   const [editVideo,setEditVideo]=useState(false)
+  const [addHeading,setAddHeading]=useState(false)
+  const [addText,setAddText]=useState(false)
+  const [plansImage, setPlansImage] = useState()
 
   // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
 
   const [adminInfo,setAdminInfo]=React.useState()
 
-  
 
 
+  //fetch function
   const fetchAdminInfo=async()=>{
 
     // const q = query(collection(db, "usersData"),where('email','==','dummy'));
@@ -52,8 +56,10 @@ function AdminProfile() {
       // doc.data() will be undefined in this case
       console.log("No such document!");
     }
+  
   }
-
+  
+  //save in firestore
   const saveAdminInfo=async(e)=>{
     e && e.preventDefault();
     try {
@@ -75,10 +81,11 @@ function AdminProfile() {
   const [headerImage,setHeaderImage] = useState(adminInfo?adminInfo.headerImage?.src:'')
   const [aboutMeImage,setAboutMeImage] = useState(adminInfo?adminInfo.aboutMeImage?.src:'')
   const [introVideo,setIntroVideo] = useState(adminInfo?adminInfo.introVideo?adminInfo.introVideo:'':'')
-
+  
+  //submit files to firebase storage
   const submitFile=(e,type,id)=>{
-    e.preventDefault()
-    let file = e.target[0]?.files[0] || e.target.files[0]
+    e && e.preventDefault()
+    let file =   e?.target.files[0] || e?.target[0]?.files[0]
     console.log(e,file)
     if (!file) return;
     const storageRef = ref(storage,`${type}/${file.name}`);
@@ -98,6 +105,9 @@ function AdminProfile() {
           setImgUrl(downloadURL)
           setProgresspercent(0)
           let temp=adminInfo?adminInfo.photoGallery?adminInfo.photoGallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]:[]
+
+          let tempPlan=adminInfo?adminInfo.planGallery?adminInfo.planGallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]:[]
+
           if(type==='photoGallery' && adminInfo.photoGallery){
             if(id===adminInfo.photoGallery.length){//Add file to end of temp
               temp=[...adminInfo.photoGallery,{src:downloadURL,fileRef:`${type}/${file.name}`,id:id}]
@@ -109,11 +119,19 @@ function AdminProfile() {
             //   temp=[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
             // }
           }
+          else if(type==="planGallery" && adminInfo.planGallery){
+            if(id===adminInfo.planGallery.length){//Add file to end of temp
+              tempPlan=[...adminInfo.planGallery,{src:downloadURL,fileRef:`${type}/${file.name}`,id:id}]
+            }
+            else if(id<adminInfo.planGallery.length){//Relpace file at index id with current file
+              tempPlan[id]={src:downloadURL,fileRef:`${type}/${file.name}`,id:id}
+            }
+          }
           setAdminInfo({
             ...adminInfo,
-            [type==='aboutMeImage'?'aboutMeImage':type==='headerImage'?'headerImage':'photoGallery'] : 
+            [type==='aboutMeImage'?'aboutMeImage':type==='headerImage'?'headerImage':type==="planGallery"?"planGallery":'photoGallery'] : 
             type==='aboutMeImage' || type==='headerImage'?
-             {src:downloadURL,fileRef:`${type}/${file.name}`}:temp
+             {src:downloadURL,fileRef:`${type}/${file.name}`}:type==="planGallery"?tempPlan:temp
           })
           console.log('Inside submit File',adminInfo);
           // alert('Save to make final changes')
@@ -125,6 +143,7 @@ function AdminProfile() {
     );
   }
   
+  //delete Image from firebase storage
   const deleteImage=async(fileRef,id)=>{
     let ans=window.confirm('Sure want to delete?')
     if(ans){
@@ -132,7 +151,7 @@ function AdminProfile() {
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
-      saveAdminInfo(e)
+      // saveAdminInfo(e)
       let temp=adminInfo.photoGallery.filter((item)=>{return item.id!==id})
       for(let i=id;i<temp.length;i++){
         temp[i].id--;
@@ -148,21 +167,25 @@ function AdminProfile() {
       // .then(saveAdminInfo)  
       .catch((error) => {
       // Uh-oh, an error occurred!
+      alert('Save to make final changes')
       });
     }
   }
-
+  
+  //edit image by first deleting it from firebase storage and then uploading new file
   const editDeleteImage=async(fileRef,set,id)=>{
     let ans=window.confirm('Sure want to change photo?')
     if(ans){
       const fileFullRef = ref(storage, fileRef);
-      set(id?id:true)
+      
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
+        set(id?id:true)
         console.log('Inside editDeleteImage')
-        saveAdminInfo(e)
+        // saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
+        alert('File already deleted')
         });
       // Delete the file
       alert('Save to make final changes')
@@ -172,19 +195,66 @@ function AdminProfile() {
     }
   }
 
-console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
+// console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
 
 
   useEffect(()=>{
     fetchAdminInfo();
   },[])
 
+const [mainhead,setmainhead]=useState('')
+const [innertext,setInnertext]=useState('')
+const [plhead,setPhead]=useState('');
+const [pltext,setPltext]=useState('');
+const [show,setShow]=useState(false)
+
+
+function submitPLhead(){
+setInnertext(prev=>prev+`<h1>${plhead}</h1>`)
+setPhead('')
+}
+
+function submitPLtext(){
+setInnertext(prev=>prev+`<p>${pltext}</p>`)
+setPltext('')
+}
+
+//console.log("mainhead=>",mainhead)
+//  console.log("innertext=>",innertext)
+ function SubmitPlanImg(src){
+  setInnertext(prev=>prev+`<img src=${src}  alt="imb"/>`)
+ }
+
+
+
+function SubmitPlanHeading(){
+  const planhead={
+    "mainHead":mainhead,
+    "innertext":innertext
+  } 
+  setmainhead('')
+  setInnertext('')
+  setAdminInfo({...adminInfo,plans:[...adminInfo.plans,planhead]})
+     //console.log(plans)
+}
+
+function DELETEHEADING(item){
+ var newPlans=adminInfo?.plans.filter((el)=>{
+    return(el.mainHead!==item.mainHead && el.innertext!==item.innertext) 
+ })
+ 
+ setAdminInfo({...adminInfo,plans:newPlans})
+}
+
+ //console.log("ADMIN INFO",adminInfo)
+
   return (
     <div className='Admin'>
       {adminInfo?
     <Grid container spacing={2} sx={{color:'blue',backgroundColor:'white'}}>
       <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+        <TextField id="outlined-basic" label="Name" variant="outlined" value={adminInfo.name} 
+        onChange={e=>setAdminInfo({...adminInfo,name:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{}}>
         <TextField id="outlined-basic" label="Profession"
@@ -200,7 +270,7 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
         <TextField InputLabelProps={{
-           shrink: true,
+           shrink: true,    
          }} id="outlined-basic" label="Commitment1" variant="outlined" value={adminInfo.commitment1} onChange={e=>setAdminInfo({...adminInfo,commitment1:e.target.value})} disabled={!edit}/>
       </Grid>
       <Grid item xs={12} sm={6} sx={{backgroundColor:'transparent', color:'blue'}}>
@@ -310,7 +380,7 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
                     type="file"  accept='.gif, .jpg, .png' onChange={e=>setHeaderImage(e)}/>
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditHeaderImage(false);
-                        submitFile(aboutMeImage,'aboutMeImage')}}>Upload</Button>
+                        submitFile(headerImage,'headerImage')}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>  
                   </div>:
@@ -347,7 +417,8 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
 
           {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
             <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
-            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" onClick={()=>submitFile(photogalleryFile,'photoGallery',adminInfo.photoGallery?adminInfo.photoGallery.length:0)}>Upload Photo </Button>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+            onClick={()=>submitFile(photogalleryFile,'photoGallery',adminInfo.photoGallery?adminInfo.photoGallery.length:0)}>Upload Photo </Button>
           </div>:''}
 
           <div className='photosCards'>
@@ -363,16 +434,17 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
                     padding:"0",backgroundColor:"red",
                     marginBottom:"2%",
                     borderRadius:"0"}} 
-                    type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
+                    type="file"  accept='.gif, .jpg, .png' 
+                    onChange={e=>setPhotoGalleryFile(e)}/>
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditPhoto(false);
-                        submitFile(photogalleryFile,'photoGallery',item.id)}}>Upload</Button>
+            submitFile(photogalleryFile,'photoGallery',item.id)}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                    </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ 
-                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
+                   onClick={()=>{ setEditPhoto(item.id)
+                  editDeleteImage(item.fileRef)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
@@ -383,14 +455,186 @@ console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo
           }
           </div>
         </div>
+
+{/* //plans section start from here  */}
+<div className='PlanSection'>
+
+  <h1 >Plans section</h1>
+  <Grid container spacing={2} sx={{color:'blue',padding:"2%"}}>
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="We Help" variant="outlined" value={adminInfo.plantext1
+        } 
+        onChange={e=>setAdminInfo({...adminInfo,plantext1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="We Don't Need Your Money" variant="outlined" value={adminInfo.plantext2} 
+        onChange={e=>setAdminInfo({...adminInfo,plantext2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="(NOTE: This is Not)" variant="outlined" value={adminInfo.plannote} 
+        onChange={e=>setAdminInfo({...adminInfo,plannote:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="LET'S UNDERSTAND" variant="outlined" value={adminInfo.planheading1} 
+        onChange={e=>setAdminInfo({...adminInfo,planheading1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="दोस्तों आज आपको एक" variant="outlined" value={adminInfo.plantext3} 
+        onChange={e=>setAdminInfo({...adminInfo,plantext3:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="दोस्तों आज हम आप को एक ऐसी" 
+        variant="outlined" value={adminInfo.plantext4} 
+        onChange={e=>setAdminInfo({...adminInfo,plantext4:e.target.value})} 
+        disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+
+
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="दोस्तों इस पोस्ट में हम जानेंगे" variant="outlined" value={adminInfo.planheading2} 
+        onChange={e=>setAdminInfo({...adminInfo,planheading2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+      </Grid>
+
+      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+        <TextField id="outlined-basic" label="दोस्तों आज हम Asclepius wellness" variant="outlined"
+         value={adminInfo.plantext5} 
+        onChange={e=>setAdminInfo({...adminInfo,plantext5:e.target.value})} disabled={!edit} 
+        sx={{color:'blue'}} required/>
+      </Grid>
+
+</Grid>
+
+<h2 >make headings in plan page</h2>
+
+<div className='planPageHead'>
+
+<div>
+  <TextField id="outlined-basic" type="text" 
+  value={mainhead}
+  onChange={(e)=>setmainhead(e.target.value)}
+   placeholder='Add Main Heading here'/>
+  <div style={{border:"2px solid red"}}>
+   {!addHeading?<Button variant="contained"
+   color="secondary"
+   onClick={()=>setAddHeading(!addHeading)}>
+    ADD HEADING
+   </Button>
+   :<>
+   <TextField id="outlined-basic" type="text" 
+   value={plhead}
+    placeholder='addHeading' 
+    onChange={(e)=>setPhead(e.target.value)}/>
+   <Button  variant="contained"
+   color='success'onClick={submitPLhead}>Submit Heading</Button>
+   </>}
+   {/* //to upload photo in plans */}
+   {
+    <div style={{width:"80%",margin:"auto"}}>
+    <input style={{width:"90px",height:"25px",
+     padding:"0",backgroundColor:"red",
+     marginBottom:"2%",
+     borderRadius:"0"}} 
+     type="file"  accept='.gif, .jpg, .png' 
+     onChange={e=>setPlansImage(e)}/>
+    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+     onClick={()=>{
+    submitFile(plansImage,'plansImage',adminInfo.planGallery?
+    adminInfo.planGallery.length:0);
+     SubmitPlanImg(adminInfo?.planGallery[adminInfo.planGallery?.length-1].src)}
+    }>Upload</Button>
+    </div>
+   }
+    {!addText?<Button variant="contained"
+     onClick={()=>setAddText(!addText)}>
+      ADD TEXT
+    </Button>:
+   <>
+    <TextField id="outlined-basic" value={pltext}
+    onChange={(e)=>setPltext(e.target.value)}
+    type="text" placeholder='add simple text'/>
+    <Button  variant="contained"
+   color='success' onClick={submitPLtext}>Submit Text</Button>
+   </>
+   }
+
+<Button  variant="contained"
+   color='success'
+   onClick={SubmitPlanHeading}>Submit Whole Heading</Button>
+
+  </div>
+
+  <h1 style={{backgroundColor:"red"}}>
+    {mainhead}
+  </h1>
+  <div>
+  <Markup content={innertext} />
+  </div>
+
+
+</div>
+<div className='ShowHeading'>
+  
+  {
+    adminInfo?.plans?.map((item,index)=>{
+      return (
+      <div key={item.mainHead}>
+        <Button variant="contained" color='error' 
+        onClick={()=>DELETEHEADING(item)}>DELETE This Heading</Button>
+        <h3 style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center"}} 
+        onClick={()=>{if(show===false)setShow(index)
+        else setShow(false);{console.log("show",show)}}}>
+          {item.mainHead}</h3>
+         { show===index &&
+          <Markup content={item.innertext}/>
+         }
+
+      </div>)
+    })
+  }
+
+  <Button variant="contained" color='success'
+   onClick={()=>{setAdminInfo({...adminInfo,plans:[...adminInfo.plans]});
+   saveAdminInfo()}}>
+    Final Plans Submit</Button>
+</div>
+
+</div>
+
+
+</div>
+{/* //plans section end here  */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <Grid item xs={12} sm={12}>
         {edit?
         <div  style={{display:"flex",border:"1px solid green"}} >
           <FloatingButton  color={theme.color.white}
        background={"blue"} type='submit' rightOffset = "230px" onClick={e=>{saveAdminInfo(e);
-          setEdit(false);setEditPhoto(false)}}>Save</FloatingButton>
+          setEdit(false);
+          // setEditPhoto(false)
+          }}>Save</FloatingButton>
           <FloatingButton  color={theme.color.white}
-       background={"red"}  onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</FloatingButton>
+       background={"red"}  onClick={()=>{setEdit(false);
+      //  setEditPhoto(false)
+       }}>Cancel</FloatingButton>
         </div>:
         
        <FloatingButton

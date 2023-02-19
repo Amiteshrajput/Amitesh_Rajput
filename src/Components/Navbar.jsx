@@ -21,7 +21,7 @@ import { useContext } from 'react';
 const pages = [{page:'About',path:'/#about'},
 // {page:'Service',path:'/service'},
 {page: 'Achievements',path:'/achievements'},
-{page:'Plan',path:'/plan'},
+{page:'Plan',path:'/#plan'},
 {page:'Contact',path:'/#contact'},];
 
 
@@ -109,11 +109,7 @@ function NavBar({children}) {
             >
             
               {pages.map((item) => (
-<<<<<<< HEAD
-              <MenuItem key={item.page}  onClick={()=>{handleCloseNavMenu();navigate(item.path)}}>
-=======
-              <MenuItem key={item.page}  onClick={()=>{navigate(item.path);handleCloseNavMenu()}}>
->>>>>>> c09829a56db4f984423cfc0ba13a3dfce7a2b74c
+              <MenuItem key={item.page}  onClick={()=>{navigate(item.path)}}>
           <Typography   textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
@@ -141,9 +137,9 @@ function NavBar({children}) {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => ( 
               <Button
-             
+                href={page.path}
                 key={page.page}
-                onClick={()=>{handleCloseNavMenu();navigate(page.path)}}
+                onClick={()=>{handleCloseNavMenu();}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
            {page.page} 
