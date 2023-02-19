@@ -18,6 +18,7 @@ import Intro from './Components/LandingPage/intro/Intro';
 import { UserContext } from './Contexts/UserContext';
 import { useContext } from 'react';
 import Achievements from './Components/LandingPage/Achievements/Achievements';
+import PLANS from './Components/LandingPage/PLANS/PLANS';
 
 
 
@@ -53,6 +54,7 @@ function Navs() {
      <Routes>
 
         <Route path='/' element={<NavBar><br/><br/><br/><LandingPage/></NavBar>}/>
+        <Route path='/plan' element={<NavBar><br/><br/><br/><PLANS/></NavBar>}/>
 
         <Route path='/admin/auth' element={<NavBar><br/><br/><br/><LogIn type='admin'/></NavBar>}/>
 
