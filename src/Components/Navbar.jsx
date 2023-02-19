@@ -21,8 +21,9 @@ import { useContext } from 'react';
 const pages = [{page:'About',path:'/#about'},
 // {page:'Service',path:'/service'},
 {page: 'Achievements',path:'/achievements'},
-{page:'Plan',path:'/plan'},
+{page:'Plan',path:'/#plan'},
 {page:'Contact',path:'/#contact'},];
+
 
 
 const adminPages = [{page:'Profile',path:'/admin/profile'}, 
@@ -104,15 +105,20 @@ function NavBar({children}) {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { sm: 'block',xs:'block', md: 'none' },
               }}
             >
             
-              {pages.map((item) => (
-              <MenuItem key={item.page}  onClick={()=>{navigate(item.path)}}>
-          <Typography   textAlign="center">{item.page}</Typography>
-                </MenuItem>
-              ))}
+            {pages.map((page) => ( 
+              <Button
+                href={page.path}
+                key={page.page}
+                onClick={()=>{handleCloseNavMenu();}}
+                sx={{ my: 2, color: 'black', display: 'block' }}
+              >
+           {page.page} 
+              </Button>
+            ))}
 
             </Menu>
           </Box>
@@ -170,7 +176,7 @@ function NavBar({children}) {
               onClose={handleCloseUserMenu}
             >
               {adminPages.map((item) => (
-                <MenuItem key={item.page} onClick={()=>{navigate(item.path)}}>
+                <MenuItem key={item.page} onClick={()=>navigate(item.path)}>
                   <Typography textAlign="center">{item.page}</Typography>
                 </MenuItem>
               ))}
@@ -190,7 +196,7 @@ function NavBar({children}) {
                   },0)
 
                 }}>Logout</Button>:
-                <Button onClick={()=>navigate("/admin/auth")} variant='contained'>LogIn</Button>}
+                <Button onClick={()=>navigate("/admin/auth")} variant='contained'>Login</Button>}
               </MenuItem>
             </Menu>
           </Box>

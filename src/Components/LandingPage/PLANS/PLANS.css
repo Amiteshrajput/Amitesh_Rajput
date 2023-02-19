@@ -1,0 +1,47 @@
+.mainPlan{
+    background-color: white;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    width: 100vw;
+    height: auto;
+    
+}
+
+.mainPlansec{
+    background-color: white;
+   font-family: sans-serif;
+    width: 80%;
+    margin: auto;
+    color: black;
+    height: auto;
+    text-align: justify;
+    text-align: center;
+}
+
+@media screen and (max-width:450px) {
+    .mainPlansec{
+        background-color: white;
+       font-family: sans-serif;
+        width: 95%;
+        margin: auto;
+        color: black;
+        height: auto;
+        text-align: justify;
+        text-align: center;
+    }
+       
+}
+
+@media screen and (max-width:850px) {
+    .mainPlansec{
+        background-color: white;
+       font-family: sans-serif;
+        width: 85%;
+        margin: auto;
+        color: black;
+        height: auto;
+        text-align: justify;
+        text-align: center;
+    }
+     
+}
