@@ -221,8 +221,8 @@ setPltext('')
 
 //console.log("mainhead=>",mainhead)
 //  console.log("innertext=>",innertext)
- function SubmitPlanImg(src){
-  setInnertext(prev=>prev+`<img src=${src}  alt="imb"/>`)
+ function SubmitPlanImg(){
+  setInnertext(prev=>prev+`<img src=${adminInfo.planGallery?adminInfo.planGallery[(adminInfo.planGallery.length-1)].src:"null"}  alt="imb"/>`)
  }
 
 
@@ -539,9 +539,10 @@ function DELETEHEADING(item){
      onChange={e=>setPlansImage(e)}/>
     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
      onClick={()=>{
-    submitFile(plansImage,'plansImage',adminInfo.planGallery?
+    submitFile(plansImage,'planGallery',adminInfo.planGallery?
     adminInfo.planGallery.length:0);
-     SubmitPlanImg(adminInfo?.planGallery[adminInfo.planGallery?.length-1].src)}
+     SubmitPlanImg()}
+    //  adminInfo.planGallery?adminInfo.planGallery[(adminInfo.planGallery.length-1)].src:"null"
     }>Upload</Button>
     </div>
    }

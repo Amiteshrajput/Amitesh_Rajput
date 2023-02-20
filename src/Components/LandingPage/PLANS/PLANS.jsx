@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import "./PLANS.css"
+import { Markup } from 'interweave'
 
 const PLANS = ({
   planheading1,
@@ -10,8 +11,12 @@ const PLANS = ({
   plantext2,
   plantext3,
   plantext4,
-  plantext5
+  plantext5,
+  AdmininfoPlan
 }) => {
+  const [show,setShow]=useState(false)
+
+
   return (
     <div className='mainPlan' id='plan'>
 
@@ -53,7 +58,22 @@ color:"red"}}>
 {plantext5}
 </p>
 
-<Heading1 />
+{
+    AdmininfoPlan?.map((item,index)=>{
+      return (
+      <div key={item.mainHead}>
+        
+        <h3 style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center"}} 
+        onClick={()=>{if(show===false)setShow(index)
+        else setShow(false);{console.log("show",show)}}}>
+          {item.mainHead}</h3>
+         { show===index &&
+          <Markup content={item.innertext}/>
+         }
+
+      </div>)
+    })
+  }
 
 </div>
 
@@ -63,46 +83,3 @@ color:"red"}}>
 
 export default PLANS
 
-
-
-function Heading1(){
-  const [show,setShow]=useState(false)
-  return(
-    <div style={{scrollBehavior:"smooth",marginTop:"3%"}}>
-    <p style={{backgroundColor:"orange",cursor:"pointer",padding:"1%",
-  marginBottom:"3%",fontWeight:"600"}} onClick={()=>{setShow(!show)}}>
-    Asclepius wellness क्या है?
-    </p>
-    {
-      show&&
-     <div> 
-      <p>
-        AWPL भारत सरकार की legal direct selling company list में से एक है और इस कंपनी को भारत में MLM Business Plan चलाने की अनुमति है।Asclepius ग्रीक भाषा का शब्द है, जिसका मतलब होता है, दवाइयो के भगवान। AWPL, हर्बल हेल्थ, सप्लीमेंट व बीयूटी प्रोडक्ट की निर्माता कंपनी है, जिसकी मैन्युफैक्चरिंग यूनिट जयपुर, राजस्थान में स्थित है। AWPL इन्ही प्रोडक्ट की बिक्री व मार्केटिंग अपने प्रत्येक्ष विक्रेता यानी Direct Sellers से करवाती है।
-      </p>
-      <p style={{marginTop:"2%",}}>
-      AWPL भारत सरकार की legal direct selling company list में से एक है और इस कंपनी को भारत में MLM Business Plan चलाने की अनुमति है।Asclepius ग्रीक भाषा का शब्द है, जिसका मतलब होता है, दवाइयो के भगवान। AWPL, हर्बल हेल्थ, सप्लीमेंट व बीयूटी प्रोडक्ट की निर्माता कंपनी है, जिसकी मैन्युफैक्चरिंग यूनिट जयपुर, राजस्थान में स्थित है। AWPL इन्ही प्रोडक्ट की बिक्री व मार्केटिंग अपने प्रत्येक्ष विक्रेता यानी Direct Sellers से करवाती है।
-      </p>
-      <h2 style={{marginTop:"2%",}}>
-      क्या AWPL से जुड़ना चाहिए?
-        </h2>
-        <p style={{marginTop:"2%",}}>
-        यह फैसला पूरी तरह से आपका होना चाहिए। सबसे पहले आपको MLM को अच्छे से समझना होगा।
-      </p>
-      <p style={{marginTop:"2%",}}>
-      MLM क्या है ? MLM मे किन स्किल्स की जरूरत होती है ? और क्या मै MLM कर पाऊँगा ?
-      </p>
-      <p style={{marginTop:"2%",}}>
-      आपकी जानकारी के लिए बता दे, कि MLM में सफल होने के लिए 2 से 3 साल लगातार मेहनत की जरूरत होती है।
-      </p>
-      <p style={{marginTop:"2%",}}>
-      MLM के बाद आपको AWPL का प्लान पेपर पर पूरा समझना होगा। ये जानने के बाद ही फैसला करे, कि कितनी पर्सनल और डाउनलाइन सेल्स पर कितनी इनकम होगी। अन्यथा ऐसा होगा, कि आपको तैरना नहीं आता और सीधे समुन्द्र मे कूद गए। इन सबके बाद ही आप MLM में कदम रखने का सोचे, क्योकि सिर्फ खाली दिखावे और किसी के कहने पर ना जुड़े। क्योकि जुड़ने के बाद आपके परिवार व दोस्तो पर भी इसका प्रभाव रहेगा।
-
-      </p>
-
-
-      </div>
-    }
-
-    </div>
-  )
-}
