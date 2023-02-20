@@ -114,7 +114,7 @@ function NavBar({children}) {
                 href={page.path}
                 key={page.page}
                 onClick={()=>{handleCloseNavMenu();}}
-                sx={{ my: 2, color: 'black', display: 'block' }}
+                sx={{ my: 2, color: 'blackgit', display: 'block' }}
               >
            {page.page} 
               </Button>
