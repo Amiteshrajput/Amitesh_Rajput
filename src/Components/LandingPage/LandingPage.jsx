@@ -7,7 +7,7 @@ import Portfolio from "./portfolio/Portfolio"
 import Testimonials from "./testimonials/Testimonials"
 import Contact from "./contact/Contact"
 import Footer from "./footer/Footer"
-// import PhotoGallary from './PhotoGallary/PhotoGallary'
+ import PhotoGallary from './PhotoGallary/PhotoGallary'
 import KAYOUYoutubePlayer from './YoutubePlayer/YoutubePlayer'
 import YouTubeADD from './YouTubeADD/YouTubeADD'
 import WPandCall from './WPandCall/WPandCall'
@@ -68,7 +68,7 @@ React.useEffect(()=>{fetchAdminInfo()},[])
       plantext5={adminInfo?.plantext5}
       AdmininfoPlan={adminInfo?.plans}
       />
-     {/* <PhotoGallary photogallery={adminInfo?.photoGallery}/> */}
+     <PhotoGallary photogallery={adminInfo?.photoGallery}/>
       {/* <Portfolio />
       <Testimonials /> */}
       <Contact />
