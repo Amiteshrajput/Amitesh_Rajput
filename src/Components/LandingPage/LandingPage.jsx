@@ -24,7 +24,7 @@ function LandingPage() {
 
 
   const fetchAdminInfo=async()=>{
-    const docRef = doc(db, "usersData", 'it145zGVbxyLdl4DFOQh');
+    const docRef = doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco');
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
        console.log("Document data: from landing", docSnap.data());
