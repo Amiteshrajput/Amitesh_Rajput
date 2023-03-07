@@ -43,16 +43,16 @@ React.useEffect(()=>{fetchAdminInfo()},[])
   return (
     <>
     {adminInfo?<div >
-      <Header image={adminInfo.headerImage.src} 
-      name={adminInfo.name} 
-      profession={adminInfo.profession}/>
+      <Header image={adminInfo?.headerImage?.src} 
+      name={adminInfo?.name} 
+      profession={adminInfo?.profession}/>
       <Topbar/>
-      <Intro image={adminInfo.aboutMeImage.src} 
-      about= {adminInfo.about} 
-      commitment1={adminInfo.commitment1}
-      commitment2={adminInfo.commitment2}
-      commitment3={adminInfo.commitment3}
-      commitment4={adminInfo.commitment4} />
+      <Intro image={adminInfo?.aboutMeImage?.src} 
+      about= {adminInfo?.about} 
+      commitment1={adminInfo?.commitment1}
+      commitment2={adminInfo?.commitment2}
+      commitment3={adminInfo?.commitment3}
+      commitment4={adminInfo?.commitment4} />
       {/* <Experience /> */}
       <KAYOUYoutubePlayer embedId={adminInfo?.introVideo?.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join("")} />
       <YouTubeADD/>

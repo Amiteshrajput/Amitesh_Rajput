@@ -84,4 +84,5 @@ function LogIn({type}) {
     </div>
   )
 }
+
 export default LogIn

@@ -34,28 +34,28 @@ function AdminProfile() {
   //fetch function
   const fetchAdminInfo=async()=>{
 
-    // const q = query(collection(db, "usersData"),where('email','==',''));
-    // onSnapshot(q, (querySnapshot) => {
-    //    let adminData ={}
-    //   querySnapshot.forEach((doc) => {
-    //     adminData={...doc.data()}
-    //     // console.log(doc.data())
-    //   });
+    const q = query(collection(db, "usersData"),where('email','!=',''));
+    onSnapshot(q, (querySnapshot) => {
+       let adminData ={}
+      querySnapshot.forEach((doc) => {
+        adminData={...doc.data()}
+        console.log(doc.data())
+      });
 
-    //   // console.log(adminData)
-    // setAdminInfo(adminData)
-    // // setLoading(false)
-    // });
-    const docRef = doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco');
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setAdminInfo(docSnap.data())
-      // setLoading(false)
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+      // console.log(adminData)
+    setAdminInfo(adminData)
+    // setLoading(false)
+    });
+    // const docRef = doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco');
+    // const docSnap = await getDoc(docRef);
+    // if (docSnap.exists()) {
+    //   console.log("Document data:", docSnap.data());
+    //   setAdminInfo(docSnap.data())
+    //   // setLoading(false)
+    // } else {
+    //   // doc.data() will be undefined in this case
+    //   console.log("No such document!");
+    // }
   
   }
   
@@ -63,9 +63,9 @@ function AdminProfile() {
   const saveAdminInfo=async(e)=>{
     e && e.preventDefault();
     try {
-      let tempor=JSON.parse(JSON.stringify({...adminInfo}))
-      await setDoc(doc(db, "usersData", state.admin.uid),tempor)
-      .then(async ()=>{await setDoc(doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco'),{...adminInfo,email:''})
+      // let tempor=JSON.parse(JSON.stringify({...adminInfo}))
+      await updateDoc(doc(db, "usersData", state.admin.uid),{...adminInfo})
+      .then(async ()=>{await setDoc(doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco'),{...adminInfo})
         console.log("Admin details saved successfully!")
       })
       
@@ -136,7 +136,7 @@ function AdminProfile() {
           console.log('Inside submit File',adminInfo);
           // alert('Save to make final changes')
           // return temp,downloadURL
-          saveAdminInfo()
+          // saveAdminInfo()
         })
         // .then(saveAdminInfo)
       }
@@ -163,7 +163,7 @@ function AdminProfile() {
       })
       .then((temp)=>{
         setAdminInfo({...adminInfo,photoGallery : temp})
-        saveAdminInfo()
+        // saveAdminInfo()
       })
       // .then(saveAdminInfo)  
       .catch((error) => {
@@ -182,14 +182,15 @@ function AdminProfile() {
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
         set(id?id:true)
-        console.log('Inside editDeleteImage')
+        // console.log('Inside editDeleteImage')
+        alert('Save to make final changes')
         // saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
         alert('File already deleted')
         });
       // Delete the file
-      alert('Save to make final changes')
+      
     }
     else{
       set(false)
@@ -336,8 +337,8 @@ function AdminProfile() {
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditHeaderImage(false);
                         submitFile(headerImage,'headerImage')}}>Upload</Button>
-                      <Button variant="contained" size="small"
-                      sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>  
+                      {/* <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>   */}
                   </div>:
                   <Button size="small"   variant="contained"
                    onClick={()=>{

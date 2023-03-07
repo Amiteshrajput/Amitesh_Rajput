@@ -26,8 +26,9 @@ function Navs() {
   const [state,dispatch]=useContext(UserContext)
   // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const premiumUser=JSON.parse(localStorage.getItem('premiumUser'))
+
   const AdminProtectedRoutes=()=>{
-    if(state.admin.uid){
+    if(state.admin?.uid){
       console.log('hio',state.admin)
       return <Outlet/>
     }
