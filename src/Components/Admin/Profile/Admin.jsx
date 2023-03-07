@@ -11,7 +11,8 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { UserContext } from '../../../Contexts/UserContext';
 import { FloatingButton } from './FloatingButton';
 import { theme } from './theme';
-import { Markup } from 'interweave';
+
+import PlanSection from './PlanSection';
 
 function AdminProfile() {
 
@@ -21,9 +22,7 @@ function AdminProfile() {
   const [editHeaderImage,setEditHeaderImage]=useState(false)
   const [editAboutMeImage,setEditAboutMeImage]=useState(false)
   const [editVideo,setEditVideo]=useState(false)
-  const [addHeading,setAddHeading]=useState(false)
-  const [addText,setAddText]=useState(false)
-  const [plansImage, setPlansImage] = useState()
+  
 
   // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
@@ -35,26 +34,28 @@ function AdminProfile() {
   //fetch function
   const fetchAdminInfo=async()=>{
 
-    // const q = query(collection(db, "usersData"),where('email','==','dummy'));
-    // onSnapshot(q, (querySnapshot) => {
-    //   const adminData = [];
-    //   querySnapshot.forEach((doc) => {
-    //     adminData.push(doc.data());
-    //   });
+    const q = query(collection(db, "usersData"),where('email','!=',''));
+    onSnapshot(q, (querySnapshot) => {
+       let adminData ={}
+      querySnapshot.forEach((doc) => {
+        adminData={...doc.data()}
+        console.log(doc.data())
+      });
 
-    //   console.log(adminData)
-    // setAdminInfo(adminData)
-    // });
-    const docRef = doc(db, "usersData", state.admin.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setAdminInfo(docSnap.data())
-      // setLoading(false)
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+      // console.log(adminData)
+    setAdminInfo(adminData)
+    // setLoading(false)
+    });
+    // const docRef = doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco');
+    // const docSnap = await getDoc(docRef);
+    // if (docSnap.exists()) {
+    //   console.log("Document data:", docSnap.data());
+    //   setAdminInfo(docSnap.data())
+    //   // setLoading(false)
+    // } else {
+    //   // doc.data() will be undefined in this case
+    //   console.log("No such document!");
+    // }
   
   }
   
@@ -62,10 +63,10 @@ function AdminProfile() {
   const saveAdminInfo=async(e)=>{
     e && e.preventDefault();
     try {
-      let tempor=JSON.parse(JSON.stringify({...adminInfo}))
-      await setDoc(doc(db, "usersData", state.admin.uid),tempor)
-      .then(async ()=>{await setDoc(doc(db, "usersData", 'it145zGVbxyLdl4DFOQh'),{...adminInfo,email:''})
-        // console.log("Admin details saved successfully!")
+      // let tempor=JSON.parse(JSON.stringify({...adminInfo}))
+      await updateDoc(doc(db, "usersData", state.admin.uid),{...adminInfo})
+      .then(async ()=>{await setDoc(doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco'),{...adminInfo})
+        console.log("Admin details saved successfully!")
       })
       
       // navigate('/admin/profile')
@@ -84,7 +85,7 @@ function AdminProfile() {
   //submit files to firebase storage
   const submitFile=(e,type,id)=>{
     e && e.preventDefault()
-    let file =   e?.target.files[0] || e?.target[0]?.files[0]
+    let file = e?.target.files[0] || e?.target[0]?.files[0]
     console.log(e,file)
     if (!file) return;
     const storageRef = ref(storage,`${type}/${file.name}`);
@@ -162,7 +163,7 @@ function AdminProfile() {
       })
       .then((temp)=>{
         setAdminInfo({...adminInfo,photoGallery : temp})
-        saveAdminInfo()
+        // saveAdminInfo()
       })
       // .then(saveAdminInfo)  
       .catch((error) => {
@@ -181,72 +182,25 @@ function AdminProfile() {
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
         set(id?id:true)
-        console.log('Inside editDeleteImage')
+        // console.log('Inside editDeleteImage')
+        alert('Save to make final changes')
         // saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
         alert('File already deleted')
         });
       // Delete the file
-      alert('Save to make final changes')
+      
     }
     else{
       set(false)
     }
   }
 
-// console.log("video",adminInfo?.introVideo.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join(""))
-
 
   useEffect(()=>{
     fetchAdminInfo();
   },[])
-
-const [mainhead,setmainhead]=useState('')
-const [innertext,setInnertext]=useState('')
-const [plhead,setPhead]=useState('');
-const [pltext,setPltext]=useState('');
-const [show,setShow]=useState(false)
-
-
-function submitPLhead(){
-setInnertext(prev=>prev+`<h1>${plhead}</h1>`)
-setPhead('')
-}
-
-function submitPLtext(){
-setInnertext(prev=>prev+`<p>${pltext}</p>`)
-setPltext('')
-}
-
-//console.log("mainhead=>",mainhead)
-//  console.log("innertext=>",innertext)
- function SubmitPlanImg(){
- if(adminInfo?.planGallery?.length>0){
-  setInnertext(prev=>prev+`<img src=${adminInfo.planGallery?adminInfo.planGallery[adminInfo.planGallery.length-1].src:''}  alt="imb"/>`)
-  }
- }
-
-
-
-function SubmitPlanHeading(){
-  const planhead={
-    "mainHead":mainhead,
-    "innertext":innertext
-  } 
-  setmainhead('')
-  setInnertext('')
-  setAdminInfo({...adminInfo,plans:[...adminInfo.plans,planhead]})
-     //console.log(plans)
-}
-
-function DELETEHEADING(item){
- var newPlans=adminInfo?.plans.filter((el)=>{
-    return(el.mainHead!==item.mainHead && el.innertext!==item.innertext) 
- })
- 
- setAdminInfo({...adminInfo,plans:newPlans})
-}
 
  //console.log("ADMIN INFO",adminInfo)
 
@@ -383,8 +337,8 @@ function DELETEHEADING(item){
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditHeaderImage(false);
                         submitFile(headerImage,'headerImage')}}>Upload</Button>
-                      <Button variant="contained" size="small"
-                      sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>  
+                      {/* <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditHeaderImage(false)}}>Cancel</Button>   */}
                   </div>:
                   <Button size="small"   variant="contained"
                    onClick={()=>{
@@ -459,152 +413,8 @@ function DELETEHEADING(item){
         </div>
 
 {/* //plans section start from here  */}
-<div className='PlanSection'>
-
-  <h1 >Plans section</h1>
-  <Grid container spacing={2} sx={{color:'blue',padding:"2%"}}>
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="We Help" variant="outlined" value={adminInfo.plantext1
-        } 
-        onChange={e=>setAdminInfo({...adminInfo,plantext1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
-      </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="We Don't Need Your Money" variant="outlined" value={adminInfo.plantext2} 
-        onChange={e=>setAdminInfo({...adminInfo,plantext2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
-      </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="(NOTE: This is Not)" variant="outlined" value={adminInfo.plannote} 
-        onChange={e=>setAdminInfo({...adminInfo,plannote:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
-      </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="LET'S UNDERSTAND" variant="outlined" value={adminInfo.planheading1} 
-        onChange={e=>setAdminInfo({...adminInfo,planheading1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
-      </Grid>
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="दोस्तों आज आपको एक" variant="outlined" value={adminInfo.plantext3} 
-        onChange={e=>setAdminInfo({...adminInfo,plantext3:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
-      </Grid>
-
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="दोस्तों आज हम आप को एक ऐसी" 
-        variant="outlined" value={adminInfo.plantext4} 
-        onChange={e=>setAdminInfo({...adminInfo,plantext4:e.target.value})} 
-        disabled={!edit} sx={{color:'blue'}} required/>
-      </Grid>
-
-
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="दोस्तों इस पोस्ट में हम जानेंगे" variant="outlined" value={adminInfo.planheading2} 
-        onChange={e=>setAdminInfo({...adminInfo,planheading2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
-      </Grid>
-
-      <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-        <TextField id="outlined-basic" label="दोस्तों आज हम Asclepius wellness" variant="outlined"
-         value={adminInfo.plantext5} 
-        onChange={e=>setAdminInfo({...adminInfo,plantext5:e.target.value})} disabled={!edit} 
-        sx={{color:'blue'}} required/>
-      </Grid>
-
-</Grid>
-
-<h2 >make headings in plan page</h2>
-
-<div className='planPageHead'>
-
-<div>
-  <TextField id="outlined-basic" type="text" 
-  value={mainhead}
-  onChange={(e)=>setmainhead(e.target.value)}
-   placeholder='Add Main Heading here'/>
-  <div style={{border:"2px solid red"}}>
-   {!addHeading?<Button variant="contained"
-   color="secondary"
-   onClick={()=>setAddHeading(!addHeading)}>
-    ADD HEADING
-   </Button>
-   :<>
-   <TextField id="outlined-basic" type="text" 
-   value={plhead}
-    placeholder='addHeading' 
-    onChange={(e)=>setPhead(e.target.value)}/>
-   <Button  variant="contained"
-   color='success'onClick={submitPLhead}>Submit Heading</Button>
-   </>}
-   {/* //to upload photo in plans */}
-   {
-    <div style={{width:"80%",margin:"auto"}}>
-    <input style={{width:"90px",height:"25px",
-     padding:"0",backgroundColor:"red",
-     marginBottom:"2%",
-     borderRadius:"0"}} 
-     type="file"  accept='.gif, .jpg, .png' 
-     onChange={e=>setPlansImage(e)}/>
-    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
-     onClick={()=>{
-      submitFile(plansImage,'planGallery',adminInfo.planGallery?adminInfo.planGallery.length:0);SubmitPlanImg()}
-    }>Upload</Button>
-    </div>
-   }
-    {!addText?<Button variant="contained"
-     onClick={()=>setAddText(!addText)}>
-      ADD TEXT
-    </Button>:
-   <>
-    <TextField id="outlined-basic" value={pltext}
-    onChange={(e)=>setPltext(e.target.value)}
-    type="text" placeholder='add simple text'/>
-    <Button  variant="contained"
-   color='success' onClick={submitPLtext}>Submit Text</Button>
-   </>
-   }
-
-<Button  variant="contained"
-   color='success'
-   onClick={SubmitPlanHeading}>Submit Whole Heading</Button>
-
-  </div>
-
-  <h1 style={{backgroundColor:"red"}}>
-    {mainhead}
-  </h1>
-  <div>
-  <Markup content={innertext} />
-  </div>
-
-
-</div>
-<div className='ShowHeading'>
-  
-  {
-    adminInfo?.plans?.map((item,index)=>{
-      return (
-      <div key={item.mainHead}>
-        <Button variant="contained" color='error' 
-        onClick={()=>DELETEHEADING(item)}>DELETE This Heading</Button>
-        <h3 style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center"}} 
-        onClick={()=>{if(show===false)setShow(index)
-        else setShow(false);{console.log("show",show)}}}>
-          {item.mainHead}</h3>
-         { show===index &&
-          <Markup content={item.innertext}/>
-         }
-
-      </div>)
-    })
-  }
-
-  <Button variant="contained" color='success'
-   onClick={()=>{setAdminInfo({...adminInfo,plans:[...adminInfo.plans]});
-   saveAdminInfo()}}>
-    Final Plans Submit</Button>
-</div>
-
-</div>
-
-
-</div>
-{/* //plans section end here  */}
-
+        <PlanSection adminInfo={adminInfo} setAdminInfo={setAdminInfo} edit={edit} submitFile={submitFile} saveAdminInfo={saveAdminInfo}/>
+{/* //plans section end here */}
 
         <Grid item xs={12} sm={12}>
         {edit?
@@ -623,8 +433,7 @@ function DELETEHEADING(item){
        <FloatingButton
        color={theme.color.white}
        background={"red"}
-       onClick={()=>setEdit(true)}
-     >
+       onClick={()=>setEdit(true)}>
        Edit Whole Profile
      </FloatingButton> 
         }

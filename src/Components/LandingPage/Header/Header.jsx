@@ -8,8 +8,6 @@ const Header = ({
   name ,profession,image
 }) => {
 
-
-
   return (
     <header id="home">
        <div className="aboutMe">
@@ -17,9 +15,6 @@ const Header = ({
        </div>
 
       <div className="container header__container">
-      
-     
-
         <h5>Hi, Myself </h5>
         <h1> {name}</h1>
         <h5 className="text-light">

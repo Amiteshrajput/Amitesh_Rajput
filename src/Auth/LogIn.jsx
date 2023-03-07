@@ -56,7 +56,8 @@ function LogIn({type}) {
     }
     else{
       console.log('hi in else')
-      setTimeout(()=>{navigate(`${type}/auth`)},1000)
+      alert(`Invalid access`)
+      setTimeout(()=>{navigate(`/${type}/auth`)},1000)
     }
 
     // console.log(type+''+JSON.stringify(userData))
@@ -83,4 +84,5 @@ function LogIn({type}) {
     </div>
   )
 }
+
 export default LogIn
