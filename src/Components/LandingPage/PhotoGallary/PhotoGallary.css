@@ -4,7 +4,7 @@
     width:100%;
     margin:auto;
     margin-top:5%;
-  
+  background-color: white;
     text-align: center;
   
    
@@ -22,8 +22,11 @@
 .photosCards{
     display:grid;
     grid-template-columns:repeat(4,1fr)
-    ;gap:15px;
-    background:white;
+    ;
+    margin: auto;
+    width: 80%;
+    gap:15px;
+   
     padding:2%;    
 }
 

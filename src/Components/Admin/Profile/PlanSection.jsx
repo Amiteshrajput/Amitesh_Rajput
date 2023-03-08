@@ -6,7 +6,7 @@ import { Markup } from 'interweave';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { async } from '@firebase/util';
 
-function PlanSection({adminInfo,setAdminInfo,edit,submitFile,saveAdminInfo}) {
+function PlanSection({adminInfo,setAdminInfo,edit,submitFile,saveAdminInfo,imgUrl}) {
     const [mainhead,setmainhead]=useState('')
     const [innertext,setInnertext]=useState('')
     const [plhead,setPhead]=useState('');
@@ -29,9 +29,10 @@ setPltext('')
 }
 
 
- function SubmitPlanImg(){
+ function SubmitPlanImg(imgUrl){
  if(adminInfo?.planGallery?.length>0){
-  setInnertext(prev=>prev+`<img src=${adminInfo.planGallery?adminInfo.planGallery[adminInfo.planGallery.length-1].src:''}  alt="imb"/>`)
+  setInnertext(prev=>prev+`<img src=${imgUrl}  
+  alt="imb"/>`)
   }
  }
 
@@ -139,8 +140,11 @@ onChange={(e)=>setmainhead(e.target.value)}
   <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
    onClick={
     ()=>{
-      new Promise((resolve,reject)=>resolve(submitFile(plansImage,'planGallery',adminInfo.planGallery?adminInfo.planGallery.length:0)
-      )).then(()=> SubmitPlanImg())
+      new Promise((resolve,reject)=>resolve(
+        submitFile(plansImage,'planGallery',adminInfo.planGallery?adminInfo.planGallery.length:0)
+        
+      )).then((url)=>{console.log("msg",url)
+       SubmitPlanImg()})
        
     }
   //  adminInfo.planGallery?adminInfo.planGallery[(adminInfo.planGallery.length-1)].src:"null"
@@ -189,6 +193,7 @@ onChange={(e)=>setmainhead(e.target.value)}
         {item.mainHead}</h3>
        { show===index &&
         <Markup content={item.innertext}/>
+        
        }
 
     </div>)
@@ -197,7 +202,8 @@ onChange={(e)=>setmainhead(e.target.value)}
 
 <Button variant="contained" color='success'
  onClick={()=>{setAdminInfo({...adminInfo,plans:[...adminInfo.plans]});
- saveAdminInfo()}}>
+ saveAdminInfo();
+ alert("PLAN Submitted successfully")}}>
   Final Plans Submit</Button>
 </div>
 

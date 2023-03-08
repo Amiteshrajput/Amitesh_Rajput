@@ -90,6 +90,7 @@ function AdminProfile() {
     if (!file) return;
     const storageRef = ref(storage,`${type}/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
+    var urlImg=''
 
     uploadTask.on("state_changed",
       (snapshot) => {
@@ -102,7 +103,8 @@ function AdminProfile() {
       },
       async() => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImgUrl(downloadURL)
+          urlImg=downloadURL
+        // setImgUrl(downloadURL)
           setProgresspercent(0)
           let temp=adminInfo?adminInfo.photoGallery?adminInfo.photoGallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]:[]
 
@@ -141,7 +143,7 @@ function AdminProfile() {
         // .then(saveAdminInfo)
       }
     );
-  return "submitted"
+  return urlImg
   }
   
   //delete Image from firebase storage
@@ -404,7 +406,8 @@ function AdminProfile() {
           {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
             <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
             <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
-            onClick={()=>submitFile(photogalleryFile,'photoGallery',adminInfo.photoGallery?adminInfo.photoGallery.length:0)}>Upload Photo </Button>
+            onClick={()=>submitFile(photogalleryFile,'photoGallery',
+            adminInfo.photoGallery?adminInfo.photoGallery.length:0)}>Upload Photo </Button>
           </div>:''}
 
           <div className='photosCards'>
@@ -444,6 +447,7 @@ function AdminProfile() {
 
 {/* //plans section start from here  */}
         <PlanSection 
+        imgUrl={imgUrl}
         adminInfo={adminInfo} 
         setAdminInfo={setAdminInfo} 
         edit={edit} 

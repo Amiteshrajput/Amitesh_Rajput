@@ -60,18 +60,18 @@ const Contact = () => {
           </article>
 
           <article className="contact__option">
-            <MdOutlineEmail className="contact__option-icon" />
-            <h4>Email</h4>
-            <h5>Amiteshrajput9@Gmail.Com</h5>
-            <a href="mailto:Amiteshrajput9@Gmail.Com">Send a message</a>
+            <RiWhatsappFill className="contact__option-icon" />
+            <h4>Whatsapp</h4>
+            <h5>+918707646972</h5>
+            <a target="_blank" href="https://api.whatsapp.com/send/?phone=918707646972&text&type=phone_number&app_absent=0">Send a message</a>
           </article>
 
-          <article className="contact__option">
+          {/* <article className="contact__option">
             <MdOutlineEmail className="contact__option-icon" />
             <h4>Email</h4>
             <h5>Amiteshrajput9@Gmail.Com</h5>
             <a href="mailto:Amiteshrajput9@Gmail.Com">Send a message</a>
-          </article>
+          </article> */}
         </div>
         <form ref={formRef} 
         //onSubmit={handleSubmit}
