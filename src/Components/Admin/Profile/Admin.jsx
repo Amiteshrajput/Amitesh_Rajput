@@ -11,6 +11,7 @@ import { UserContext } from '../../../Contexts/UserContext';
 import { FloatingButton } from './FloatingButton';
 import { theme } from './theme';
 import { Markup } from 'interweave';
+import { TextareaAutosize } from '@mui/base'
 
 // import PlanSection from './PlanSection';
 
@@ -175,13 +176,13 @@ function AdminProfile() {
       
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
-        set(id?id:true)
+        set(id>=0?id:true)
         // console.log('Inside editDeleteImage')
         alert('Save to make final changes')
         // saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
-        set(id?id:true)
+        set(id>=0?id:true)
         alert('File already deleted')
         });
       // Delete the file
@@ -324,18 +325,23 @@ setAdminInfo({...adminInfo,plans:newPlans})
           </div>
             
             }
-            <Button onClick={()=>setEditVideo(true)} disabled={!edit}>Change Video</Button>
+            <Button variant="contained"color="error" onClick={()=>setEditVideo(true)} disabled={!edit}>Change 
+            YouTube Video</Button>
            </div>)
         :<div>
           <TextField type='url' value={introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
-          <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Save changes</Button>
+          <Button variant="contained" onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Save changes</Button>
         </div>}
       </Grid>
 
       <Grid item xs={12} sm={6}>
       {adminInfo.aboutMeImage?
         <div className='card'>
-              <img  className='card'  width="100%" height='100%'  src={adminInfo.aboutMeImage.src}/>
+          
+                {/* <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"15%",color:"red",
+                fontWeight:"800"}}>ABOUT ME IMAGE(2nd img)</p> */}
+                <img  className='card'  width="100%" height='100%'  src={adminInfo.aboutMeImage.src}/>
+              
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
                   {editAboutMeImage?
@@ -350,12 +356,14 @@ setAdminInfo({...adminInfo,plans:newPlans})
                         submitFile(aboutMeImage,'aboutMeImage')}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditAboutMeImage(false)}}>Cancel</Button>  
+                 
                   </div>:
                   <Button size="small"   variant="contained"
                    onClick={()=>{
                   editDeleteImage(adminInfo.aboutMeImage.fileRef,setEditAboutMeImage)}} disabled={!edit}>Edit</Button>}    
                 </Tooltip>
               </div>
+             
         </div>:
         <div style={{width:"80%",margin:"auto"}}>
             <input style={{width:"90px",height:"25px",
@@ -372,6 +380,8 @@ setAdminInfo({...adminInfo,plans:newPlans})
       <Grid item xs={12} sm={6}>
       {adminInfo.headerImage?
         <div className='card'>
+           <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"15%",color:"red",
+           fontWeight:"800"}}>INTRO IMAGE(1st Img)</p>
               <img  className='card'  width="100%" height='100%'  src={adminInfo.headerImage.src}/>
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
@@ -409,14 +419,14 @@ setAdminInfo({...adminInfo,plans:newPlans})
         <Grid item xs={12} sm={12}>
         {edit?
         <Grid item xs={12} sm={12}>
-          <Button type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
+          <Button variant="contained" type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
           setEdit(false);setEditPhoto(false)}}>Save</Button>
-          <Button xs={6} sm={6} onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</Button>
+          <Button variant="contained" xs={6} sm={6} onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</Button>
         </Grid>:
-        <Button onClick={()=>setEdit(true)}>Edit</Button>}
+        <Button variant="contained" onClick={()=>setEdit(true)}>Edit</Button>}
         </Grid>
 
-        <div className='mainbox'>
+        <div className='mainbox' style={{backgroundColor:"pink"}}>
           <h1 >Photo Gallery</h1>
 
           {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
@@ -450,10 +460,12 @@ setAdminInfo({...adminInfo,plans:newPlans})
                   </div>:
                   <Button size="small"   variant="contained"
                    onClick={()=>{
+                    // setEditPhoto(item.id)
                   editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
-                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
+                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
+                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
                 </Tooltip>
               </div>:''}
           </div>
@@ -471,34 +483,34 @@ setAdminInfo({...adminInfo,plans:newPlans})
         saveAdminInfo={saveAdminInfo}/> */}
 
 
-<div className='PlanSection'>
+<div className='adminPlanSection' style={{backgroundColor:"#FFFFF7",padding:"1%"}}>
 {/* //plans section start from here  */}
 <h1 >Plans section</h1>
 <Grid container spacing={2} sx={{color:'blue',padding:"2%"}}>
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="We Help" variant="outlined" value={adminInfo.plantext1
+      <TextField id="outlined-basic" label="1st Paragraph" variant="outlined" value={adminInfo.plantext1
       } 
       onChange={e=>setAdminInfo({...adminInfo,plantext1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
     </Grid>
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="We Don't Need Your Money" variant="outlined" value={adminInfo.plantext2} 
+      <TextField id="outlined-basic" label="2st Paragraph" variant="outlined" value={adminInfo.plantext2} 
       onChange={e=>setAdminInfo({...adminInfo,plantext2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
     </Grid>
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="(NOTE: This is Not)" variant="outlined" value={adminInfo.plannote} 
+      <TextField id="outlined-basic" label="3rd paragraph(NOTE)" variant="outlined" value={adminInfo.plannote} 
       onChange={e=>setAdminInfo({...adminInfo,plannote:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
     </Grid>
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="LET'S UNDERSTAND" variant="outlined" value={adminInfo.planheading1} 
+      <TextField id="outlined-basic" label="1st Heading" variant="outlined" value={adminInfo.planheading1} 
       onChange={e=>setAdminInfo({...adminInfo,planheading1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
     </Grid>
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="दोस्तों आज आपको एक" variant="outlined" value={adminInfo.plantext3} 
+      <TextField id="outlined-basic" label="4th paragraph" variant="outlined" value={adminInfo.plantext3} 
       onChange={e=>setAdminInfo({...adminInfo,plantext3:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
     </Grid>
 
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="दोस्तों आज हम आप को एक ऐसी" 
+      <TextField id="outlined-basic" label="5th paragraph" 
       variant="outlined" value={adminInfo.plantext4} 
       onChange={e=>setAdminInfo({...adminInfo,plantext4:e.target.value})} 
       disabled={!edit} sx={{color:'blue'}} required/>
@@ -506,12 +518,12 @@ setAdminInfo({...adminInfo,plans:newPlans})
 
 
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="दोस्तों इस पोस्ट में हम जानेंगे" variant="outlined" value={adminInfo.planheading2} 
+      <TextField id="outlined-basic" label="2nd Heading" variant="outlined" value={adminInfo.planheading2} 
       onChange={e=>setAdminInfo({...adminInfo,planheading2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
     </Grid>
 
     <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
-      <TextField id="outlined-basic" label="दोस्तों आज हम Asclepius wellness" variant="outlined"
+      <TextField id="outlined-basic" label="6th paragraph" variant="outlined"
        value={adminInfo.plantext5} 
       onChange={e=>setAdminInfo({...adminInfo,plantext5:e.target.value})} disabled={!edit} 
       sx={{color:'blue'}} required/>
@@ -523,8 +535,8 @@ setAdminInfo({...adminInfo,plans:newPlans})
 
 <div className='planPageHead'>
 
-<div>
-<TextField id="outlined-basic" type="text" 
+<div className='PageHead'>
+<textarea id="outlined-basic" type="text" 
 value={mainhead}
 onChange={(e)=>setmainhead(e.target.value)}
  placeholder='Add Main Heading here'/>
@@ -535,7 +547,7 @@ onChange={(e)=>setmainhead(e.target.value)}
   ADD HEADING
  </Button>
  :<>
- <TextField id="outlined-basic" type="text" 
+ <textarea id="outlined-basic" type="text" 
  value={plhead}
   placeholder='addHeading' 
   onChange={(e)=>setPhead(e.target.value)}/>
@@ -576,7 +588,7 @@ onChange={(e)=>setmainhead(e.target.value)}
     ADD TEXT
   </Button>:
  <>
-  <TextField id="outlined-basic" value={pltext}
+  <textarea id="outlined-basic" value={pltext}
   onChange={(e)=>setPltext(e.target.value)}
   type="text" placeholder='add simple text'/>
   <Button  variant="contained"
@@ -606,7 +618,7 @@ onChange={(e)=>setmainhead(e.target.value)}
     return (
     <div key={item.mainHead}>
       <Button variant="contained" color='error' 
-      onClick={()=>DELETEHEADING(item)}>DELETE This Heading</Button>
+      onClick={()=>DELETEHEADING(item)}>DELETE {index+1} Heading</Button>
       <h3 style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center"}} 
       onClick={()=>{if(show===false)setShow(index)
       else setShow(false);{console.log("show",show)}}}>

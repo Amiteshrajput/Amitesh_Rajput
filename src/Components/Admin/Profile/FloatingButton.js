@@ -27,6 +27,7 @@ export const FloatingButton = styled("button", { shouldForwardProp })(
     height: theme.measurements.xl,
     letterSpacing: 0.25,
     lineHeight: 1,
+    zIndex:10000,
     margin: 0,
     minWidth: theme.measurements.xl,
     padding: theme.measurements.md,
