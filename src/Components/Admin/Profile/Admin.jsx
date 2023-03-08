@@ -181,6 +181,7 @@ function AdminProfile() {
         // saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
+        set(id?id:true)
         alert('File already deleted')
         });
       // Delete the file
@@ -448,7 +449,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
                   </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ setEditPhoto(item.id)
+                   onClick={()=>{
                   editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
