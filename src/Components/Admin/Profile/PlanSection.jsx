@@ -6,7 +6,7 @@ import { Markup } from 'interweave';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { async } from '@firebase/util';
 
-function PlanSection({adminInfo,setAdminInfo,edit,submitFile,saveAdminInfo,imgUrl}) {
+function PlanSection({adminInfo,setAdminInfo,edit,submitFile,saveAdminInfo}) {
     const [mainhead,setmainhead]=useState('')
     const [innertext,setInnertext]=useState('')
     const [plhead,setPhead]=useState('');
@@ -29,9 +29,10 @@ setPltext('')
 }
 
 
- function SubmitPlanImg(imgUrl){
+ function SubmitPlanImg(planId){
  if(adminInfo?.planGallery?.length>0){
-  setInnertext(prev=>prev+`<img src=${imgUrl}  
+  setInnertext(prev=>prev+`<img src=${
+      adminInfo.planGallery?adminInfo.planGallery[adminInfo.planGallery.length-1].src:""}  
   alt="imb"/>`)
   }
  }
@@ -141,7 +142,8 @@ onChange={(e)=>setmainhead(e.target.value)}
    onClick={
     ()=>{
       new Promise((resolve,reject)=>resolve(
-        submitFile(plansImage,'planGallery',adminInfo.planGallery?adminInfo.planGallery.length:0)
+        submitFile(plansImage,'planGallery',
+        adminInfo.planGallery?adminInfo.planGallery.length:0)
         
       )).then((url)=>{console.log("msg",url)
        SubmitPlanImg()})
@@ -193,7 +195,7 @@ onChange={(e)=>setmainhead(e.target.value)}
         {item.mainHead}</h3>
        { show===index &&
         <Markup content={item.innertext}/>
-        
+
        }
 
     </div>)
