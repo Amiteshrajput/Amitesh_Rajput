@@ -1,8 +1,7 @@
 import React,{useEffect, useState,useContext} from 'react'
 import { Button, Grid, TextField, Tooltip, } from '@mui/material'
-import { getDoc, setDoc, doc,collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
+import {  setDoc, doc,collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
-import {useNavigate} from 'react-router-dom'
 import { ref, getDownloadURL, uploadBytesResumable,deleteObject } from "firebase/storage";
 import { storage } from '../../../firebaseConfig/firebaseConfig';
 import "./Admin.css"
@@ -13,11 +12,10 @@ import { FloatingButton } from './FloatingButton';
 import { theme } from './theme';
 import { Markup } from 'interweave';
 
-import PlanSection from './PlanSection';
+// import PlanSection from './PlanSection';
 
 function AdminProfile() {
 
-  const navigate=useNavigate()
   const [edit,setEdit]=useState(false)
   const [editPhoto,setEditPhoto]=useState(false)
   const [editHeaderImage,setEditHeaderImage]=useState(false)
@@ -25,7 +23,6 @@ function AdminProfile() {
   const [editVideo,setEditVideo]=useState(false)
   
 
-  // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
 
   const [adminInfo,setAdminInfo]=React.useState()
@@ -70,7 +67,6 @@ function AdminProfile() {
         console.log("Admin details saved successfully!")
       })
       
-      // navigate('/admin/profile')
     } catch (e) {
       console.log("Error adding document: ", e);
     }
@@ -84,7 +80,6 @@ function AdminProfile() {
   const [introVideo,setIntroVideo] = useState(adminInfo?adminInfo.introVideo?adminInfo.introVideo:'':'')
   
   //submit files to firebase storage  
-  //plan id =>for plan
   const submitFile=(e,type,id)=>{
     e && e.preventDefault()
     let file = e?.target.files[0] || e?.target[0]?.files[0]
@@ -118,9 +113,6 @@ function AdminProfile() {
             else if(id<adminInfo.photoGallery.length){//Relpace file at index id with current file
               temp[id]={src:downloadURL,fileRef:`${type}/${file.name}`,id:id}
             }
-            // else{
-            //   temp=[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
-            // }
           }
           else if(type==="planGallery" && adminInfo.planGallery){
             if(id===adminInfo.planGallery.length){//Add file to end of temp
@@ -155,7 +147,6 @@ function AdminProfile() {
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
-      // saveAdminInfo(e)
       let temp=adminInfo.photoGallery.filter((item)=>{return item.id!==id})
       for(let i=id;i<temp.length;i++){
         temp[i].id--;
@@ -204,10 +195,6 @@ function AdminProfile() {
   useEffect(()=>{
     fetchAdminInfo();
   },[])
-
- //console.log("ADMIN INFO",adminInfo)
-
-
 
 
  const [mainhead,setmainhead]=useState('')
@@ -263,31 +250,6 @@ var newPlans=adminInfo?.plans.filter((el)=>{
 
 setAdminInfo({...adminInfo,plans:newPlans})
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
 
   return (
     <div className='Admin'>
@@ -468,7 +430,8 @@ setAdminInfo({...adminInfo,plans:newPlans})
               // console.log(item.src)
               return <div className='card' key={item.src} >
               <img  className='card'  width="100%" height='100%'  src={item.src}/>
-              {edit?<div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
+              {edit?
+              <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
                   {editPhoto===item.id?
                   <div style={{width:"80%",margin:"auto"}}>
@@ -480,13 +443,13 @@ setAdminInfo({...adminInfo,plans:newPlans})
                     onChange={e=>setPhotoGalleryFile(e)}/>
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditPhoto(false);
-            submitFile(photogalleryFile,'photoGallery',item.id)}}>Upload</Button>
+                      submitFile(photogalleryFile,'photoGallery',item.id)}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
-                   </div>:
+                  </div>:
                   <Button size="small"   variant="contained"
                    onClick={()=>{ setEditPhoto(item.id)
-                  editDeleteImage(item.fileRef)}}>Edit</Button>}    
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
@@ -668,15 +631,6 @@ onChange={(e)=>setmainhead(e.target.value)}
 {/* //plans section end here  */}
 </div>
 
-
-
-
-
-
-
-
-
-{/* //plans section end here */}
 
         <Grid item xs={12} sm={12}>
         {edit?
