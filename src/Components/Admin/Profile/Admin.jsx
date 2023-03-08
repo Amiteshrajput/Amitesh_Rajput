@@ -141,7 +141,7 @@ function AdminProfile() {
         // .then(saveAdminInfo)
       }
     );
-  return true
+  return "submitted"
   }
   
   //delete Image from firebase storage
@@ -203,6 +203,36 @@ function AdminProfile() {
   },[])
 
  //console.log("ADMIN INFO",adminInfo)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
 
   return (
     <div className='Admin'>
@@ -413,7 +443,12 @@ function AdminProfile() {
         </div>
 
 {/* //plans section start from here  */}
-        <PlanSection adminInfo={adminInfo} setAdminInfo={setAdminInfo} edit={edit} submitFile={submitFile} saveAdminInfo={saveAdminInfo}/>
+        <PlanSection 
+        adminInfo={adminInfo} 
+        setAdminInfo={setAdminInfo} 
+        edit={edit} 
+        submitFile={submitFile} 
+        saveAdminInfo={saveAdminInfo}/>
 {/* //plans section end here */}
 
         <Grid item xs={12} sm={12}>

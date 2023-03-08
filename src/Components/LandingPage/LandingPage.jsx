@@ -12,7 +12,7 @@ import KAYOUYoutubePlayer from './YoutubePlayer/YoutubePlayer'
 import YouTubeADD from './YouTubeADD/YouTubeADD'
 import WPandCall from './WPandCall/WPandCall'
 import { db } from '../../firebaseConfig/firebaseConfig'
-import { doc,getDoc } from 'firebase/firestore';
+import { collection, doc,getDoc, onSnapshot, query, where } from 'firebase/firestore';
 import PLANS from './PLANS/PLANS'
 
 
@@ -24,16 +24,30 @@ function LandingPage() {
 
 
   const fetchAdminInfo=async()=>{
-    const docRef = doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco');
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-       console.log("Document data: from landing", docSnap.data());
-      setAdminInfo(docSnap.data())
-      // setLoading(false)
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
+
+    const q = query(collection(db, "usersData"),where('email','!=',''));
+    onSnapshot(q, (querySnapshot) => {
+       let adminData ={}
+      querySnapshot.forEach((doc) => {
+        adminData={...doc.data()}
+        console.log(doc.data())
+      });
+
+      // console.log(adminData)
+    setAdminInfo(adminData)
+    // setLoading(false)
+    });
+    // const docRef = doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco');
+    // const docSnap = await getDoc(docRef);
+    // if (docSnap.exists()) {
+    //   console.log("Document data:", docSnap.data());
+    //   setAdminInfo(docSnap.data())
+    //   // setLoading(false)
+    // } else {
+    //   // doc.data() will be undefined in this case
+    //   console.log("No such document!");
+    // }
+  
   }
 
 
