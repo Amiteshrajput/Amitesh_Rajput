@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-// import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import { MdOutlineEmail } from 'react-icons/md';
 
 
@@ -21,28 +21,29 @@ import './contact.css';
 const Contact = () => {
   const [message, setMessage] = useState(false);
   const formRef = useRef();
+  const [userEmail,setUserEmail] = useState();
+  // const [userName,setUserName] = useState();
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // setMessage(true);
-    // emailjs
-    //   .sendForm(
-    //     'service_k2qawqh',
-    //     'template_c6rkpn6',
-    //     formRef.current,
-    //     'X7K7ebhIeOy3YwHki'
-    //   )
-    //   .then(
-    //     (result) => {
-    //       console.log(result.text);
-    //     },
-    //     (error) => {
-    //       console.log(error.text);
-    //     }
-    //   );
+    e.preventDefault();
+    setMessage(true);
+    emailjs.sendForm(
+        'service_tfafgyp',
+        'template_hdo6468',
+        formRef.current,
+        '7hfslBOUkNApcUA_z'
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
 
-    // e.target.reset();
+    e.target.reset();
   };
-  return (
+  return ( 
     <section id="contact">
       <h5>Get In Touch</h5>
       <h5>
@@ -74,7 +75,7 @@ const Contact = () => {
           </article> */}
         </div>
         <form ref={formRef} 
-        //onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         >
           <input
             type="text"
@@ -83,9 +84,11 @@ const Contact = () => {
             required
           />
           <input
-            type="text"
+            type="email"
             placeholder="Your Email"
-            name="user_email"
+            name="from_email"
+            value={userEmail}
+            onChange={(e)=>setUserEmail(e.target.value)}
             required
           />
           <textarea

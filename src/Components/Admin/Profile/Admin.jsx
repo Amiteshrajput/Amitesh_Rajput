@@ -306,7 +306,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
         {adminInfo.introVideo?(editVideo?
            <div>
             <TextField type='url' value={adminInfo?.introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
-            <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
+            <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});}}>Make changes</Button>
            </div>:
            <div>
             {/* Put Video code here */
@@ -330,7 +330,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
            </div>)
         :<div>
           <TextField type='url' value={introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
-          <Button variant="contained" onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Save changes</Button>
+          <Button variant="contained" onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});}}>Save changes</Button>
         </div>}
       </Grid>
 
@@ -633,8 +633,8 @@ onChange={(e)=>setmainhead(e.target.value)}
 }
 
 <Button variant="contained" color='success'
- onClick={()=>{setAdminInfo({...adminInfo,plans:[...adminInfo.plans]});
- saveAdminInfo();
+ onClick={(e)=>{setAdminInfo({...adminInfo,plans:[...adminInfo.plans]});
+ saveAdminInfo(e);
  alert("PLAN Submitted successfully")}}>
   Final Plans Submit</Button>
 </div>

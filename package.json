@@ -2,8 +2,8 @@
   "name": "amitesh-portfolio",
   "version": "0.1.0",
   "private": true,
-
   "dependencies": {
+    "@emailjs/browser": "^3.10.0",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@testing-library/jest-dom": "^5.16.5",
@@ -50,5 +50,4 @@
       "last 1 safari version"
     ]
   }
-  
 }
