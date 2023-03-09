@@ -76,6 +76,8 @@ function AdminProfile() {
  // const [imgUrl, setImgUrl] = useState(null);
   const [progresspercent, setProgresspercent] = useState(0);
   const [photogalleryFile,setPhotoGalleryFile] = useState()
+  const [plangalleryFile,setplanGalleryFile] = useState()
+  
   const [headerImage,setHeaderImage] = useState(adminInfo?adminInfo.headerImage?.src:'')
   const [aboutMeImage,setAboutMeImage] = useState(adminInfo?adminInfo.aboutMeImage?.src:'')
   const [introVideo,setIntroVideo] = useState(adminInfo?adminInfo.introVideo?adminInfo.introVideo:'':'')
@@ -207,7 +209,7 @@ function AdminProfile() {
  const [addHeading,setAddHeading]=useState(false)
  const [addText,setAddText]=useState(false)
  let tem=<div>ejhfjhej</div>
-//  const [plansImage, setPlansImage] = useState()
+ const [plansImage, setPlansImage] = useState("")
 
  console.log("Admininfo from plan",adminInfo)
 
@@ -222,17 +224,17 @@ setPltext('')
 }
 
 // function to submit img in plan section 
-// function SubmitPlanImg(){
-//   console.log(adminInfo?.planGallery?.length)
-// if(adminInfo?.planGallery?.length>0){
-// setInnertext(prev=>prev+`<img src=${
-//    adminInfo.planGallery?adminInfo.planGallery[adminInfo.planGallery.length-1].src:""}  
-// alt="imb"/>`)
-// console.log("innertext",innertext,
-// )
-// }
+function SubmitPlanImg(src){
+  
+if(src){
+setInnertext(prev=>prev+`<img src=${src}  alt="imb"/>`)
+console.log("innertext",innertext)
+setPlansImage("");
+}else{
+  alert("Please put the image address in input text  ")
+}
 
-// }
+}
 
 
 function SubmitPlanHeading(){
@@ -339,8 +341,8 @@ setAdminInfo({...adminInfo,plans:newPlans})
       {adminInfo.aboutMeImage?
         <div className='card'>
           
-                {/* <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"15%",color:"red",
-                fontWeight:"800"}}>ABOUT ME IMAGE(2nd img)</p> */}
+                <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"30%",top:"10%",color:"red",
+                fontWeight:"800"}}>ABOUT ME IMAGE(2nd img)</p>
                 <img  className='card'  width="100%" height='100%'  src={adminInfo.aboutMeImage.src}/>
               
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
@@ -381,7 +383,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
       <Grid item xs={12} sm={6}>
       {adminInfo.headerImage?
         <div className='card'>
-           <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"15%",color:"red",
+           <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"30%",top:"10%",color:"red",
            fontWeight:"800"}}>INTRO IMAGE(1st Img)</p>
               <img  className='card'  width="100%" height='100%'  src={adminInfo.headerImage.src}/>
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
@@ -532,6 +534,60 @@ setAdminInfo({...adminInfo,plans:newPlans})
 
 </Grid>
 
+{/* code for PLAN GALLARY starting here */}
+
+<div className='mainbox' style={{backgroundColor:"#90EE90"}}>
+          <h1 >PLAN GALLARY</h1>
+
+          {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
+            <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setplanGalleryFile(e)}/>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+            onClick={()=>submitFile(plangalleryFile,'planGallery',
+            adminInfo.planGallery?adminInfo.planGallery.length:0)}>Upload Photo </Button>
+          </div>:''}
+
+          <div className='photosCards'>
+            {!adminInfo.planGallery?<h4>'Loading...'</h4>:adminInfo.planGallery.map((item)=>{
+              // console.log(item.src)
+              return <div className='card' key={item.src} >
+              <img  className='card'  width="100%" height='100%'  src={item.src}/>
+              {edit?
+              <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
+                <Tooltip  title="Edit This Img" followCursor>
+                  {editPhoto===item.id?
+                  <div style={{width:"80%",margin:"auto"}}>
+                    <input style={{width:"90px",height:"25px",
+                    padding:"0",backgroundColor:"red",
+                    marginBottom:"2%",
+                    borderRadius:"0"}} 
+                    type="file"  accept='.gif, .jpg, .png' 
+                    onChange={e=>setplanGalleryFile(e)}/>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+                    onClick={()=>{setEditPhoto(false);
+                      submitFile(plangalleryFile,'planGallery',item.id)}}>Upload</Button>
+                      <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
+                  </div>:
+                  <Button size="small"   variant="contained"
+                   onClick={()=>{
+                    // setEditPhoto(item.id)
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
+                </Tooltip>
+                <Tooltip title="Delete This Img" followCursor>
+                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
+                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
+                </Tooltip>
+              </div>:''}
+          </div>
+          })
+          }
+          </div>
+        </div>
+
+{/* code for PLAN GALLARY ENDING here */}
+
+
+
 <h2 >make headings in plan page</h2>
 
 <div className='planPageHead'>
@@ -557,32 +613,21 @@ onChange={(e)=>setmainhead(e.target.value)}
  </>}
  {/* //to upload photo in plans */}
  {
-  // <div style={{width:"80%",margin:"auto"}}>
-  // <input style={{width:"90px",height:"25px",
-  //  padding:"0",backgroundColor:"red",
-  //  marginBottom:"2%",
-  //  borderRadius:"0"}} 
-  //  type="file"  accept='.gif, .jpg, .png' 
-  //  onChange={e=>setPlansImage(e)}/>
-  // <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
-  //  onClick={
-  //   ()=>{
-  //     new Promise((resolve,reject)=>resolve(
-  //       submitFile(plansImage,'planGallery',
-  //       adminInfo.planGallery?adminInfo.planGallery.length:0)
-        
-  //     )).then((url)=>{console.log("msg",url)
-       
-  //     setTimeout(()=>{
-  //       SubmitPlanImg()
-  //     },3000)
-      
-  //     })
-       
-  //   }
-  // //  adminInfo.planGallery?adminInfo.planGallery[(adminInfo.planGallery.length-1)].src:"null"
-  // }>Upload</Button>
-  //</div>
+  <div style={{width:"80%",margin:"auto"}}>
+  <input style={{width:"400px",height:"25px",
+   padding:"2%",color:"black",fontSize:"large",
+   marginBottom:"2%",
+   borderRadius:"0"}}
+   placeholder="Submit image address" 
+   type="url" 
+   value={plansImage}
+   onChange={(e)=>setPlansImage(e.target.value)}/>
+  <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+   onClick={
+    ()=>{SubmitPlanImg(plansImage)}
+
+  }>Upload</Button>
+  </div>
  }
   {!addText?<Button variant="contained"
    onClick={()=>setAddText(!addText)}>
