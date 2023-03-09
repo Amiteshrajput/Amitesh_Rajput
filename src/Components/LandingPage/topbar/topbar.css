@@ -40,7 +40,7 @@ nav a.active {
 }
 
 
-@media all and (min-width:451px) and (max-width:11450px) {
+@media all and  (max-width:11450000000px) {
   nav {
     display: none;
   }

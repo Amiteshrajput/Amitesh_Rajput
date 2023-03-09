@@ -21,7 +21,7 @@ import { useContext } from 'react';
 const pages = [{page:'About',path:'/#about'},
 // {page:'Service',path:'/service'},
 {page: 'Achievements',path:'/achievements'},
-{page:'Plan',path:'/#plan'},
+{page:'Opportunity',path:'/#plan'},
 {page:'Contact',path:'/#contact'},];
 
 

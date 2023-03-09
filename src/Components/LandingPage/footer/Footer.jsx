@@ -26,7 +26,7 @@ const Footer = () => {
         <li><a href="#portfolio">Portfolio</a></li>
         <li><a href="#testimonials">Testimonials</a></li> */}
         <li><a href="/achievements">Achievements</a></li>
-        <li><a href="#plan">Plan</a></li>
+        <li><a href="#plan">Opportunity</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <div className="footer__socials">
