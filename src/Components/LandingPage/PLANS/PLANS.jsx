@@ -67,9 +67,10 @@ color:"red"}}>
         onClick={()=>{if(show===false)setShow(index)
         else setShow(false);{console.log("show",show)}}}>
           {item.mainHead}</h3>
-         { show===index &&
+        <div className='plansKoSetkro'> { show===index &&
           <Markup content={item.innertext}/>
          }
+        </div>
 
       </div>)
     })
