@@ -33,7 +33,7 @@ function AdminProfile() {
   //fetch function
   const fetchAdminInfo=async()=>{
 
-    const q = query(collection(db, "usersData"),where('email','!=',''));
+    const q = query(collection(db, "usersData"),where('email','==',''));
     onSnapshot(q, (querySnapshot) => {
        let adminData ={}
       querySnapshot.forEach((doc) => {
@@ -63,12 +63,10 @@ function AdminProfile() {
     e && e.preventDefault();
     try {
       // let tempor=JSON.parse(JSON.stringify({...adminInfo}))
-      await updateDoc(doc(db, "usersData", state.admin.uid),{...adminInfo})
-      .then(async ()=>{await setDoc(doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco'),{...adminInfo})
+      await setDoc(doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco'),{...adminInfo})
         console.log("Admin details saved successfully!")
-      })
-      
-    } catch (e) {
+      }
+       catch (e) {
       console.log("Error adding document: ", e);
     }
   }

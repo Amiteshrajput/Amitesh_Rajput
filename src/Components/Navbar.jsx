@@ -24,8 +24,6 @@ const pages = [{page:'About',path:'/#about'},
 {page:'Opportunity',path:'/#plan'},
 {page:'Contact',path:'/#contact'},];
 
-
-
 const adminPages = [{page:'Profile',path:'/admin/profile'}, 
 // {page:'Account',path:'/admin/account'},
 //  {page:'Dashboard',path:'/admin/dashboard'}

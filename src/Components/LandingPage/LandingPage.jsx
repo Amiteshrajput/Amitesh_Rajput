@@ -25,7 +25,7 @@ function LandingPage() {
 
   const fetchAdminInfo=async()=>{
 
-    const q = query(collection(db, "usersData"),where('email','!=',''));
+    const q = query(collection(db, "usersData"),where('email','==',''));
     onSnapshot(q, (querySnapshot) => {
        let adminData ={}
       querySnapshot.forEach((doc) => {
