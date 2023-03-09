@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Amiteshrajput/Amitesh_Rajput/static/css/main.ebcb827b.css",
+    "main.js": "/Amiteshrajput/Amitesh_Rajput/static/js/main.ffe186e9.js",
+    "static/js/787.4140c3cf.chunk.js": "/Amiteshrajput/Amitesh_Rajput/static/js/787.4140c3cf.chunk.js",
+    "static/media/news.png": "/Amiteshrajput/Amitesh_Rajput/static/media/news.51439179fb611dbbc400.png",
+    "static/media/shelter.png": "/Amiteshrajput/Amitesh_Rajput/static/media/shelter.0ae0fda60971cc0e12a4.png",
+    "static/media/me.jpg": "/Amiteshrajput/Amitesh_Rajput/static/media/me.5a11f02b40b6ce51197e.jpg",
+    "static/media/fake.png": "/Amiteshrajput/Amitesh_Rajput/static/media/fake.8e617936ab1f7320886e.png",
+    "static/media/todo.png": "/Amiteshrajput/Amitesh_Rajput/static/media/todo.5bff4a5396a3b8a42ced.png",
+    "static/media/cv_meri_gogichashvili.pdf": "/Amiteshrajput/Amitesh_Rajput/static/media/cv_meri_gogichashvili.82cf02170599d07714c9.pdf",
+    "static/media/math.png": "/Amiteshrajput/Amitesh_Rajput/static/media/math.dda088e8d9f35030227c.png",
+    "static/media/bookstore.png": "/Amiteshrajput/Amitesh_Rajput/static/media/bookstore.9ccca64e16bf562c3108.png",
+    "index.html": "/Amiteshrajput/Amitesh_Rajput/index.html",
+    "main.ebcb827b.css.map": "/Amiteshrajput/Amitesh_Rajput/static/css/main.ebcb827b.css.map",
+    "main.ffe186e9.js.map": "/Amiteshrajput/Amitesh_Rajput/static/js/main.ffe186e9.js.map",
+    "787.4140c3cf.chunk.js.map": "/Amiteshrajput/Amitesh_Rajput/static/js/787.4140c3cf.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ebcb827b.css",
+    "static/js/main.ffe186e9.js"
+  ]
+}
