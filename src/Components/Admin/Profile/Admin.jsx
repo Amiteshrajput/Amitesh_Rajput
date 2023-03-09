@@ -206,6 +206,7 @@ function AdminProfile() {
  const [show,setShow]=useState(false)
  const [addHeading,setAddHeading]=useState(false)
  const [addText,setAddText]=useState(false)
+ let tem=<div>ejhfjhej</div>
 //  const [plansImage, setPlansImage] = useState()
 
  console.log("Admininfo from plan",adminInfo)

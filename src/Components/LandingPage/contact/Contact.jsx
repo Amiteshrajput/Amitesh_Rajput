@@ -19,13 +19,11 @@ import {IoCallSharp} from "react-icons/io5"
 import './contact.css';
 
 const Contact = () => {
-  const [message, setMessage] = useState(false);
   const formRef = useRef();
-  const [userEmail,setUserEmail] = useState();
+  // const [userEmail,setUserEmail] = useState();
   // const [userName,setUserName] = useState();
   const handleSubmit = (e) => {
     e.preventDefault();
-    setMessage(true);
     emailjs.sendForm(
         'service_imijyis',
         'template_r8lra2b',
@@ -34,7 +32,7 @@ const Contact = () => {
       )
       .then(
         (result) => {
-          console.log(result.text);
+          alert("Thanks, I'll reply ASAP")
         },
         (error) => {
           console.log(error.text);
@@ -87,8 +85,8 @@ const Contact = () => {
             type="email"
             placeholder="Your Email"
             name="from_email"
-            value={userEmail}
-            onChange={(e)=>setUserEmail(e.target.value)}
+            // value={userEmail}
+            // onChange={(e)=>setUserEmail(e.target.value)}
             required
           />
           <textarea
@@ -96,11 +94,11 @@ const Contact = () => {
             rows="7"
             name="message"
             required
+            style={{color:'whitesmoke'}}
           ></textarea>
           <button type="submit" className="btn btn-primary">
             Send Message
           </button>
-          {message && <span>Thanks, I'll reply ASAP :)</span>}
         </form>
       </div>
     </section>
