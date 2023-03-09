@@ -26,7 +26,7 @@ const Contact = () => {
     // setMessage(true);
     // emailjs
     //   .sendForm(
-    //     'service_k2qawqh',
+    //     'service_tfafgyp',
     //     'template_c6rkpn6',
     //     formRef.current,
     //     'X7K7ebhIeOy3YwHki'
