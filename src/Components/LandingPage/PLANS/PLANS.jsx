@@ -62,13 +62,15 @@ color:"red"}}>
       return (
       <div key={item.mainHead}>
         
-        <h3 style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center"}} 
+        <h3 className='headingplan' style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center",
+        padding:"1%",fontWeight:"600"}} 
         onClick={()=>{if(show===false)setShow(index)
         else setShow(false);{console.log("show",show)}}}>
           {item.mainHead}</h3>
-         { show===index &&
+        <div className='plansKoSetkro'> { show===index &&
           <Markup content={item.innertext}/>
          }
+        </div>
 
       </div>)
     })

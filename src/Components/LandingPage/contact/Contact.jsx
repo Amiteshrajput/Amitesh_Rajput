@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-// import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import { MdOutlineEmail } from 'react-icons/md';
 
 
@@ -19,30 +19,29 @@ import {IoCallSharp} from "react-icons/io5"
 import './contact.css';
 
 const Contact = () => {
-  const [message, setMessage] = useState(false);
   const formRef = useRef();
+  // const [userEmail,setUserEmail] = useState();
+  // const [userName,setUserName] = useState();
   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // setMessage(true);
-    // emailjs
-    //   .sendForm(
-    //     'service_k2qawqh',
-    //     'template_c6rkpn6',
-    //     formRef.current,
-    //     'X7K7ebhIeOy3YwHki'
-    //   )
-    //   .then(
-    //     (result) => {
-    //       console.log(result.text);
-    //     },
-    //     (error) => {
-    //       console.log(error.text);
-    //     }
-    //   );
+    e.preventDefault();
+    emailjs.sendForm(
+        'service_imijyis',
+        'template_r8lra2b',
+        formRef.current,
+        'VxUNFSUhATT0SRzZ-'
+      )
+      .then(
+        (result) => {
+          alert("Thanks, I'll reply ASAP")
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
 
-    // e.target.reset();
+    e.target.reset();
   };
-  return (
+  return ( 
     <section id="contact">
       <h5>Get In Touch</h5>
       <h5>
@@ -60,21 +59,21 @@ const Contact = () => {
           </article>
 
           <article className="contact__option">
-            <MdOutlineEmail className="contact__option-icon" />
-            <h4>Email</h4>
-            <h5>Amiteshrajput9@Gmail.Com</h5>
-            <a href="mailto:Amiteshrajput9@Gmail.Com">Send a message</a>
+            <RiWhatsappFill className="contact__option-icon" />
+            <h4>Whatsapp</h4>
+            <h5>+918707646972</h5>
+            <a target="_blank" href="https://api.whatsapp.com/send/?phone=918707646972&text&type=phone_number&app_absent=0">Send a message</a>
           </article>
 
-          <article className="contact__option">
+          {/* <article className="contact__option">
             <MdOutlineEmail className="contact__option-icon" />
             <h4>Email</h4>
             <h5>Amiteshrajput9@Gmail.Com</h5>
             <a href="mailto:Amiteshrajput9@Gmail.Com">Send a message</a>
-          </article>
+          </article> */}
         </div>
         <form ref={formRef} 
-        //onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         >
           <input
             type="text"
@@ -83,9 +82,11 @@ const Contact = () => {
             required
           />
           <input
-            type="text"
+            type="email"
             placeholder="Your Email"
-            name="user_email"
+            name="from_email"
+            // value={userEmail}
+            // onChange={(e)=>setUserEmail(e.target.value)}
             required
           />
           <textarea
@@ -93,11 +94,11 @@ const Contact = () => {
             rows="7"
             name="message"
             required
+            style={{color:'whitesmoke'}}
           ></textarea>
           <button type="submit" className="btn btn-primary">
             Send Message
           </button>
-          {message && <span>Thanks, I'll reply ASAP :)</span>}
         </form>
       </div>
     </section>

@@ -39,7 +39,7 @@ function LogIn({type}) {
               dispatch({type:'SET_ADMIN',payload:{uid:user.uid,loggedIn:true}});
             },0)
             navigate(`/admin/profile`)
-          },2000)
+          },1000)
       }
       else{
         alert('Premium User SignIn successfull')
@@ -52,7 +52,7 @@ function LogIn({type}) {
       //invalid access  or invalid type user accessing
       alert(`Invalid access`)
       console.log('hi in else-if')
-      setTimeout(()=>{navigate(`/`)},2000)
+      setTimeout(()=>{navigate(`/`)},1000)
     }
     else{
       console.log('hi in else')

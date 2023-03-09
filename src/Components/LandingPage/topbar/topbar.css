@@ -11,7 +11,7 @@ nav {
   display: flex;
   gap: 0.8rem;
   border-radius: 3rem;
-  backdrop-filter: blur(15px);
+  /* backdrop-filter: blur(15px); */
 }
 
 nav a {
@@ -34,11 +34,13 @@ nav a.active {
 
 
 @media all and (max-width:450px) {
-  
+  nav {
+    display: none;
+  }
 }
 
 
-@media all and (min-width:451px) and (max-width:11450px) {
+@media all and  (max-width:11450000000px) {
   nav {
     display: none;
   }

@@ -1,8 +1,7 @@
 import React,{useEffect, useState,useContext} from 'react'
 import { Button, Grid, TextField, Tooltip, } from '@mui/material'
-import { getDoc, setDoc, doc,collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
+import {  setDoc, doc,collection, query, where, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from '../../../firebaseConfig/firebaseConfig';
-import {useNavigate} from 'react-router-dom'
 import { ref, getDownloadURL, uploadBytesResumable,deleteObject } from "firebase/storage";
 import { storage } from '../../../firebaseConfig/firebaseConfig';
 import "./Admin.css"
@@ -11,12 +10,13 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import { UserContext } from '../../../Contexts/UserContext';
 import { FloatingButton } from './FloatingButton';
 import { theme } from './theme';
+import { Markup } from 'interweave';
+import { TextareaAutosize } from '@mui/base'
 
-import PlanSection from './PlanSection';
+// import PlanSection from './PlanSection';
 
 function AdminProfile() {
 
-  const navigate=useNavigate()
   const [edit,setEdit]=useState(false)
   const [editPhoto,setEditPhoto]=useState(false)
   const [editHeaderImage,setEditHeaderImage]=useState(false)
@@ -24,7 +24,6 @@ function AdminProfile() {
   const [editVideo,setEditVideo]=useState(false)
   
 
-  // const admin=JSON.parse(sessionStorage.getItem('admin'))
   const [state,dispatch]=useContext(UserContext)
 
   const [adminInfo,setAdminInfo]=React.useState()
@@ -34,7 +33,7 @@ function AdminProfile() {
   //fetch function
   const fetchAdminInfo=async()=>{
 
-    const q = query(collection(db, "usersData"),where('email','!=',''));
+    const q = query(collection(db, "usersData"),where('email','==',''));
     onSnapshot(q, (querySnapshot) => {
        let adminData ={}
       querySnapshot.forEach((doc) => {
@@ -64,25 +63,24 @@ function AdminProfile() {
     e && e.preventDefault();
     try {
       // let tempor=JSON.parse(JSON.stringify({...adminInfo}))
-      await updateDoc(doc(db, "usersData", state.admin.uid),{...adminInfo})
-      .then(async ()=>{await setDoc(doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco'),{...adminInfo})
+      await setDoc(doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco'),{...adminInfo})
         console.log("Admin details saved successfully!")
-      })
-      
-      // navigate('/admin/profile')
-    } catch (e) {
+      }
+       catch (e) {
       console.log("Error adding document: ", e);
     }
   }
 
-  const [imgUrl, setImgUrl] = useState(null);
+ // const [imgUrl, setImgUrl] = useState(null);
   const [progresspercent, setProgresspercent] = useState(0);
   const [photogalleryFile,setPhotoGalleryFile] = useState()
+  const [plangalleryFile,setplanGalleryFile] = useState()
+  
   const [headerImage,setHeaderImage] = useState(adminInfo?adminInfo.headerImage?.src:'')
   const [aboutMeImage,setAboutMeImage] = useState(adminInfo?adminInfo.aboutMeImage?.src:'')
   const [introVideo,setIntroVideo] = useState(adminInfo?adminInfo.introVideo?adminInfo.introVideo:'':'')
   
-  //submit files to firebase storage
+  //submit files to firebase storage  
   const submitFile=(e,type,id)=>{
     e && e.preventDefault()
     let file = e?.target.files[0] || e?.target[0]?.files[0]
@@ -102,7 +100,8 @@ function AdminProfile() {
       },
       async() => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImgUrl(downloadURL)
+         
+        // setImgUrl(downloadURL)
           setProgresspercent(0)
           let temp=adminInfo?adminInfo.photoGallery?adminInfo.photoGallery:[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]:[]
 
@@ -115,9 +114,6 @@ function AdminProfile() {
             else if(id<adminInfo.photoGallery.length){//Relpace file at index id with current file
               temp[id]={src:downloadURL,fileRef:`${type}/${file.name}`,id:id}
             }
-            // else{
-            //   temp=[{src:downloadURL,fileRef:`${type}/${file.name}`,id:0}]
-            // }
           }
           else if(type==="planGallery" && adminInfo.planGallery){
             if(id===adminInfo.planGallery.length){//Add file to end of temp
@@ -141,7 +137,7 @@ function AdminProfile() {
         // .then(saveAdminInfo)
       }
     );
-  return true
+  return 'submitted'
   }
   
   //delete Image from firebase storage
@@ -152,7 +148,6 @@ function AdminProfile() {
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
-      // saveAdminInfo(e)
       let temp=adminInfo.photoGallery.filter((item)=>{return item.id!==id})
       for(let i=id;i<temp.length;i++){
         temp[i].id--;
@@ -181,12 +176,13 @@ function AdminProfile() {
       
       deleteObject(fileFullRef).then(async(e) => {
         // File deleted successfully
-        set(id?id:true)
+        set(id>=0?id:true)
         // console.log('Inside editDeleteImage')
         alert('Save to make final changes')
         // saveAdminInfo(e)
         }).catch((error) => {
         // Uh-oh, an error occurred!
+        set(id>=0?id:true)
         alert('File already deleted')
         });
       // Delete the file
@@ -202,7 +198,61 @@ function AdminProfile() {
     fetchAdminInfo();
   },[])
 
- //console.log("ADMIN INFO",adminInfo)
+
+ const [mainhead,setmainhead]=useState('')
+ const [innertext,setInnertext]=useState('')
+ const [plhead,setPhead]=useState('');
+ const [pltext,setPltext]=useState('');
+ const [show,setShow]=useState(false)
+ const [addHeading,setAddHeading]=useState(false)
+ const [addText,setAddText]=useState(false)
+ let tem=<div>ejhfjhej</div>
+ const [plansImage, setPlansImage] = useState("")
+
+ console.log("Admininfo from plan",adminInfo)
+
+function submitPLhead(){
+setInnertext(prev=>prev+`<h1>${plhead}</h1>`)
+setPhead('')
+}
+
+function submitPLtext(){
+setInnertext(prev=>prev+`<p>${pltext}</p>`)
+setPltext('')
+}
+
+// function to submit img in plan section 
+function SubmitPlanImg(src){
+  
+if(src){
+setInnertext(prev=>prev+`<img src=${src}  alt="imb"/>`)
+console.log("innertext",innertext)
+setPlansImage("");
+}else{
+  alert("Please put the image address in input text  ")
+}
+
+}
+
+
+function SubmitPlanHeading(){
+const planhead={
+ "mainHead":mainhead,
+ "innertext":innertext
+} 
+setmainhead('')
+setInnertext('')
+setAdminInfo({...adminInfo,plans:adminInfo.plans?[...adminInfo.plans,planhead]:[planhead]})
+  console.log(adminInfo)
+ }
+
+function DELETEHEADING(item){
+var newPlans=adminInfo?.plans.filter((el)=>{
+ return(el.mainHead!==item.mainHead && el.innertext!==item.innertext) 
+})
+
+setAdminInfo({...adminInfo,plans:newPlans})
+}
 
   return (
     <div className='Admin'>
@@ -257,7 +307,7 @@ function AdminProfile() {
         {adminInfo.introVideo?(editVideo?
            <div>
             <TextField type='url' value={adminInfo?.introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
-            <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Make changes</Button>
+            <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});}}>Make changes</Button>
            </div>:
            <div>
             {/* Put Video code here */
@@ -276,18 +326,23 @@ function AdminProfile() {
           </div>
             
             }
-            <Button onClick={()=>setEditVideo(true)} disabled={!edit}>Change Video</Button>
+            <Button variant="contained"color="error" onClick={()=>setEditVideo(true)} disabled={!edit}>Change 
+            YouTube Video</Button>
            </div>)
         :<div>
           <TextField type='url' value={introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
-          <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});saveAdminInfo();}}>Save changes</Button>
+          <Button variant="contained" onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});}}>Save changes</Button>
         </div>}
       </Grid>
 
       <Grid item xs={12} sm={6}>
       {adminInfo.aboutMeImage?
         <div className='card'>
-              <img  className='card'  width="100%" height='100%'  src={adminInfo.aboutMeImage.src}/>
+          
+                <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"30%",top:"10%",color:"red",
+                fontWeight:"800"}}>ABOUT ME IMAGE(2nd img)</p>
+                <img  className='card'  width="100%" height='100%'  src={adminInfo.aboutMeImage.src}/>
+              
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
                   {editAboutMeImage?
@@ -302,12 +357,14 @@ function AdminProfile() {
                         submitFile(aboutMeImage,'aboutMeImage')}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditAboutMeImage(false)}}>Cancel</Button>  
+                 
                   </div>:
                   <Button size="small"   variant="contained"
                    onClick={()=>{
                   editDeleteImage(adminInfo.aboutMeImage.fileRef,setEditAboutMeImage)}} disabled={!edit}>Edit</Button>}    
                 </Tooltip>
               </div>
+             
         </div>:
         <div style={{width:"80%",margin:"auto"}}>
             <input style={{width:"90px",height:"25px",
@@ -324,6 +381,8 @@ function AdminProfile() {
       <Grid item xs={12} sm={6}>
       {adminInfo.headerImage?
         <div className='card'>
+           <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"30%",top:"10%",color:"red",
+           fontWeight:"800"}}>INTRO IMAGE(1st Img)</p>
               <img  className='card'  width="100%" height='100%'  src={adminInfo.headerImage.src}/>
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
@@ -361,20 +420,21 @@ function AdminProfile() {
         <Grid item xs={12} sm={12}>
         {edit?
         <Grid item xs={12} sm={12}>
-          <Button type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
+          <Button variant="contained" type='submit' xs={6} sm={6} onClick={e=>{saveAdminInfo(e);
           setEdit(false);setEditPhoto(false)}}>Save</Button>
-          <Button xs={6} sm={6} onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</Button>
+          <Button variant="contained" xs={6} sm={6} onClick={()=>{setEdit(false);setEditPhoto(false)}}>Cancel</Button>
         </Grid>:
-        <Button onClick={()=>setEdit(true)}>Edit</Button>}
+        <Button variant="contained" onClick={()=>setEdit(true)}>Edit</Button>}
         </Grid>
 
-        <div className='mainbox'>
+        <div className='mainbox' style={{backgroundColor:"pink"}}>
           <h1 >Photo Gallery</h1>
 
           {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
             <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setPhotoGalleryFile(e)}/>
             <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
-            onClick={()=>submitFile(photogalleryFile,'photoGallery',adminInfo.photoGallery?adminInfo.photoGallery.length:0)}>Upload Photo </Button>
+            onClick={()=>submitFile(photogalleryFile,'photoGallery',
+            adminInfo.photoGallery?adminInfo.photoGallery.length:0)}>Upload Photo </Button>
           </div>:''}
 
           <div className='photosCards'>
@@ -382,7 +442,8 @@ function AdminProfile() {
               // console.log(item.src)
               return <div className='card' key={item.src} >
               <img  className='card'  width="100%" height='100%'  src={item.src}/>
-              {edit?<div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
+              {edit?
+              <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
                   {editPhoto===item.id?
                   <div style={{width:"80%",margin:"auto"}}>
@@ -394,16 +455,18 @@ function AdminProfile() {
                     onChange={e=>setPhotoGalleryFile(e)}/>
                     <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
                     onClick={()=>{setEditPhoto(false);
-            submitFile(photogalleryFile,'photoGallery',item.id)}}>Upload</Button>
+                      submitFile(photogalleryFile,'photoGallery',item.id)}}>Upload</Button>
                       <Button variant="contained" size="small"
                       sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
-                   </div>:
+                  </div>:
                   <Button size="small"   variant="contained"
-                   onClick={()=>{ setEditPhoto(item.id)
-                  editDeleteImage(item.fileRef)}}>Edit</Button>}    
+                   onClick={()=>{
+                    // setEditPhoto(item.id)
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
-                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained" color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
+                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
+                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
                 </Tooltip>
               </div>:''}
           </div>
@@ -413,8 +476,218 @@ function AdminProfile() {
         </div>
 
 {/* //plans section start from here  */}
-        <PlanSection adminInfo={adminInfo} setAdminInfo={setAdminInfo} edit={edit} submitFile={submitFile} saveAdminInfo={saveAdminInfo}/>
-{/* //plans section end here */}
+        {/* <PlanSection 
+        adminInfo={adminInfo} 
+        setAdminInfo={setAdminInfo} 
+        edit={edit} 
+        submitFile={submitFile} 
+        saveAdminInfo={saveAdminInfo}/> */}
+
+
+<div className='adminPlanSection' style={{backgroundColor:"#FFFFF7",padding:"1%"}}>
+{/* //plans section start from here  */}
+<h1 >Plans section</h1>
+<Grid container spacing={2} sx={{color:'blue',padding:"2%"}}>
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="1st Paragraph" variant="outlined" value={adminInfo.plantext1
+      } 
+      onChange={e=>setAdminInfo({...adminInfo,plantext1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+    </Grid>
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="2st Paragraph" variant="outlined" value={adminInfo.plantext2} 
+      onChange={e=>setAdminInfo({...adminInfo,plantext2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+    </Grid>
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="3rd paragraph(NOTE)" variant="outlined" value={adminInfo.plannote} 
+      onChange={e=>setAdminInfo({...adminInfo,plannote:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+    </Grid>
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="1st Heading" variant="outlined" value={adminInfo.planheading1} 
+      onChange={e=>setAdminInfo({...adminInfo,planheading1:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+    </Grid>
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="4th paragraph" variant="outlined" value={adminInfo.plantext3} 
+      onChange={e=>setAdminInfo({...adminInfo,plantext3:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+    </Grid>
+
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="5th paragraph" 
+      variant="outlined" value={adminInfo.plantext4} 
+      onChange={e=>setAdminInfo({...adminInfo,plantext4:e.target.value})} 
+      disabled={!edit} sx={{color:'blue'}} required/>
+    </Grid>
+
+
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="2nd Heading" variant="outlined" value={adminInfo.planheading2} 
+      onChange={e=>setAdminInfo({...adminInfo,planheading2:e.target.value})} disabled={!edit} sx={{color:'blue'}} required/>
+    </Grid>
+
+    <Grid item xs={12} sm={6} sx={{ color:'inherit'}}>
+      <TextField id="outlined-basic" label="6th paragraph" variant="outlined"
+       value={adminInfo.plantext5} 
+      onChange={e=>setAdminInfo({...adminInfo,plantext5:e.target.value})} disabled={!edit} 
+      sx={{color:'blue'}} required/>
+    </Grid>
+
+</Grid>
+
+{/* code for PLAN GALLARY starting here */}
+
+<div className='mainbox' style={{backgroundColor:"#90EE90"}}>
+          <h1 >PLAN GALLARY</h1>
+
+          {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
+            <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setplanGalleryFile(e)}/>
+            <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+            onClick={()=>submitFile(plangalleryFile,'planGallery',
+            adminInfo.planGallery?adminInfo.planGallery.length:0)}>Upload Photo </Button>
+          </div>:''}
+
+          <div className='photosCards'>
+            {!adminInfo.planGallery?<h4>'Loading...'</h4>:adminInfo.planGallery.map((item)=>{
+              // console.log(item.src)
+              return <div className='card' key={item.src} >
+              <img  className='card'  width="100%" height='100%'  src={item.src}/>
+              {edit?
+              <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
+                <Tooltip  title="Edit This Img" followCursor>
+                  {editPhoto===item.id?
+                  <div style={{width:"80%",margin:"auto"}}>
+                    <input style={{width:"90px",height:"25px",
+                    padding:"0",backgroundColor:"red",
+                    marginBottom:"2%",
+                    borderRadius:"0"}} 
+                    type="file"  accept='.gif, .jpg, .png' 
+                    onChange={e=>setplanGalleryFile(e)}/>
+                    <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+                    onClick={()=>{setEditPhoto(false);
+                      submitFile(plangalleryFile,'planGallery',item.id)}}>Upload</Button>
+                      <Button variant="contained" size="small"
+                      sx={{backgroundColor:"green"}} onClick={()=>{setEditPhoto(false)}}>Cancel</Button>  
+                  </div>:
+                  <Button size="small"   variant="contained"
+                   onClick={()=>{
+                    // setEditPhoto(item.id)
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
+                </Tooltip>
+                <Tooltip title="Delete This Img" followCursor>
+                  <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
+                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
+                </Tooltip>
+              </div>:''}
+          </div>
+          })
+          }
+          </div>
+        </div>
+
+{/* code for PLAN GALLARY ENDING here */}
+
+
+
+<h2 >make headings in plan page</h2>
+
+<div className='planPageHead'>
+
+<div className='PageHead'>
+<textarea id="outlined-basic" type="text" 
+value={mainhead}
+onChange={(e)=>setmainhead(e.target.value)}
+ placeholder='Add Main Heading here'/>
+<div style={{border:"2px solid red"}}>
+ {!addHeading?<Button variant="contained"
+ color="secondary"
+ onClick={()=>setAddHeading(!addHeading)}>
+  ADD HEADING
+ </Button>
+ :<>
+ <textarea id="outlined-basic" type="text" 
+ value={plhead}
+  placeholder='addHeading' 
+  onChange={(e)=>setPhead(e.target.value)}/>
+ <Button  variant="contained"
+ color='success'onClick={submitPLhead}>Submit Heading</Button>
+ </>}
+ {/* //to upload photo in plans */}
+ {
+  <div style={{width:"80%",margin:"auto"}}>
+  <input style={{width:"400px",height:"25px",
+   padding:"2%",color:"black",fontSize:"large",
+   marginBottom:"2%",
+   borderRadius:"0"}}
+   placeholder="Submit image address" 
+   type="url" 
+   value={plansImage}
+   onChange={(e)=>setPlansImage(e.target.value)}/>
+  <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
+   onClick={
+    ()=>{SubmitPlanImg(plansImage)}
+
+  }>Upload</Button>
+  </div>
+ }
+  {!addText?<Button variant="contained"
+   onClick={()=>setAddText(!addText)}>
+    ADD TEXT
+  </Button>:
+ <>
+  <textarea id="outlined-basic" value={pltext}
+  onChange={(e)=>setPltext(e.target.value)}
+  type="text" placeholder='add simple text'/>
+  <Button  variant="contained"
+ color='success' onClick={submitPLtext}>Submit Text</Button>
+ </>
+ }
+
+<Button  variant="contained"
+ color='success'
+ onClick={SubmitPlanHeading}>Submit Whole Heading</Button>
+
+</div>
+
+<h1 style={{backgroundColor:"red"}}>
+  {mainhead}
+</h1>
+<div>
+<Markup content={innertext} />
+</div>
+
+
+</div>
+<div className='ShowHeading'>
+
+{
+  adminInfo?.plans?.map((item,index)=>{
+    return (
+    <div key={item.mainHead}>
+      <Button variant="contained" color='error' 
+      onClick={()=>DELETEHEADING(item)}>DELETE {index+1} Heading</Button>
+      <h3 style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center"}} 
+      onClick={()=>{if(show===false)setShow(index)
+      else setShow(false);{console.log("show",show)}}}>
+        {item.mainHead}</h3>
+       { show===index &&
+        <Markup content={item.innertext}/>
+
+       }
+
+    </div>)
+  })
+}
+
+<Button variant="contained" color='success'
+ onClick={(e)=>{setAdminInfo({...adminInfo,plans:[...adminInfo.plans]});
+ saveAdminInfo(e);
+ alert("PLAN Submitted successfully")}}>
+  Final Plans Submit</Button>
+</div>
+
+</div>
+
+{/* //plans section end here  */}
+</div>
+
 
         <Grid item xs={12} sm={12}>
         {edit?
