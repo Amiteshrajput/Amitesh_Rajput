@@ -71,7 +71,7 @@ function LogIn({type}) {
     // const credential = GoogleAuthProvider.credentialFromError(error);
     console.log(error)
   });
-  }
+}
   return(
     <div className='auth-container'>
       <h1>Welcome {type}</h1>
@@ -83,6 +83,7 @@ function LogIn({type}) {
       </button>
     </div>
   )
+
 }
 
 export default LogIn
