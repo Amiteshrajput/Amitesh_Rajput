@@ -535,7 +535,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
 {/* code for PLAN GALLARY starting here */}
 
 <div className='mainbox' style={{backgroundColor:"#90EE90"}}>
-          <h1 >PLAN GALLARY</h1>
+          <h1 >PLAN GALLERY</h1>
 
           {edit?<div style={{display:"flex",width:"80%",margin:"auto"}}>
             <input type="file"  accept='.gif, .jpg, .png' onChange={e=>setplanGalleryFile(e)}/>
@@ -585,8 +585,9 @@ setAdminInfo({...adminInfo,plans:newPlans})
 {/* code for PLAN GALLARY ENDING here */}
 
 
+{/*plan section starts here*/}
 
-<h2 >make headings in plan page</h2>
+<h2 >Create headings in plan page</h2>
 
 <div className='planPageHead'>
 
@@ -594,20 +595,20 @@ setAdminInfo({...adminInfo,plans:newPlans})
 <textarea id="outlined-basic" type="text" 
 value={mainhead}
 onChange={(e)=>setmainhead(e.target.value)}
- placeholder='Add Main Heading here'/>
+ placeholder='Add Main Heading here' disabled={!edit}/>
 <div style={{border:"2px solid red"}}>
  {!addHeading?<Button variant="contained"
  color="secondary"
- onClick={()=>setAddHeading(!addHeading)}>
+ onClick={()=>setAddHeading(!addHeading)}  disabled={!edit}>
   ADD HEADING
  </Button>
  :<>
  <textarea id="outlined-basic" type="text" 
  value={plhead}
   placeholder='addHeading' 
-  onChange={(e)=>setPhead(e.target.value)}/>
+  onChange={(e)=>setPhead(e.target.value)}  disabled={!edit}/>
  <Button  variant="contained"
- color='success'onClick={submitPLhead}>Submit Heading</Button>
+ color='success'onClick={submitPLhead}  disabled={!edit}>Submit Heading</Button>
  </>}
  {/* //to upload photo in plans */}
  {
@@ -619,30 +620,30 @@ onChange={(e)=>setmainhead(e.target.value)}
    placeholder="Submit image address" 
    type="url" 
    value={plansImage}
-   onChange={(e)=>setPlansImage(e.target.value)}/>
+   onChange={(e)=>setPlansImage(e.target.value)}  disabled={!edit}/>
   <Button startIcon={<CameraAltIcon />} variant="contained" size="small" 
    onClick={
     ()=>{SubmitPlanImg(plansImage)}
 
-  }>Upload</Button>
+  }  disabled={!edit}>Upload</Button>
   </div>
  }
   {!addText?<Button variant="contained"
-   onClick={()=>setAddText(!addText)}>
+   onClick={()=>setAddText(!addText)} disabled={!edit}>
     ADD TEXT
   </Button>:
  <>
   <textarea id="outlined-basic" value={pltext}
   onChange={(e)=>setPltext(e.target.value)}
-  type="text" placeholder='add simple text'/>
+  type="text" placeholder='add simple text'  disabled={!edit}/>
   <Button  variant="contained"
- color='success' onClick={submitPLtext}>Submit Text</Button>
+ color='success' onClick={submitPLtext}  disabled={!edit}>Submit Text</Button>
  </>
  }
 
 <Button  variant="contained"
  color='success'
- onClick={SubmitPlanHeading}>Submit Whole Heading</Button>
+ onClick={SubmitPlanHeading}  disabled={!edit}>Submit Whole Heading</Button>
 
 </div>
 
@@ -662,7 +663,7 @@ onChange={(e)=>setmainhead(e.target.value)}
     return (
     <div key={item.mainHead}>
       <Button variant="contained" color='error' 
-      onClick={()=>DELETEHEADING(item)}>DELETE {index+1} Heading</Button>
+      onClick={()=>DELETEHEADING(item)}  disabled={!edit}>DELETE {index+1} Heading</Button>
       <h3 style={{backgroundColor:"yellow",marginTop:"2%",textAlign:"center"}} 
       onClick={()=>{if(show===false)setShow(index)
       else setShow(false);{console.log("show",show)}}}>
@@ -679,7 +680,8 @@ onChange={(e)=>setmainhead(e.target.value)}
 <Button variant="contained" color='success'
  onClick={(e)=>{setAdminInfo({...adminInfo,plans:[...adminInfo.plans]});
  saveAdminInfo(e);
- alert("PLAN Submitted successfully")}}>
+ setEdit(false)
+ alert("PLAN Submitted successfully")}}  disabled={!edit}>
   Final Plans Submit</Button>
 </div>
 
