@@ -1,0 +1,140 @@
+.meetingTime{
+    background-color: white;
+    color: black;
+    overflow: auto;
+    height: 80%;
+    width: 60%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    bottom: 0;
+    right: 0;
+    z-index: 1000000;
+    margin: auto;
+    padding: 2%;
+    transition :opacity 300ms;
+    text-align: center;
+    border-radius: 10px;
+    background-image: url("./Images/pexels-andrea-piacquadio-3761509.jpg");
+   background-size: cover;
+   font-style: italic;
+   font-family: sans-serif;
+}
+
+.meetingTime:hover {
+   
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+} 
+
+.eventYoutube{
+  width: 60%;
+  margin: auto;
+  margin-top: 3%;
+}
+
+
+.ShowImagebtn{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    right: 50px;
+    position: absolute;
+    font-weight: 600;
+    color: white;
+    font-size: large;
+    border-radius: 5px;
+    border: none;
+    padding: 1%;
+    padding-left: 3%;
+    padding-right: 3%;
+    background-color: red;
+    display: flex;
+    align-items: center;
+   }
+  
+
+
+
+.expired-notice {
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid #ebebeb;
+    border-radius: 0.25rem;
+    margin: 0.5rem;
+   
+  }
+  
+  .expired-notice > span {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: orange;
+  }
+  
+  .expired-notice > p {
+    font-size: 1.5rem;
+  }
+  
+  .show-counter {
+    padding: 0.5rem;
+  }
+  
+  .show-counter .countdown-link {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    padding: 0.5rem;
+    border: 1px solid #ebebeb;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .show-counter .countdown {
+    line-height: 1.25rem;
+    padding: 0 0.75rem 0 0.75rem;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .show-counter .countdown.danger {
+    color: #ff0000;
+  }
+  
+  .show-counter .countdown > p {
+    margin: 0;
+  }
+  
+  .show-counter .countdown > span {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    line-height: 1rem;
+  }
+  
+  @media screen and (max-width:850px) {
+    .eventYoutube{
+        width: 85%;
+        margin: auto;
+      }
+
+      .meetingTime{
+        width: 90%;
+
+      }
+      
+}
+
+@media screen and (max-width:540px) {
+    .meetingTime{
+        width: 98%;
+
+      }
+    .eventYoutube{
+        width: 95%;
+        margin: auto;
+      }
+      
+}

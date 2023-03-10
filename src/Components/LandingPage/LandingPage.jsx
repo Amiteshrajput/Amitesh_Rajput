@@ -14,6 +14,7 @@ import WPandCall from './WPandCall/WPandCall'
 import { db } from '../../firebaseConfig/firebaseConfig'
 import { collection, doc,getDoc, onSnapshot, query, where } from 'firebase/firestore';
 import PLANS from './PLANS/PLANS'
+import LiveEvent from './LiveEvent/LiveEvent'
 
 
 function LandingPage() {
@@ -23,7 +24,7 @@ function LandingPage() {
   const [adminInfo,setAdminInfo]=React.useState()
 
 
-  const fetchAdminInfo=async()=>{
+  const fetchAdminInfo=async()=>{ 
 
     const q = query(collection(db, "usersData"),where('email','==',''));
     onSnapshot(q, (querySnapshot) => {
@@ -87,6 +88,7 @@ React.useEffect(()=>{fetchAdminInfo()},[])
       <Testimonials /> */}
       <Contact />
       <Footer />
+      <LiveEvent/>
      </div>:<h1>Loading...</h1>}</>
   )
 }
