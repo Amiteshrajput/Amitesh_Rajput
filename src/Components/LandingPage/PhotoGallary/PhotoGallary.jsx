@@ -29,7 +29,7 @@ const PhotoGallary = ({photogallery}) => {
   return (
     <div  className='Mainbox'>
       <div className='photogallary'>
-        <h3>Photo Gallary</h3>
+        <h3>Photo Gallery</h3>
       </div>
       
         <div className='photosCards' >

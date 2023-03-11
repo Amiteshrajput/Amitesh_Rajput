@@ -37,8 +37,7 @@ export default function LiveEvent() {
 
 
 React.useEffect(()=>{fetchAdminInfo()},[])
-
-const [eventstartDate,setStartDate ]=useState('')
+// const [display,setDisplay]=useState("none")
 
 useEffect(()=>{
     
@@ -47,25 +46,26 @@ useEffect(()=>{
     const sdf= new Date(myDate).getTime()
     setTime(+sdf)
     setEndTime(+new Date(eventData.endTime).getTime())
-    //console.log("YES",sdf)
-
+    console.log("YES",sdf)
+   
 },[eventData?.startTime,eventData?.endTime])
 
 //console.log(new Date(eventData.endTime).getTime()-new Date().getTime()>0)
 
-console.log("eventData",eventData)
+//console.log("eventData",eventData,(eventData.startTime.split("T")[0]))
 
 
 
   return (
-    <div  style={{display:`${new Date(EndTime).getTime()-new Date().getTime()>0?"":"none"}`,
+    <div  style={{display:`${new Date(EndTime).getTime()-new Date().getTime()>0
+      &&new Date(EndTime).getTime()-new Date(startTime).getTime()>0?"":"none"}`
               }}>
         {
             openModal?<div className='event a-glow'>
                 <button  onClick={()=>setopenModal(false)}>Click to Register for Event</button>
                 </div>:<div className='meetingTime'>
                     <button className='ShowImagebtn button-85' onClick={()=>setopenModal(true)}>Close</button>
-              <h1>Upcoming Event </h1>
+              <h1 style={{marginTop:"10%"}}>Upcoming Event </h1>
              
              
              
@@ -77,38 +77,47 @@ console.log("eventData",eventData)
               </a></h2>
 
 
-    <div className='timershow'>
-      <h2>Event Details...!!</h2>
-    <div className="expired-notice">
-       {<> <span >Meeting in Progress!!!</span>
-           <p>Please Register for event fastly...</p></>
+    <div className='timershow evendetails'>
+      <h2 style={{color:"green"}}>👀See Event Details here ...!!</h2>
+    <div  className="expired-notice" style={{backgroundColor:"white"}}>
+      
+       {<> 
+       <span >Meeting start date : {(eventData.startTime).split("T")[0].split("-")[2]+"/"
+       +(eventData.startTime).split("T")[0].split("-")[1]+"/"+(eventData.startTime).split("T")[0].split("-")[0]}</span>
+            
+             <p></p>
+            <span>Start Time : {new Date(eventData.startTime).toLocaleTimeString()}</span>
+            <p><a href={eventData.formUrl} className='atag' style={{
+              textDecorationLine:"underline"
+            }} target="_blank">Register Now</a></p>
+           <p style={{color:"blue"}}>Please Register for event fastly...</p>
+
+
+           <div >
+                <h2>𝐂𝐨𝐮𝐧𝐝𝐨𝐰𝐧 𝐓𝐢𝐦𝐞𝐫 :</h2>
+                
+                  <CountdownTimer type={"startingTime"}  targetDate={startTime}  />
+                  
+              </div>
+
+              <div className='eventYoutube'>
+                    <YoutubeEmbed  embedId={eventData?.youtubeUrl?.split("").splice(eventData?.youtubeUrl.lastIndexOf("/")+1).join("")}/>
+                </div>
+           
+           </>
         }
           </div>
     </div>
-
-
-
-
-
-
-
-
               
-              <div className='timershow'>
-                <h2>Event starting in :</h2>
+             
 
-                    <CountdownTimer targetDate={startTime} type={"startingTime"} />
-              </div>
-
-              <div className='timershow' >
+              <div className='timershow' style={{display:"none"}} >
                 <h2>Event Ending in :</h2>
-              <CountdownTimer  targetDate={EndTime} type={"endingTime"} />
+              <CountdownTimer   type={"endingTime"}   targetDate={EndTime} />
               </div>
                
                   
-                <div className='eventYoutube'>
-                    <YoutubeEmbed  embedId={eventData?.youtubeUrl?.split("").splice(eventData?.youtubeUrl.lastIndexOf("/")+1).join("")}/>
-                </div>
+                
 
            
             </div>

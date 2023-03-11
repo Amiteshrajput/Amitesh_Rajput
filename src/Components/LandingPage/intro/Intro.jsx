@@ -14,6 +14,9 @@ const Intro = ({image,about
     <section id="about">
       <h5>Get to know</h5>
       <h2>About Me</h2>
+      <br/>
+      <br/>
+      <br />
       <div className="container about__container">
         <div className="about__me">
           <div className="about__me-image">

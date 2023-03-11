@@ -25,11 +25,16 @@
    
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 } 
+.evendetails{
+  background-color: #FFE53B;
+  background-image: linear-gradient(291deg, #FFE53B 0%, #FF2525 74%);
+  
+}
 
 .eventYoutube{
-  width: 60%;
+  width: 100%;
   margin: auto;
-  margin-top: 3%;
+  margin-top: 5%;
 }
 
 
@@ -81,7 +86,9 @@
   }
   
   .show-counter {
-    padding: 0.5rem;
+    background-color: white;
+    border-radius: 2%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
   
   .show-counter .countdown-link {
@@ -122,10 +129,7 @@
   }
   
   @media screen and (max-width:850px) {
-    .eventYoutube{
-        width: 85%;
-        margin: auto;
-      }
+    
 
       .meetingTime{
         width: 90%;
@@ -139,9 +143,17 @@
         width: 98%;
 
       }
-    .eventYoutube{
-        width: 95%;
-        margin: auto;
-      }
       
+    
+      
+}
+
+.atag:hover{
+color: green;
+}
+
+.starttime{
+background-color: #4158D0;
+background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+
 }

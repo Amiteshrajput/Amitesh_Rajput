@@ -19,6 +19,9 @@
     transform: rotate(10deg);
     transition: var(--transition);
 }
+.about__me-image>img{
+    object-fit: cover;
+}
 
 .about__me-image:hover {
     transform: rotate(0);
@@ -81,18 +84,19 @@
     }
 }
   
-@media screen and (max-width: 600px){
+@media screen and (max-width: 850px){
     .about__me {
         width: 65%;
         margin: 0rem auto 3rem; 
     }
-
+    
     .about__cards {
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
     }
 
     .about__content {
+        margin-top: 12%;
         text-align: center;
     }
 
