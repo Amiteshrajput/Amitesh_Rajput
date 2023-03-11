@@ -11,7 +11,6 @@ import YoutubeEmbed from '../YoutubePlayer/YoutubeEmbed';
 
 
 
-
 export default function LiveEvent() {
 
 
@@ -29,7 +28,7 @@ export default function LiveEvent() {
        setEventData({...doc.data()})
         console.log(doc.data())
       });
-        console.log("eventData",eventData)
+        // console.log("eventData",eventData)
     // setLoading(false)
     });
     
@@ -39,6 +38,7 @@ export default function LiveEvent() {
 
 React.useEffect(()=>{fetchAdminInfo()},[])
 
+const [eventstartDate,setStartDate ]=useState('')
 
 useEffect(()=>{
     
@@ -47,11 +47,15 @@ useEffect(()=>{
     const sdf= new Date(myDate).getTime()
     setTime(+sdf)
     setEndTime(+new Date(eventData.endTime).getTime())
-    console.log("YES",sdf)
+    //console.log("YES",sdf)
 
 },[eventData?.startTime,eventData?.endTime])
 
 //console.log(new Date(eventData.endTime).getTime()-new Date().getTime()>0)
+
+console.log("eventData",eventData)
+
+
 
   return (
     <div  style={{display:`${new Date(EndTime).getTime()-new Date().getTime()>0?"":"none"}`,
@@ -62,21 +66,43 @@ useEffect(()=>{
                 </div>:<div className='meetingTime'>
                     <button className='ShowImagebtn button-85' onClick={()=>setopenModal(true)}>Close</button>
               <h1>Upcoming Event </h1>
-              <h2 className='button-85' style={{backgroundColor:"black"}}>
+             
+             
+             
+              <h2 className='button-85' style={{backgroundColor:"red"}} 
+              onClick={()=> window.open(`${eventData.formUrl}`, "_blank")}>
                 <a href={eventData.formUrl} target="_blank" 
               >
                 Register for Event
               </a></h2>
+
+
+    <div className='timershow'>
+      <h2>Event Details...!!</h2>
+    <div className="expired-notice">
+       {<> <span >Meeting in Progress!!!</span>
+           <p>Please Register for event fastly...</p></>
+        }
+          </div>
+    </div>
+
+
+
+
+
+
+
+
               
               <div className='timershow'>
                 <h2>Event starting in :</h2>
 
-                    <CountdownTimer targetDate={startTime} />
+                    <CountdownTimer targetDate={startTime} type={"startingTime"} />
               </div>
 
-              <div className='timershow'>
+              <div className='timershow' >
                 <h2>Event Ending in :</h2>
-              <CountdownTimer targetDate={EndTime} />
+              <CountdownTimer  targetDate={EndTime} type={"endingTime"} />
               </div>
                
                   

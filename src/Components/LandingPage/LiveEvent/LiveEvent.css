@@ -9,7 +9,7 @@
     top: 0px;
     bottom: 0;
     right: 0;
-    z-index: 1000000;
+    z-index: 1000;
     margin: auto;
     padding: 2%;
     transition :opacity 300ms;
@@ -51,6 +51,13 @@
     align-items: center;
    }
   
+   .timershow{
+    border-radius: 5px;
+    padding: 2%;
+    background-color: white;
+    margin: 3%;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+}
 
 
 

@@ -106,13 +106,6 @@
   100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
 }
 
-.timershow{
-    border-radius: 5px;
-    padding: 2%;
-    background-color: white;
-    margin: 3%;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
-}
 
 
 /* CSS */

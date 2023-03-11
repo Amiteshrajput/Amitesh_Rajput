@@ -1,13 +1,17 @@
 import React from 'react';
 import DateTimeDisplay from './DateTimeDisplay';
 import { useCountdown } from './hooks/useCountdown';
+import Swal from 'sweetalert2'
 
 
-const ExpiredNotice = () => {
+const ExpiredNotice = ({type}) => {
     return (
       <div className="expired-notice">
-        <span >Meeting in Progress!!!</span>
-        <p>Please Register for event fastly...</p>
+       {type==="startingTime"?<> <span >Meeting in Progress!!!</span>
+        <p>Please Register for event fastly...</p></>
+        :
+        <> <span style={{color:"red"}} >Meeting Ended!!!</span>
+        <p>Please wait for upcoming events...</p></>}
       </div>
     );
   };
@@ -33,11 +37,22 @@ const ShowCounter = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-const CountdownTimer = ({ targetDate }) => {
+const CountdownTimer = ({ targetDate,type }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
   if (days + hours + minutes + seconds <= 0) {
-    return <ExpiredNotice />;
+
+    if(type==="endingTime"){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...!',
+        text: 'Event Ended',
+        footer: 'Wait for upcoming event'
+      })
+      // window.location.reload(false);
+    }
+
+    return <ExpiredNotice  type={type}/>;
   } else {
     return (
       <ShowCounter
@@ -54,3 +69,9 @@ export default CountdownTimer;
 
 
 
+function AlertMsg(){
+  return (
+  <div>
+
+         </div>)
+}
