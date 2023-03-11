@@ -38,7 +38,7 @@ export default function LiveEvent() {
 
 
 React.useEffect(()=>{fetchAdminInfo()},[])
-
+// const [display,setDisplay]=useState("none")
 
 useEffect(()=>{
     
@@ -48,13 +48,13 @@ useEffect(()=>{
     setTime(+sdf)
     setEndTime(+new Date(eventData.endTime).getTime())
     console.log("YES",sdf)
-
+   
 },[eventData?.startTime,eventData?.endTime])
 
 //console.log(new Date(eventData.endTime).getTime()-new Date().getTime()>0)
 
   return (
-    <div  style={{display:`${new Date(EndTime).getTime()-new Date().getTime()>0?"":"none"}`,
+    <div  style={{display:`${new Date(EndTime).getTime()-new Date().getTime()>0?"":"none"}`
               }}>
         {
             openModal?<div className='event a-glow'>
@@ -70,13 +70,14 @@ useEffect(()=>{
               
               <div className='timershow'>
                 <h2>Event starting in :</h2>
-
-                    <CountdownTimer targetDate={startTime} />
+                {
+                  <CountdownTimer type={"startingTime"}  targetDate={startTime}  />
+                  }
               </div>
 
               <div className='timershow'>
                 <h2>Event Ending in :</h2>
-              <CountdownTimer targetDate={EndTime} />
+              <CountdownTimer  type={"endingTime"}   targetDate={EndTime} />
               </div>
                
                   

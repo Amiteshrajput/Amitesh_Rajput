@@ -76,6 +76,7 @@ border-radius: 1%;
 }
 
 .aboutMe>img{
+ 
 width: 100%;
 border-radius: 5%;
 
@@ -84,4 +85,17 @@ border-radius: 5%;
 
 .aboutME:hover {
   transform: rotate(5);
+}
+
+@media screen and (max-width:850px){
+  .aboutMe{
+    width: 45%;
+  }
+}
+
+
+@media screen and (max-width:550px){
+  .aboutMe{
+    width: 60%;
+  }
 }

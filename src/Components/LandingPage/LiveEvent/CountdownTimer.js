@@ -3,11 +3,16 @@ import DateTimeDisplay from './DateTimeDisplay';
 import { useCountdown } from './hooks/useCountdown';
 
 
-const ExpiredNotice = () => {
+const ExpiredNotice = ({type}) => {
     return (
       <div className="expired-notice">
-        <span >Meeting in Progress!!!</span>
-        <p>Please Register for event fastly...</p>
+        {type==="startingTime"?<><span >Meeting in Progress!!!</span>
+        <p>Please Register for event fastly...</p></>
+        :<>
+        <span >Meeting Ended!!!</span>
+        <p>Please wait for upcoming events...</p>
+        </>
+        }
       </div>
     );
   };
@@ -33,11 +38,17 @@ const ShowCounter = ({ days, hours, minutes, seconds }) => {
   );
 };
 
-const CountdownTimer = ({ targetDate }) => {
+const CountdownTimer = ({ targetDate,type,display,setDisplay}) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
-
+ 
+    
   if (days + hours + minutes + seconds <= 0) {
-    return <ExpiredNotice />;
+    if (type==="endingTime"){
+      //alert("Event ended")
+      window.location.reload(false)
+    }
+
+    return <ExpiredNotice type={type} />;
   } else {
     return (
       <ShowCounter
