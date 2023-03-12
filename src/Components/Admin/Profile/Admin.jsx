@@ -470,7 +470,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
                   <Button size="small"   variant="contained"
                    onClick={()=>{
                     // setEditPhoto(item.id)
-                  editDeleteImage(item.fileRef,setEditPhoto,item.id,"photoGallery")}}>Edit</Button>}    
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
@@ -577,11 +577,11 @@ setAdminInfo({...adminInfo,plans:newPlans})
                   <Button size="small"   variant="contained"
                    onClick={()=>{
                     // setEditPhoto(item.id)
-                  editDeleteImage(item.fileRef,setEditPhoto,item.id,"planGallery")}}>Edit</Button>}    
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
-                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
+                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id,"planGallery")}}>Delete</Button>
                 </Tooltip>
               </div>:''}
           </div>
