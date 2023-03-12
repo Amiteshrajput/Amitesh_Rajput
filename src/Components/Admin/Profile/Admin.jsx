@@ -141,14 +141,18 @@ function AdminProfile() {
   }
   
   //delete Image from firebase storage
-  const deleteImage=async(fileRef,id)=>{
+  const deleteImage=async(fileRef,id,type)=>{
     let ans=window.confirm('Sure want to delete?')
     if(ans){
       // Delete the file
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then((e) => {
       // File deleted successfully
-      let temp=adminInfo.photoGallery.filter((item)=>{return item.id!==id})
+      
+      let temp=type==="photoGallery"?
+      adminInfo.photoGallery.filter((item)=>{return item.id!==id}):
+      adminInfo.planGallery.filter((item)=>{return item.id!==id})
+
       for(let i=id;i<temp.length;i++){
         temp[i].id--;
       }
@@ -157,7 +161,11 @@ function AdminProfile() {
       return temp
       })
       .then((temp)=>{
-        setAdminInfo({...adminInfo,photoGallery : temp})
+
+        type==="photoGallery"?setAdminInfo({...adminInfo,photoGallery : temp}):
+        setAdminInfo({...adminInfo,planGallery : temp})
+
+
         // saveAdminInfo()
       })
       // .then(saveAdminInfo)  
@@ -169,7 +177,7 @@ function AdminProfile() {
   }
   
   //edit image by first deleting it from firebase storage and then uploading new file
-  const editDeleteImage=async(fileRef,set,id)=>{
+  const editDeleteImage=async(fileRef,set,id,type)=>{
     let ans=window.confirm('Sure want to change photo?')
     if(ans){
       const fileFullRef = ref(storage, fileRef);
@@ -569,11 +577,11 @@ setAdminInfo({...adminInfo,plans:newPlans})
                   <Button size="small"   variant="contained"
                    onClick={()=>{
                     // setEditPhoto(item.id)
-                  editDeleteImage(item.fileRef,setEditPhoto,item.id)}}>Edit</Button>}    
+                  editDeleteImage(item.fileRef,setEditPhoto,item.id,"planGallery")}}>Edit</Button>}    
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
-                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
+                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id,"planGallery")}}>Delete</Button>
                 </Tooltip>
               </div>:''}
           </div>

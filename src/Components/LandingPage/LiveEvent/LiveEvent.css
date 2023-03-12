@@ -9,7 +9,7 @@
     top: 0px;
     bottom: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 10000;
     margin: auto;
     padding: 2%;
     transition :opacity 300ms;
@@ -34,7 +34,7 @@
 .eventYoutube{
   width: 100%;
   margin: auto;
-  margin-top: 5%;
+  margin-top: 7%;
 }
 
 
@@ -60,7 +60,7 @@
     border-radius: 5px;
     padding: 2%;
     background-color: white;
-    margin: 3%;
+    margin-top: 3%;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
@@ -139,8 +139,13 @@
 }
 
 @media screen and (max-width:540px) {
+  .timershow{
+    padding: 0;
+  }
+ 
     .meetingTime{
-        width: 98%;
+      padding: 0;
+        width: 99%;
 
       }
       
