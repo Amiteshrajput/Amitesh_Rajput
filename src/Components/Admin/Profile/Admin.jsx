@@ -147,7 +147,7 @@ function AdminProfile() {
       // Delete the file
       const fileFullRef = ref(storage, fileRef);
       deleteObject(fileFullRef).then((e) => {
-      // File deleted successfully
+      // File deleted successfully photoGallery
       
       let temp=type==="photoGallery"?
       adminInfo.photoGallery.filter((item)=>{return item.id!==id}):
@@ -474,7 +474,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
                 </Tooltip>
                 <Tooltip title="Delete This Img" followCursor>
                   <Button size="small" sx={{marginLeft:"5%"}} variant="contained"
-                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id)}}>Delete</Button>
+                   color="error" startIcon={<DeleteIcon />} onClick={()=>{deleteImage(item.fileRef,item.id,"photoGallery")}}>Delete</Button>
                 </Tooltip>
               </div>:''}
           </div>
