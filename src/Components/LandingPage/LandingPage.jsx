@@ -15,6 +15,7 @@ import { db } from '../../firebaseConfig/firebaseConfig'
 import { collection, doc,getDoc, onSnapshot, query, where } from 'firebase/firestore';
 import PLANS from './PLANS/PLANS'
 import LiveEvent from './LiveEvent/LiveEvent'
+import YoutubeTestimonials from './YouTubeTestimonials/Testimonials'
 
 
 function LandingPage() {
@@ -72,6 +73,7 @@ React.useEffect(()=>{fetchAdminInfo()},[])
       <KAYOUYoutubePlayer embedId={adminInfo?.introVideo?.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join("")} />
       <YouTubeADD/>
       <WPandCall/>
+      <YoutubeTestimonials testimonials={adminInfo?.testimonials}/>
       <PLANS 
       planheading1={adminInfo?.planheading1}
       planheading2={adminInfo?.planheading2}
@@ -85,7 +87,7 @@ React.useEffect(()=>{fetchAdminInfo()},[])
       />
      <PhotoGallary photogallery={adminInfo?.photoGallery}/>
       {/* <Portfolio />
-      <Testimonials /> */}
+       */}
       <Contact />
       <Footer />
       <LiveEvent/>

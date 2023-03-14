@@ -11,7 +11,8 @@ import { UserContext } from '../../../Contexts/UserContext';
 import { FloatingButton } from './FloatingButton';
 import { theme } from './theme';
 import { Markup } from 'interweave';
-import { TextareaAutosize } from '@mui/base'
+import Swal from 'sweetalert2'
+import TestimonialSection from './TestimonialSection';
 
 // import PlanSection from './PlanSection';
 
@@ -699,6 +700,45 @@ onChange={(e)=>setmainhead(e.target.value)}
 {/* //plans section end here  */}
 </div>
 
+{/* testimonials section start from here  */}
+
+<div className='testimonial-section' >
+<h1 >Testimonial section</h1>
+<TestimonialSection  edit={edit}   
+      adminInfo={adminInfo}
+      setAdminInfo={setAdminInfo}
+      submitFile={submitFile}
+      saveAdminInfo={saveAdminInfo}            />
+
+</div>
+
+
+
+
+
+
+
+{/* testimonials section end here  */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <Grid item xs={12} sm={12}>
         {edit?
@@ -706,6 +746,13 @@ onChange={(e)=>setmainhead(e.target.value)}
           <FloatingButton  color={theme.color.white}
        background={"blue"} type='submit' rightOffset = "230px" onClick={e=>{saveAdminInfo(e);
           setEdit(false);
+          Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'Your data has been saved',
+            showConfirmButton: false,
+            timer: 1500
+          })
           // setEditPhoto(false)
           }}>Save</FloatingButton>
           <FloatingButton  color={theme.color.white}

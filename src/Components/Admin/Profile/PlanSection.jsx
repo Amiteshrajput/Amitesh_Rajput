@@ -149,7 +149,7 @@ onChange={(e)=>setmainhead(e.target.value)}
        SubmitPlanImg()})
        
     }
-  //  adminInfo.planGallery?adminInfo.planGallery[(adminInfo.planGallery.length-1)].src:"null"
+  
   }>Upload</Button>
   </div>
  }

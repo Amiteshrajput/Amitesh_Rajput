@@ -1,6 +1,7 @@
 .container.testimonials__container {
     width: 40%;
     padding-bottom: 4rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 .client__avatar {
@@ -45,7 +46,7 @@
     }
 }
   
-@media screen and (max-width: 850px){
+@media screen and (max-width: 600px){
     .container.testimonials__container {
         width: var(--container-width-sm);
     }
