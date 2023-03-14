@@ -314,7 +314,8 @@ setAdminInfo({...adminInfo,plans:newPlans})
       <Grid item xs={12} sm={6} sx={{color:'black'}}>
         {adminInfo.introVideo?(editVideo?
            <div>
-            <TextField type='url' value={adminInfo?.introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} placeholder='Enter url here' disabled={!edit}/>
+            <TextField type='url' value={adminInfo?.introVideo?introVideo:adminInfo.introVideo} onChange={(e)=>setIntroVideo(e.target.value)} 
+            placeholder='Enter url here' disabled={!edit}/>
             <Button onClick={()=>{setAdminInfo({...adminInfo,introVideo:introVideo});}}>Make changes</Button>
            </div>:
            <div>
