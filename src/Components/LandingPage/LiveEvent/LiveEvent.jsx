@@ -82,11 +82,11 @@ useEffect(()=>{
     <div  className="expired-notice" style={{backgroundColor:"white"}}>
       
        {<> 
-       <span >Meeting start date : {(eventData.startTime).split("T")[0].split("-")[2]+"/"
-       +(eventData.startTime).split("T")[0].split("-")[1]+"/"+(eventData.startTime).split("T")[0].split("-")[0]}</span>
+       <p >Meeting start date : {(eventData.startTime).split("T")[0].split("-")[2]+"/"
+       +(eventData.startTime).split("T")[0].split("-")[1]+"/"+(eventData.startTime).split("T")[0].split("-")[0]}</p>
             
              <p></p>
-            <span>Start Time : {new Date(eventData.startTime).toLocaleTimeString()}</span>
+            <p>Start Time : {new Date(eventData.startTime).toLocaleTimeString()}</p>
             <p><a href={eventData.formUrl} className='atag' style={{
               textDecorationLine:"underline"
             }} target="_blank">Register Now</a></p>
@@ -94,7 +94,7 @@ useEffect(()=>{
 
 
            <div >
-                <h2>𝐂𝐨𝐮𝐧𝐝𝐨𝐰𝐧 𝐓𝐢𝐦𝐞𝐫 :</h2>
+                <h2>𝐂𝐨𝐮𝐧𝐝𝐨𝐰𝐧:</h2>
                 
                   <CountdownTimer type={"startingTime"}  targetDate={startTime}  />
                   

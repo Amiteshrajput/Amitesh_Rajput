@@ -19,7 +19,7 @@ import { useContext } from 'react';
 
 
 const pages = [{page:'About',path:'/#about'},
-// {page:'Service',path:'/service'},
+ {page:'TESTIMONIALS',path:'/#testimonialss'},
 {page: 'Achievements',path:'/achievements'},
 {page:'Opportunity',path:'/#plan'},
 {page:'Contact',path:'/#contact'},];

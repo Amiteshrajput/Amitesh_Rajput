@@ -15,7 +15,7 @@ import YoutubeEmbed from '../YoutubePlayer/YoutubeEmbed';
 const YoutubeTestimonials = ({testimonials}) => {
 
   return (
-    <section id="testmonials">
+    <section id="testimonialss">
       <h5>Feedback from my peers</h5>
       <h2>Testimonials</h2>
       <Swiper 
