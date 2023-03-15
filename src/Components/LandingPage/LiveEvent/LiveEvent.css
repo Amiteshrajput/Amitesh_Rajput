@@ -1,9 +1,9 @@
 .meetingTime{
-    background-color: white;
-    color: black;
+    
+    color: white;
     overflow: auto;
-    height: 80%;
-    width: 60%;
+    height: 90%;
+    width: 30%;
     position: fixed;
     left: 0px;
     top: 0px;
@@ -11,12 +11,10 @@
     right: 0;
     z-index: 10000;
     margin: auto;
-    padding: 2%;
     transition :opacity 300ms;
     text-align: center;
     border-radius: 10px;
-    background-image: url("./Images/pexels-andrea-piacquadio-3761509.jpg");
-   background-size: cover;
+   background-color: #050414;
    font-style: italic;
    font-family: sans-serif;
 }
@@ -25,42 +23,18 @@
    
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 } 
-.evendetails{
-  background-color: #FFE53B;
-  background-image: linear-gradient(291deg, #FFE53B 0%, #FF2525 74%);
-  
-}
 
 .eventYoutube{
   width: 100%;
   margin: auto;
-  margin-top: 7%;
 }
 
 
-.ShowImagebtn{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    right: 50px;
-    position: absolute;
-    font-weight: 600;
-    color: white;
-    font-size: large;
-    border-radius: 5px;
-    border: none;
-    padding: 1%;
-    padding-left: 3%;
-    padding-right: 3%;
-    background-color: red;
-    display: flex;
-    align-items: center;
-   }
-  
+
    .timershow{
     border-radius: 5px;
-    padding: 2%;
+    /* padding: 1%; */
     background-color: white;
-    margin-top: 3%;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
@@ -75,15 +49,7 @@
    
   }
   
-  .expired-notice > span {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: orange;
-  }
-  
-  .expired-notice > p {
-    font-size: 1.5rem;
-  }
+ 
   
   .show-counter {
     background-color: white;
@@ -161,4 +127,9 @@ color: green;
 background-color: #4158D0;
 background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
 
+}
+
+p{
+   font-style: normal;
+  font-size: small;
 }

@@ -55,7 +55,6 @@ useEffect(()=>{
 //console.log("eventData",eventData,(eventData.startTime.split("T")[0]))
 
 
-
   return (
     <div  style={{display:`${new Date(EndTime).getTime()-new Date().getTime()>0
       &&new Date(EndTime).getTime()-new Date(startTime).getTime()>0?"":"none"}`
@@ -64,33 +63,37 @@ useEffect(()=>{
             openModal?<div className='event a-glow'>
                 <button  onClick={()=>setopenModal(false)}>Click to Register for Event</button>
                 </div>:<div className='meetingTime'>
-                    <button className='ShowImagebtn button-85' onClick={()=>setopenModal(true)}>Close</button>
-              <h1 style={{marginTop:"10%"}}>Upcoming Event </h1>
+                   
              
              
-             
-              <h2 className='button-85' style={{backgroundColor:"red"}} 
+    < >
+  
+    <div  className="expired-notice" >
+    <button className='close' onClick={()=>setopenModal(true)}>Close</button>
+    <div className='eventYoutube button-85' style={{marginBottom:"3%"}}>
+                    <YoutubeEmbed  embedId={eventData?.youtubeUrl?.split("").splice(eventData?.youtubeUrl.lastIndexOf("/")+1).join("")}/>
+    </div>
+    <b >{eventData?.eventHeading}</b>
+    <p className='textmsg'>{eventData?.eventMessage}</p>
+
+    <h3 className='glow-btn' style={{marginTop:"3%",cursor:"pointer",color:"white"}} 
               onClick={()=> window.open(`${eventData.formUrl}`, "_blank")}>
-                <a href={eventData.formUrl} target="_blank" 
-              >
+               <span></span>
+               <span></span>
+               <span></span>
+               <span></span>
                 Register for Event
-              </a></h2>
+              </h3>
 
-
-    <div className='timershow evendetails'>
-      <h2 style={{color:"green"}}>👀See Event Details here ...!!</h2>
-    <div  className="expired-notice" style={{backgroundColor:"white"}}>
       
        {<> 
-       <p >Meeting start date : {(eventData.startTime).split("T")[0].split("-")[2]+"/"
+       <p className='textmsg'>Meeting start date : {(eventData.startTime).split("T")[0].split("-")[2]+"/"
        +(eventData.startTime).split("T")[0].split("-")[1]+"/"+(eventData.startTime).split("T")[0].split("-")[0]}</p>
             
-             <p></p>
-            <p>Start Time : {new Date(eventData.startTime).toLocaleTimeString()}</p>
-            <p><a href={eventData.formUrl} className='atag' style={{
-              textDecorationLine:"underline"
-            }} target="_blank">Register Now</a></p>
-           <p style={{color:"blue"}}>Please Register for event fastly...</p>
+            
+            <p className='textmsg'>Start Time : {new Date(eventData.startTime).toLocaleTimeString()}</p>
+         
+           {/* <p style={{color:"blue"}}>Please Register for event fastly...</p> */}
 
 
            <div >
@@ -100,14 +103,12 @@ useEffect(()=>{
                   
               </div>
 
-              <div className='eventYoutube'>
-                    <YoutubeEmbed  embedId={eventData?.youtubeUrl?.split("").splice(eventData?.youtubeUrl.lastIndexOf("/")+1).join("")}/>
-                </div>
+              
            
            </>
         }
           </div>
-    </div>
+    </>
               
              
 
