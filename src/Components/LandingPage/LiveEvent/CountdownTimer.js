@@ -5,7 +5,7 @@ import { useCountdown } from './hooks/useCountdown';
 
 const ExpiredNotice = ({type}) => {
     return (
-      <div className="expired-notice">
+      <div className="expired-notice-end">
         {type==="startingTime"?<><span >Meeting in Progress!!!</span>
         <p>Please Register for event fastly...</p></>
         :<>

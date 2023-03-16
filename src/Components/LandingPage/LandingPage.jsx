@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Header from "./Header/Header"
 import Topbar from "./topbar/Topbar"
 import Intro from "./intro/Intro"
@@ -37,23 +37,15 @@ function LandingPage() {
 
       // console.log(adminData)
     setAdminInfo(adminData)
-    // setLoading(false)
+   
     });
-    // const docRef = doc(db, "usersData", '0SRf2rIzwoCdh1P0mrco');
-    // const docSnap = await getDoc(docRef);
-    // if (docSnap.exists()) {
-    //   console.log("Document data:", docSnap.data());
-    //   setAdminInfo(docSnap.data())
-    //   // setLoading(false)
-    // } else {
-    //   // doc.data() will be undefined in this case
-    //   console.log("No such document!");
-    // }
+
   
   }
 
 
 React.useEffect(()=>{fetchAdminInfo()},[])
+
 
  
   return (
