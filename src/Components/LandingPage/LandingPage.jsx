@@ -47,6 +47,33 @@ function LandingPage() {
 React.useEffect(()=>{fetchAdminInfo()},[])
 
 
+
+
+
+
+
+
+const handleClickScroll = (element) => {
+  
+  if (element) {
+    // 👇 Will scroll smoothly to the top of the next section
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
+
+
+useEffect(() => { 
+  const element = document.getElementById('section-1');
+  handleClickScroll(element)
+ },[]);
+
+
+
+
+
+
+
  
   return (
     <>
@@ -65,7 +92,7 @@ React.useEffect(()=>{fetchAdminInfo()},[])
       <KAYOUYoutubePlayer embedId={adminInfo?.introVideo?.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join("")} />
       <YouTubeADD/>
       <WPandCall/>
-      <YoutubeTestimonials testimonials={adminInfo?.testimonials}/>
+      <YoutubeTestimonials testimonials={adminInfo?.testimonials} id="section-1"/>
       <PLANS 
       planheading1={adminInfo?.planheading1}
       planheading2={adminInfo?.planheading2}
@@ -82,7 +109,7 @@ React.useEffect(()=>{fetchAdminInfo()},[])
        */}
       <Contact />
       <Footer />
-      <LiveEvent/>
+      <LiveEvent   />
      </div>:<h1>Loading...</h1>}</>
   )
 }
