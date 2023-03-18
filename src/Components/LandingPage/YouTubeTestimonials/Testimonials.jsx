@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BsLinkedin } from 'react-icons/bs';
 import { Pagination } from 'swiper';
 
@@ -13,9 +13,16 @@ import './testimonials.css';
 import YoutubeEmbed from '../YoutubePlayer/YoutubeEmbed';
 
 const YoutubeTestimonials = ({testimonials}) => {
+  const refContainer = useRef(null);
+  useEffect(() => { 
+   setTimeout(()=>{
+    refContainer.current.scrollIntoView({ behavior: "smooth",block: "start", inline: "nearest"  }); 
+   },2000)
+  }
+  ,[])
 
   return (
-    <section id="testimonialss">
+    <section id="testimonialss" ref={refContainer}>
       <h5>Feedback from my peers</h5>
       <h2>Testimonials</h2>
       <Swiper 

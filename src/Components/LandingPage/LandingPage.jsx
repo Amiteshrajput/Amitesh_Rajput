@@ -16,6 +16,7 @@ import { collection, doc,getDoc, onSnapshot, query, where } from 'firebase/fires
 import PLANS from './PLANS/PLANS'
 import LiveEvent from './LiveEvent/LiveEvent'
 import YoutubeTestimonials from './YouTubeTestimonials/Testimonials'
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 function LandingPage() {
@@ -50,30 +51,6 @@ React.useEffect(()=>{fetchAdminInfo()},[])
 
 
 
-
-
-
-const handleClickScroll = (element) => {
-  
-  if (element) {
-    // 👇 Will scroll smoothly to the top of the next section
-    element.scrollIntoView({ behavior: 'smooth' });
-  }
-};
-
-
-
-useEffect(() => { 
-  const element = document.getElementById('section-1');
-  handleClickScroll(element)
- },[]);
-
-
-
-
-
-
-
  
   return (
     <>
@@ -92,7 +69,7 @@ useEffect(() => {
       <KAYOUYoutubePlayer embedId={adminInfo?.introVideo?.split("").splice(adminInfo?.introVideo.lastIndexOf("/")+1).join("")} />
       <YouTubeADD/>
       <WPandCall/>
-      <YoutubeTestimonials testimonials={adminInfo?.testimonials} id="section-1"/>
+      <YoutubeTestimonials testimonials={adminInfo?.testimonials}/>
       <PLANS 
       planheading1={adminInfo?.planheading1}
       planheading2={adminInfo?.planheading2}
