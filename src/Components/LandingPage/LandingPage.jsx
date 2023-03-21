@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, } from 'react'
 import Header from "./Header/Header"
 import Topbar from "./topbar/Topbar"
 import Intro from "./intro/Intro"
-import Experience from "./experience/Experience"
-import Portfolio from "./portfolio/Portfolio"
-import Testimonials from "./testimonials/Testimonials"
 import Contact from "./contact/Contact"
 import Footer from "./footer/Footer"
 import PhotoGallary from './PhotoGallary/PhotoGallary'
@@ -12,15 +9,15 @@ import KAYOUYoutubePlayer from './YoutubePlayer/YoutubePlayer'
 import YouTubeADD from './YouTubeADD/YouTubeADD'
 import WPandCall from './WPandCall/WPandCall'
 import { db } from '../../firebaseConfig/firebaseConfig'
-import { collection, doc,getDoc, onSnapshot, query, where } from 'firebase/firestore';
+import { collection,  onSnapshot, query, where } from 'firebase/firestore';
 import PLANS from './PLANS/PLANS'
 import LiveEvent from './LiveEvent/LiveEvent'
 import YoutubeTestimonials from './YouTubeTestimonials/Testimonials'
-import { useNavigate, useParams } from 'react-router-dom'
+import { UserContext } from '../../Contexts/UserContext'
 
 
 function LandingPage() {
-
+  const [state,dispatch]=useContext(UserContext)
 
 
   const [adminInfo,setAdminInfo]=React.useState()
@@ -47,6 +44,27 @@ function LandingPage() {
 
 React.useEffect(()=>{fetchAdminInfo()},[])
 
+useEffect(()=>{
+    
+  if(state.tour){
+    let timeout=setTimeout(()=>{
+      window.location.assign('/#testimonials')
+      setTimeout(()=>{
+        window.location.assign('/#about')
+        setTimeout(()=>{
+          window.location.assign('/#plan')
+          setTimeout(()=>{
+            window.location.assign('/#contact')
+            setTimeout(()=>{
+              dispatch({type:'SET_Tour',payload:false})
+              setTimeout(()=>{clearTimeout(timeout)},0)
+            },0)
+          },600000)
+        },120000) 
+      },180000)   //3min
+    },5000)   //3sec
+  }
+},[])
 
 
 
@@ -82,12 +100,11 @@ React.useEffect(()=>{fetchAdminInfo()},[])
       AdmininfoPlan={adminInfo?.plans}
       />
      <PhotoGallary photogallery={adminInfo?.photoGallery}/>
-      {/* <Portfolio />
-       */}
+     
       <Contact />
       <Footer />
       <LiveEvent   />
-     </div>:<h1>Loading...</h1>}</>
+     </div>:<h1 style={{textAlign:'center',color:"orange"}}>Loading...</h1>}</>
   )
 }
 export default LandingPage

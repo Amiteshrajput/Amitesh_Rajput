@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { BsLinkedin } from 'react-icons/bs';
 import { Pagination } from 'swiper';
 
@@ -11,18 +11,14 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import './testimonials.css';
 import YoutubeEmbed from '../YoutubePlayer/YoutubeEmbed';
+import { useLocation, useParams } from 'react-router-dom';
+import { UserContext } from '../../../Contexts/UserContext';
+
 
 const YoutubeTestimonials = ({testimonials}) => {
-  const refContainer = useRef(null);
-  useEffect(() => { 
-   setTimeout(()=>{
-    refContainer.current.scrollIntoView({ behavior: "smooth",block: "start", inline: "nearest"  }); 
-   },2000)
-  }
-  ,[])
 
   return (
-    <section id="testimonialss" ref={refContainer}>
+    <section id="testimonials" >
       <h5>Feedback from my peers</h5>
       <h2>Testimonials</h2>
       <Swiper 

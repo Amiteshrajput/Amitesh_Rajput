@@ -11,30 +11,26 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../Contexts/UserContext';
 import { useContext } from 'react';
 
 
 const pages = [{page:'About',path:'/#about'},
- {page:'TESTIMONIALS',path:'/#testimonialss'},
+ {page:'TESTIMONIALS',path:'/#testimonials'},
 {page: 'Achievements',path:'/achievements'},
 {page:'Opportunity',path:'/#plan'},
 {page:'Contact',path:'/#contact'},];
 
 const adminPages = [{page:'Profile',path:'/admin/profile'}, 
-// {page:'Account',path:'/admin/account'},
-//  {page:'Dashboard',path:'/admin/dashboard'}
+
 ];
 
 function NavBar({children}) {
    
-  // let logged=JSON.parse(sessionStorage.getItem('isLogged'))
-  // logged=logged?logged:false
+  
   const [state,dispatch]=useContext(UserContext)
-  //  const [loggedIn,setLoggedIn] = React.useState(false);
+  
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate=useNavigate()

@@ -2,7 +2,7 @@ import React,{ useContext } from 'react'
 import {signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseConfig/firebaseConfig';
-import { getDoc, setDoc, doc } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from '../firebaseConfig/firebaseConfig';
 import './LogIn.css'
 import { UserContext } from '../Contexts/UserContext';
@@ -41,12 +41,7 @@ function LogIn({type}) {
             navigate(`/admin/profile`)
           },1000)
       }
-      else{
-        alert('Premium User SignIn successfull')
-        sessionStorage.setItem('premiumUser',JSON.stringify(user))
-        //subscriber or premium user
-        setTimeout(()=>{navigate(`/premiumUser`)},3000)
-      }
+      
     }
     else if(userData && (userData.type!==type || user.email!==userData.email)){
       //invalid access  or invalid type user accessing
