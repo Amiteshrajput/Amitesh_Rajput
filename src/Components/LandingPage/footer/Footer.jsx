@@ -4,8 +4,6 @@ import { FaGithub } from 'react-icons/fa';
 import { FaAngellist } from 'react-icons/fa'
 import { Tooltip } from '@mui/material';
 import { IconContext } from "react-icons";
-
-
 import {BsFacebook} from 'react-icons/bs'
 import {MdOutlineEmail} from "react-icons/md"
 import {IoLogoYoutube} from "react-icons/io5"
@@ -25,7 +23,7 @@ const Footer = () => {
         {/* <li><a href="#experience">Skills</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
          */}
-         <li><a href="#testimonialss">Testimonials</a></li>
+         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="/achievements">Achievements</a></li>
         <li><a href="#plan">Opportunity</a></li>
         <li><a href="#contact">Contact</a></li>

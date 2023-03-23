@@ -351,7 +351,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
           
                 <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"30%",top:"10%",color:"red",
                 fontWeight:"800"}}>ABOUT ME IMAGE(2nd img)</p>
-                <img  className='card'  width="100%" height='100%'  src={adminInfo.aboutMeImage.src}/>
+                <img  className='card'  width="100%" height='100%' alt="imb"  src={adminInfo.aboutMeImage.src}/>
               
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
@@ -393,7 +393,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
         <div className='card'>
            <p style={{fontSize:"25px",position:"absolute",zIndex:"500",left:"30%",top:"10%",color:"red",
            fontWeight:"800"}}>INTRO IMAGE(1st Img)</p>
-              <img  className='card'  width="100%" height='100%'  src={adminInfo.headerImage.src}/>
+              <img  className='card'  width="100%" height='100%' alt="imb"  src={adminInfo.headerImage.src}/>
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
                   {editHeaderImage?
@@ -451,7 +451,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
             {!adminInfo.photoGallery?<h4>'Loading...'</h4>:adminInfo.photoGallery.map((item)=>{
               // console.log(item.src)
               return <div className='card' key={item.src} >
-              <img  className='card'  width="100%" height='100%'  src={item.src}/>
+              <img  className='card'  width="100%" height='100%' alt="imb"  src={item.src}/>
               {edit?
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>
@@ -558,7 +558,7 @@ setAdminInfo({...adminInfo,plans:newPlans})
             {!adminInfo.planGallery?<h4>'Loading...'</h4>:adminInfo.planGallery.map((item)=>{
               // console.log(item.src)
               return <div className='card' key={item.src} >
-              <img  className='card'  width="100%" height='100%'  src={item.src}/>
+              <img  className='card'  width="100%" height='100%' alt="imb"  src={item.src}/>
               {edit?
               <div style={{display:"flex",justifyContent:"space-between",position:"absolute",top:"1%",left:"1%"}}>
                 <Tooltip  title="Edit This Img" followCursor>

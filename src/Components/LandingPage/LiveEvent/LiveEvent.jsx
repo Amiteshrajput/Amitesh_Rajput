@@ -26,7 +26,7 @@ export default function LiveEvent() {
       
       querySnapshot.forEach((doc) => {
        setEventData({...doc.data()})
-        console.log(doc.data())
+        // console.log(doc.data())
       });
         // console.log("eventData",eventData)
     // setLoading(false)
@@ -41,12 +41,12 @@ React.useEffect(()=>{fetchAdminInfo()},[])
 
 useEffect(()=>{
     
-    const myDate=eventData.startTime
+    const myDate=eventData?.startTime
 
     const sdf= new Date(myDate).getTime()
     setTime(+sdf)
-    setEndTime(+new Date(eventData.endTime).getTime())
-    console.log("YES",sdf)
+    setEndTime(+new Date(eventData?.endTime).getTime())
+    // console.log("YES",sdf)
    
 },[eventData?.startTime,eventData?.endTime])
 
@@ -60,7 +60,7 @@ var modalRef = useRef();
 
 useEffect(()=>{
   let handler=(event)=>{
-    if(!modalRef.current.contains(event.target)){
+    if(!modalRef?.current?.contains(event.target)){
       setopenModal(true)
     }
   }

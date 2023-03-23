@@ -30,7 +30,7 @@ function LandingPage() {
        let adminData ={}
       querySnapshot.forEach((doc) => {
         adminData={...doc.data()}
-        console.log(doc.data())
+        // console.log(doc.data())
       });
 
       // console.log(adminData)

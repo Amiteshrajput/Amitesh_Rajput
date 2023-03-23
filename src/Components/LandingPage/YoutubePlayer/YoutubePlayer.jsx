@@ -16,7 +16,7 @@ return (
 </div>
  <div>
 
-  <YoutubeEmbed  embedId={embedId}/>
+ {embedId && <YoutubeEmbed  embedId={embedId}/>}
 </div>
 </div>
 

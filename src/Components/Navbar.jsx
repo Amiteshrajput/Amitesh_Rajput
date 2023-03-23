@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../Contexts/UserContext';
 import { useContext } from 'react';
+import amiteshpic from "./LandingPage/assets/amitesh.jpg"
 
 
 const pages = [{page:'About',path:'/#about'},
@@ -150,7 +151,7 @@ function NavBar({children}) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Amitesh Account">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Amitesh" src="https://scontent.flko10-1.fna.fbcdn.net/v/t1.6435-9/119685349_2686778961542435_3168716933277104531_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=174925&_nc_ohc=8B4qlmYlFHIAX9hvaJK&_nc_oc=AQkRInhhJTvlCs7814YL7lvG5HNrEwU9GMKfMGpj3nm641_W0URFi5YHIHmv9q_fLOI&_nc_ht=scontent.flko10-1.fna&oh=00_AfAcwYQyYkHNP06WAtOmijL-70atzQRnBYg5pVgbwjwvbQ&oe=63EB21BD" />
+                <Avatar alt="Amitesh" src={amiteshpic } />
               </IconButton>
             </Tooltip>
             <Menu
